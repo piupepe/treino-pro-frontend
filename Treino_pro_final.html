@@ -2,392 +2,610 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="mobile-web-app-capable" content="yes">
-    <title>Treino Pro - Performance Intelligence</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <meta name="theme-color" content="#1a1a2e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Treino Pro">
+    <title>Treino Pro Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --primary: #FF6B35;
-            --primary-dark: #E85A2A;
-            --secondary: #004E89;
-            --success: #10B981;
-            --warning: #F59E0B;
-            --danger: #EF4444;
-            --dark: #0F172A;
-            --light: #F8FAFC;
-            --border: #CBD5E1;
+        
+        html, body {
+            width: 100%;
+            height: 100%;
+            -webkit-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
         }
+        
+        :root {
+            --bg-dark: #0a0e27;
+            --bg-card: #1a1f3a;
+            --bg-input: #242a45;
+            --primary: #FF6B35;
+            --primary-light: #FF8A5B;
+            --secondary: #00d4ff;
+            --accent-purple: #7c3aed;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --text-primary: #ffffff;
+            --text-secondary: #a0aec0;
+            --border: #2d3748;
+        }
+        
         body {
-            font-family: 'Inter', sans-serif;
-            background: white;
-            color: var(--dark);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
             overflow: hidden;
             position: fixed;
-            width: 100%;
+            width: 100vw;
             height: 100vh;
+            max-width: 100%;
         }
+        
         .container {
             display: flex;
             flex-direction: column;
             height: 100vh;
+            width: 100vw;
+            max-width: 100%;
         }
+        
         .header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-purple) 100%);
             color: white;
-            padding: 28px 20px;
-            box-shadow: 0 20px 50px rgba(255, 107, 53, 0.2);
+            padding: 16px;
+            flex-shrink: 0;
+            box-shadow: 0 8px 32px rgba(255, 107, 53, 0.3);
+            safe-area-inset-top: env(safe-area-inset-top);
         }
+        
         .header h1 {
-            font-size: 32px;
+            font-size: 24px;
             font-weight: 800;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
+        
         .header p {
-            font-size: 13px;
-            opacity: 0.95;
-            font-weight: 500;
+            font-size: 11px;
+            opacity: 0.9;
+            font-weight: 600;
         }
+        
         .tabs {
             display: flex;
-            background: #F8FAFC;
-            border-bottom: 2px solid var(--border);
+            background: rgba(26, 31, 58, 0.5);
+            border-bottom: 1px solid var(--border);
             overflow-x: auto;
+            flex-shrink: 0;
+            -webkit-overflow-scrolling: touch;
         }
+        
         .tab-btn {
             flex: 1;
-            padding: 16px 14px;
+            padding: 12px 8px;
             border: none;
             background: transparent;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 11px;
             font-weight: 700;
-            color: #64748B;
+            color: var(--text-secondary);
             border-bottom: 3px solid transparent;
             transition: all 0.3s ease;
             white-space: nowrap;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
-            min-width: 100px;
+            letter-spacing: 0.5px;
+            min-width: 70px;
         }
+        
         .tab-btn.active {
             color: var(--primary);
             border-bottom-color: var(--primary);
-            background: rgba(255, 107, 53, 0.08);
+            background: rgba(255, 107, 53, 0.1);
         }
+        
         .content {
             flex: 1;
             overflow-y: auto;
-            padding: 28px 20px;
+            padding: 16px;
             display: none;
+            -webkit-overflow-scrolling: touch;
+            background: var(--bg-dark);
         }
+        
         .content.active {
             display: block;
         }
+        
         .content h2 {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 800;
-            margin-bottom: 24px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
+        
         .workout-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-bottom: 28px;
+            gap: 12px;
+            margin-bottom: 16px;
         }
+        
         .workout-card {
-            padding: 24px;
-            border: 2px solid var(--border);
-            border-radius: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: linear-gradient(135deg, white 0%, #F8FAFC 100%);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-        }
-        .workout-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(255, 107, 53, 0.15);
-            border-color: var(--primary);
-        }
-        .workout-card.selected {
-            border-color: var(--primary);
-            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(0, 78, 137, 0.08) 100%);
-            box-shadow: 0 20px 50px rgba(255, 107, 53, 0.25);
-        }
-        .workout-card h3 {
-            font-size: 18px;
-            margin-bottom: 8px;
-            font-weight: 800;
-        }
-        .workout-card p {
-            font-size: 12px;
-            color: #64748B;
-            font-weight: 600;
-        }
-        .exercise-card {
-            background: linear-gradient(135deg, white 0%, #F8FAFC 100%);
+            padding: 16px;
             border: 2px solid var(--border);
             border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+            text-align: center;
+            cursor: pointer;
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(255, 107, 53, 0.05) 100%);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: all 0.2s ease;
         }
+        
+        .workout-card:active {
+            transform: scale(0.96);
+            border-color: var(--primary);
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(255, 107, 53, 0.15) 100%);
+        }
+        
+        .workout-card.selected {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.2) 0%, rgba(124, 58, 237, 0.2) 100%);
+            box-shadow: 0 8px 24px rgba(255, 107, 53, 0.2);
+        }
+        
+        .workout-card h3 {
+            font-size: 16px;
+            margin-bottom: 4px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+        
+        .workout-card p {
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        
+        .exercise-card {
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(26, 31, 58, 0.5) 100%);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 14px;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+        
         .exercise-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 16px;
-            padding-bottom: 14px;
-            border-bottom: 2px solid var(--border);
-        }
-        .exercise-name {
-            font-size: 16px;
-            font-weight: 800;
-        }
-        .exercise-planned {
-            font-size: 11px;
-            color: white;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            padding: 8px 14px;
-            border-radius: 10px;
-            font-weight: 800;
-        }
-        .weight-box {
-            background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
-            padding: 16px;
-            border-radius: 14px;
-            margin-bottom: 16px;
-            border: 2px solid var(--border);
-        }
-        .weight-box label {
-            display: block;
-            font-size: 11px;
-            color: #64748B;
-            margin-bottom: 12px;
-            font-weight: 800;
-            text-transform: uppercase;
-        }
-        .weight-controls {
-            display: grid;
-            grid-template-columns: auto 1fr auto;
-            gap: 12px;
-            align-items: center;
-        }
-        .weight-btn {
-            width: 44px;
-            height: 44px;
-            border: 3px solid var(--primary);
-            border-radius: 12px;
-            background: white;
-            color: var(--primary);
-            cursor: pointer;
-            font-weight: 800;
-            font-size: 18px;
-        }
-        .weight-btn:active {
-            background: var(--primary);
-            color: white;
-            transform: scale(0.92);
-        }
-        .weight-display {
-            text-align: center;
-            font-weight: 800;
-            color: var(--primary);
-            font-size: 28px;
-            padding: 12px;
-            background: white;
-            border-radius: 12px;
-            border: 3px solid var(--primary);
-        }
-        .sets-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-        }
-        .set-box {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .set-box label {
-            font-size: 11px;
-            font-weight: 800;
-            color: #64748B;
-            text-transform: uppercase;
-        }
-        .set-box input {
-            padding: 12px;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            font-size: 15px;
-            text-align: center;
-            font-weight: 800;
-            background: white;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 800;
             margin-bottom: 10px;
-            text-transform: uppercase;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
         }
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            font-size: 15px;
-            font-family: 'Inter', sans-serif;
-            background: white;
-        }
-        .button-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin: 24px 0;
-        }
-        .btn {
-            padding: 16px;
-            border: none;
-            border-radius: 14px;
-            font-size: 15px;
+        
+        .exercise-name {
+            font-size: 14px;
             font-weight: 800;
-            cursor: pointer;
-            text-transform: uppercase;
+            color: var(--text-primary);
         }
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        
+        .exercise-planned {
+            font-size: 10px;
             color: white;
-        }
-        .btn-primary:active {
-            transform: translateY(2px);
-        }
-        .btn-secondary {
-            background: linear-gradient(135deg, var(--dark) 0%, #334155 100%);
-            color: white;
-        }
-        .session-item {
-            background: linear-gradient(135deg, white 0%, #F8FAFC 100%);
-            border: 2px solid var(--border);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 14px;
-        }
-        .session-title {
-            font-size: 17px;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
-        .session-meta {
-            font-size: 12px;
-            color: #64748B;
-            font-weight: 600;
-        }
-        .session-stats {
-            display: flex;
-            gap: 16px;
-            margin-top: 12px;
-        }
-        .stat-box {
-            flex: 1;
-            background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
-            padding: 12px;
-            border-radius: 10px;
-        }
-        .stat-label {
-            font-size: 11px;
-            color: #64748B;
-            font-weight: 700;
-        }
-        .stat-value {
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--primary);
-            margin-top: 4px;
-        }
-        .analysis-item {
-            background: linear-gradient(135deg, rgba(255, 107, 53, 0.08) 0%, rgba(0, 78, 137, 0.08) 100%);
-            border: 3px solid var(--primary);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 16px;
-        }
-        .analysis-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            padding-bottom: 16px;
-            border-bottom: 2px solid var(--primary);
-        }
-        .analysis-title {
-            font-size: 17px;
-            font-weight: 800;
-        }
-        .analysis-status {
-            font-size: 11px;
-            background: var(--success);
-            color: white;
-            padding: 6px 12px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-purple) 100%);
+            padding: 4px 10px;
             border-radius: 8px;
             font-weight: 800;
         }
-        .analysis-content {
-            font-size: 13px;
-            line-height: 1.8;
-            color: #475569;
-            background: white;
-            padding: 16px;
+        
+        .weight-box {
+            background: rgba(36, 42, 69, 0.5);
+            padding: 10px;
             border-radius: 12px;
-            margin-top: 12px;
-            max-height: 400px;
+            margin-bottom: 10px;
+            border: 1px solid var(--border);
+        }
+        
+        .weight-box label {
+            display: block;
+            font-size: 10px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+        
+        .weight-controls {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        .weight-btn {
+            width: 36px;
+            height: 36px;
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--primary);
+            cursor: pointer;
+            font-weight: 800;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        
+        .weight-btn:active {
+            background: var(--primary);
+            color: white;
+            transform: scale(0.9);
+        }
+        
+        .weight-display {
+            text-align: center;
+            font-weight: 800;
+            color: var(--secondary);
+            font-size: 24px;
+            padding: 8px;
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 10px;
+            border: 2px solid var(--secondary);
+        }
+        
+        .sets-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+        
+        .set-box {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .set-box label {
+            font-size: 9px;
+            font-weight: 800;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+        
+        .set-box input {
+            padding: 8px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 13px;
+            text-align: center;
+            font-weight: 800;
+            background: var(--bg-input);
+            color: var(--text-primary);
+        }
+        
+        .set-box input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            background: rgba(0, 212, 255, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 12px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 800;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-input);
+            color: var(--text-primary);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            max-height: 80px;
+        }
+        
+        .button-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 16px 0;
+        }
+        
+        .btn {
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+            touch-action: manipulation;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-purple) 100%);
+            color: white;
+        }
+        
+        .btn-primary:active {
+            transform: translateY(1px);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(160, 174, 192, 0.1);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+        
+        .session-item {
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(26, 31, 58, 0.5) 100%);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .session-title {
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 4px;
+            color: var(--primary);
+        }
+        
+        .session-meta {
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .session-stats {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .stat-box {
+            flex: 1;
+            background: rgba(36, 42, 69, 0.5);
+            padding: 8px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+        
+        .stat-label {
+            font-size: 10px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+        
+        .stat-value {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--secondary);
+            margin-top: 2px;
+        }
+        
+        .session-action-btn {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            background: linear-gradient(135deg, var(--accent-green) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+        
+        .analysis-item {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%);
+            border: 2px solid var(--primary);
+            border-radius: 16px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+        
+        .analysis-content {
+            font-size: 12px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            background: var(--bg-input);
+            padding: 12px;
+            border-radius: 12px;
+            margin-top: 8px;
+            max-height: 300px;
             overflow-y: auto;
             white-space: pre-wrap;
-            border: 2px solid var(--border);
+            border: 1px solid var(--border);
         }
+        
         .empty-state {
             text-align: center;
-            padding: 80px 20px;
+            padding: 40px 20px;
         }
+        
         .empty-state-icon {
-            font-size: 72px;
-            margin-bottom: 20px;
+            font-size: 48px;
+            margin-bottom: 12px;
             opacity: 0.5;
         }
+        
         .empty-state-text {
-            font-size: 15px;
+            font-size: 13px;
             font-weight: 700;
-            color: #64748B;
+            color: var(--text-secondary);
         }
+        
         .status-toast {
             position: fixed;
-            bottom: 28px;
-            right: 20px;
-            padding: 16px 24px;
-            border-radius: 14px;
-            font-size: 13px;
+            bottom: 20px;
+            right: 16px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 12px;
             font-weight: 800;
             z-index: 100;
             display: none;
             text-transform: uppercase;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            animation: slideUpIn 0.3s ease;
         }
+        
+        @keyframes slideUpIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
         .status-toast.success {
-            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+            background: linear-gradient(135deg, var(--accent-green) 0%, #059669 100%);
             color: white;
         }
+        
         .status-toast.error {
-            background: linear-gradient(135deg, var(--danger) 0%, #DC2626 100%);
+            background: linear-gradient(135deg, var(--accent-red) 0%, #dc2626 100%);
             color: white;
         }
+        
         .status-toast.info {
-            background: linear-gradient(135deg, var(--warning) 0%, #D97706 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-purple) 100%);
             color: white;
+        }
+        
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 14, 39, 0.8);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: flex-end;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: var(--bg-dark);
+            width: 100%;
+            border-radius: 24px 24px 0 0;
+            padding: 20px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+            safe-area-inset-bottom: env(safe-area-inset-bottom);
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .modal-header h2 {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--primary);
+            background: none;
+            -webkit-background-clip: unset;
+            -webkit-text-fill-color: unset;
+            background-clip: unset;
+        }
+        
+        .modal-close {
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+        
+        .description-box {
+            background: rgba(36, 42, 69, 0.5);
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border);
+        }
+        
+        .description-box h3 {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        
+        .description-box p {
+            font-size: 13px;
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        
+        .video-btn {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(135deg, #FF0000 0%, #cc0000 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            font-size: 12px;
+            margin-bottom: 16px;
+        }
+        
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        input[type=number] {
+            -moz-appearance: textfield;
         }
     </style>
 </head>
@@ -395,27 +613,26 @@
     <div class="container">
         <div class="header">
             <h1>💪 TREINO PRO</h1>
-            <p>PERFORMANCE INTELLIGENCE SYSTEM WITH AI AGENT</p>
+            <p>Performance Intelligence</p>
         </div>
 
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('register')">📋 Registrar</button>
             <button class="tab-btn" onclick="switchTab('history')">📊 Histórico</button>
-            <button class="tab-btn" onclick="switchTab('analysis')">🤖 Análises IA</button>
-            <button class="tab-btn" onclick="switchTab('settings')">⚙️ Config</button>
+            <button class="tab-btn" onclick="switchTab('analysis')">🤖 Análises</button>
         </div>
 
         <div class="content active" id="register">
             <h2>Selecione seu treino</h2>
             <div class="workout-grid" id="workoutGrid"></div>
             <div id="exercisePanel" style="display: none;">
-                <h2 style="margin-top: 28px; margin-bottom: 20px;">Registre seus exercícios</h2>
+                <h2 style="margin-top: 16px; margin-bottom: 12px; font-size: 18px;">Exercícios</h2>
                 <div id="exerciseList"></div>
                 <div class="form-group">
-                    <label>📝 Observações</label>
+                    <label>📝 Notas</label>
                     <textarea id="notes" placeholder="Como se sentiu?"></textarea>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                     <div class="form-group">
                         <label>⚡ Energia</label>
                         <input type="number" id="energy" min="1" max="10" value="7">
@@ -426,14 +643,14 @@
                     </div>
                 </div>
                 <div class="button-row">
-                    <button class="btn btn-primary" onclick="saveSession()">✅ Salvar Treino</button>
-                    <button class="btn btn-secondary" onclick="clearWorkout()">❌ Cancelar</button>
+                    <button class="btn btn-primary" onclick="saveSession()">✅ Salvar</button>
+                    <button class="btn btn-secondary" onclick="clearWorkout()">❌ Limpar</button>
                 </div>
             </div>
         </div>
 
         <div class="content" id="history">
-            <h2>Histórico de Treinos</h2>
+            <h2>Histórico</h2>
             <div id="historyList"></div>
             <div id="emptyHistory" class="empty-state">
                 <div class="empty-state-icon">📭</div>
@@ -442,24 +659,37 @@
         </div>
 
         <div class="content" id="analysis">
-            <h2>Análises do Agente IA</h2>
+            <h2>Análises IA</h2>
             <div id="analysisList"></div>
             <div id="emptyAnalysis" class="empty-state">
                 <div class="empty-state-icon">🤖</div>
                 <div class="empty-state-text">Nenhuma análise</div>
             </div>
         </div>
+    </div>
 
-        <div class="content" id="settings">
-            <h2>Configurações</h2>
-            <div style="padding: 20px; background: #F8FAFC; border-radius: 14px; margin-bottom: 20px;">
-                <h3 style="font-weight: 800; margin-bottom: 12px;">✅ Sistema Conectado</h3>
-                <div style="font-size: 13px; line-height: 1.8; color: #475569; font-weight: 600;">
-                    ✅ Supabase: bldwvlnorigxqdvdqfsu<br>
-                    ✅ API Render: treino-pro-api.onrender.com<br>
-                    ✅ Agente IA: Claude Sonnet 4.6<br>
-                    ✅ Análises: Automáticas ao salvar
-                </div>
+    <!-- MODAL -->
+    <div class="modal" id="exerciseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalExerciseName">Exercício</h2>
+                <span class="modal-close" onclick="closeModal()">✕</span>
+            </div>
+            
+            <div class="description-box">
+                <h3>📝 Como Executar</h3>
+                <p id="modalDescription"></p>
+            </div>
+            
+            <button class="video-btn" id="videoBtn" onclick="openVideo()">
+                ▶ Ver Vídeo no YouTube
+            </button>
+            
+            <div id="exerciseFormModal"></div>
+            
+            <div class="button-row">
+                <button class="btn btn-primary" onclick="saveExerciseModal()">✅ Pronto</button>
+                <button class="btn btn-secondary" onclick="closeModal()">❌ Voltar</button>
             </div>
         </div>
     </div>
@@ -470,47 +700,48 @@
         const API_URL = "https://treino-pro-api.onrender.com";
 
         const workoutList = {
-            1: { name: "UPPER A", exercises: [
-                { name: "Supino Reto", planned: "4x6-8", weight: 45 },
-                { name: "Remada Curvada", planned: "4x6-8", weight: 40 },
-                { name: "Remada Cavalo", planned: "3x8-10", weight: 40 },
-                { name: "Puxada Pronada", planned: "3x8-10", weight: 50 },
-                { name: "Crucifixo", planned: "3x8-10", weight: 60 },
-                { name: "Bíceps Rosca", planned: "3x8-10", weight: 17 },
-                { name: "Face Pull", planned: "2x12-15", weight: 40 },
-                { name: "Tríceps Corda", planned: "3x10-12", weight: 45 },
+            1: { name: "UPPER A", type: "EMPURRAR", color: "#004E89", exercises: [
+                { name: "Supino Reto", planned: "4x6-8", weight: 45, video: "EZMYCLKuGow", description: "Deite-se no banco, pegue na barra com mãos afastadas na largura dos ombros. Desça controlado até o peito e empurre explosivamente." },
+                { name: "Remada Curvada", planned: "4x6-8", weight: 40, video: "YN4d5ZXkR_I", description: "De pé, incline-se para frente 90 graus. Puxe o haltere em direção ao peito, cotovelo colado ao corpo." },
+                { name: "Remada Cavalo", planned: "4x8-10", weight: 40, video: "_xKZvrR1BnY", description: "Sente na máquina, peito apoiado. Puxe o cabo em direção ao seu corpo, focando na escápula." },
+                { name: "Puxada Pronada", planned: "4x8-10", weight: 50, video: "2-v-KfKB5uU", description: "Pegue na barra com mãos afastadas (mais largas que largura de ombros), puxe até o peito, controlado na volta." },
+                { name: "Crucifixo", planned: "4x8-10", weight: 60, video: "eoOVXNyBvEs", description: "Sente na máquina, cotovelos levemente flexionados. Abra os braços até a máxima amplitude, contração no final." },
+                { name: "Bíceps Rosca", planned: "4x8-10", weight: 17, video: "jQmiHnMnUvk", description: "De pé, halteres nas mãos (palmas para frente). Flexione apenas o cotovelo até o nível dos ombros." },
+                { name: "Face Pull", planned: "4x12-15", weight: 40, video: "eIuIGXTQXsQ", description: "Pegue a corda da polia alta, puxe em direção ao seu rosto, separando a corda ao final do movimento." },
+                { name: "Tríceps Corda", planned: "4x10-12", weight: 45, video: "AzlHsuXDZiU", description: "De pé, cotovelo colado ao corpo. Estenda completamente, focando na contração do tríceps." },
             ]},
-            2: { name: "LOWER A", exercises: [
-                { name: "Leg Press 45°", planned: "3x6-8", weight: 160 },
-                { name: "Hack Squat", planned: "3x8-10", weight: 60 },
-                { name: "Leg Curl Sentado", planned: "3x10", weight: 45 },
-                { name: "Extensora", planned: "3x10-12", weight: 80 },
-                { name: "Panturrilha", planned: "3x8", weight: 120 },
-                { name: "Rosca Sentado", planned: "4x6-8", weight: 32 },
+            2: { name: "LOWER A", type: "PERNAS", color: "#10b981", exercises: [
+                { name: "Leg Press 45°", planned: "4x6-8", weight: 160, video: "IZxyjW7MPOU", description: "Sente, pés na plataforma na largura dos ombros. Desça até 90 graus e empurre de volta." },
+                { name: "Hack Squat", planned: "4x8-10", weight: 60, video: "N1bNh47FOsQ", description: "Costas apoiadas na máquina. Desça dobrando os joelhos, mantendo a coluna reta." },
+                { name: "Leg Curl Sentado", planned: "4x10", weight: 45, video: "1Tq3wGckaAE", description: "Sente, pés na alavanca. Flexione os joelhos puxando os pés em sua direção, controlado na volta." },
+                { name: "Extensora", planned: "4x10-12", weight: 80, video: "Xv_9SrnUQ6Q", description: "Sente, joelhos flexionados na máquina. Estenda os joelhos até endireitar a perna completamente." },
+                { name: "Panturrilha", planned: "4x8", weight: 120, video: "HhIGzwvMusQ", description: "De pé ou sente conforme a máquina. Suba na ponta dos pés, maxima extensão, volta controlada." },
+                { name: "Rosca Sentado", planned: "4x6-8", weight: 32, video: "1Tq3wGckaAE", description: "Sente na máquina, pés na plataforma. Flexione os joelhos puxando a alavanca." },
             ]},
-            3: { name: "UPPER B", exercises: [
-                { name: "Desenvolvimento Halter", planned: "4x6-8", weight: 23 },
-                { name: "Supino Inclinado", planned: "4x8-10", weight: 28 },
-                { name: "Supino Inc Máquina", planned: "3x8-10", weight: 60 },
-                { name: "Puxada Alta", planned: "3x10-12", weight: 50 },
-                { name: "Face Pull", planned: "2x10-12", weight: 40 },
-                { name: "Rosca", planned: "3x8-10", weight: 17 },
-                { name: "Elevação Lateral", planned: "2x12-15", weight: 7 },
-                { name: "Tríceps", planned: "3x6-12", weight: 0 },
+            3: { name: "UPPER B", type: "EMPURRAR", color: "#7c3aed", exercises: [
+                { name: "Desenvolvimento Halter", planned: "4x6-8", weight: 23, video: "_byLOQfLKwQ", description: "Sente, halteres na altura dos ombros. Empurre acima da cabeça até a extensão completa." },
+                { name: "Supino Inclinado", planned: "4x8-10", weight: 28, video: "jSJQEl5qQVU", description: "No banco inclinado, pegue na barra, desça até o peito e empurre de volta." },
+                { name: "Supino Inc Máquina", planned: "4x8-10", weight: 60, video: "OxyDisvMZKE", description: "Sente na máquina inclinada, empurre o cabo em sua frente até a extensão." },
+                { name: "Puxada Alta", planned: "4x10-12", weight: 50, video: "2-v-KfKB5uU", description: "De pé na frente da máquina, puxe a barra até a altura do queixo, cotovelos para os lados." },
+                { name: "Face Pull", planned: "4x10-12", weight: 40, video: "eIuIGXTQXsQ", description: "Pegue a corda, puxe em direção ao rosto, separando no final do movimento." },
+                { name: "Rosca", planned: "4x8-10", weight: 17, video: "jQmiHnMnUvk", description: "De pé, halteres nas mãos, palmas para frente. Flexione apenas o cotovelo." },
+                { name: "Elevação Lateral", planned: "4x12-15", weight: 7, video: "3VcszF2mkS0", description: "De pé, halteres ao lado. Levante os braços até a altura dos ombros, cotovelos levemente flexionados." },
+                { name: "Tríceps", planned: "4x6-12", weight: 0, video: "AzlHsuXDZiU", description: "Extensão máxima em qualquer exercício. Controle o movimento em ambas as fases." },
             ]},
-            4: { name: "LOWER B", exercises: [
-                { name: "Agachamento Búlgaro", planned: "4x6-8", weight: 18 },
-                { name: "Leg Press", planned: "3x6-8", weight: 160 },
-                { name: "Rosca Máquina", planned: "3x8-10", weight: 60 },
-                { name: "Extensora", planned: "3x8-10", weight: 80 },
-                { name: "Stiff Leg Deadlift", planned: "3x6-8", weight: 40 },
-                { name: "Leg Curl Máquina", planned: "3x8-10", weight: 55 },
-                { name: "Gêmeos Sentado", planned: "2x12-15", weight: 120 },
+            4: { name: "LOWER B", type: "POSTERIOR", color: "#F59E0B", exercises: [
+                { name: "Agachamento Búlgaro", planned: "4x6-8", weight: 18, video: "_JEwfYkAb1k", description: "Um pé atrás em um banco, outro pé na frente. Desça até 90 graus e suba." },
+                { name: "Leg Press", planned: "4x6-8", weight: 160, video: "IZxyjW7MPOU", description: "Sente, pés na plataforma. Desça até 90 graus e empurre de volta." },
+                { name: "Rosca Máquina", planned: "4x8-10", weight: 60, video: "1Tq3wGckaAE", description: "Sente, flexione os joelhos puxando a alavanca em sua direção." },
+                { name: "Extensora", planned: "4x8-10", weight: 80, video: "Xv_9SrnUQ6Q", description: "Sente, estenda os joelhos completamente na máquina." },
+                { name: "Stiff Leg Deadlift", planned: "4x6-8", weight: 40, video: "KSZ0L_Ykz0M", description: "De pé, halteres nas mãos. Incline para frente mantendo as pernas retas, focando no estirão posterior." },
+                { name: "Leg Curl Máquina", planned: "4x8-10", weight: 55, video: "1Tq3wGckaAE", description: "Sente, flexione os joelhos puxando a alavanca com controle." },
+                { name: "Gêmeos Sentado", planned: "4x12-15", weight: 120, video: "HhIGzwvMusQ", description: "Sente, suba na ponta dos pés e desça controlado. Máxima amplitude." },
             ]}
         };
 
         let selected = null;
         let weights = JSON.parse(localStorage.getItem('weights')) || {};
+        let modalData = null;
 
         window.addEventListener('load', () => {
             renderWorkouts();
@@ -521,7 +752,7 @@
         function renderWorkouts() {
             const grid = document.getElementById('workoutGrid');
             grid.innerHTML = Object.entries(workoutList).map(([id, w]) => 
-                `<div class="workout-card" onclick="selectWorkout(${id})"><h3>${w.name}</h3><p>${w.exercises.length} EXERCÍCIOS</p></div>`
+                `<div class="workout-card" onclick="selectWorkout(${id})" style="border-left: 4px solid ${w.color}"><h3>${w.name}</h3><p>${w.type}</p></div>`
             ).join('');
         }
 
@@ -542,31 +773,79 @@
             
             const list = document.getElementById('exerciseList');
             list.innerHTML = workoutList[id].exercises.map((ex, i) => `
-                <div class="exercise-card">
+                <div class="exercise-card" onclick="openExerciseModal(${id}, ${i})">
                     <div class="exercise-header">
                         <span class="exercise-name">${ex.name}</span>
                         <span class="exercise-planned">${ex.planned}</span>
                     </div>
-                    <div class="weight-box">
-                        <label>⚖️ PESO (KG)</label>
-                        <div class="weight-controls">
-                            <button class="weight-btn" onclick="adjustWeight('${ex.name}', -1)">−</button>
-                            <div class="weight-display" id="w-${i}">${weights[ex.name] || ex.weight}</div>
-                            <button class="weight-btn" onclick="adjustWeight('${ex.name}', 1)">+</button>
-                        </div>
-                    </div>
-                    <div class="sets-grid">
-                        <div class="set-box"><label>S1</label><input type="number" placeholder="Reps" data-ex="${i}" data-set="1" class="reps"></div>
-                        <div class="set-box"><label>S2</label><input type="number" placeholder="Reps" data-ex="${i}" data-set="2" class="reps"></div>
-                        <div class="set-box"><label>S3</label><input type="number" placeholder="Reps" data-ex="${i}" data-set="3" class="reps"></div>
-                    </div>
+                    <div style="font-size: 11px; color: var(--text-secondary); font-weight: 600;">Toque para editar →</div>
                 </div>
             `).join('');
         }
 
-        function adjustWeight(name, d) {
+        function openExerciseModal(workoutId, exerciseIdx) {
+            const workout = workoutList[workoutId];
+            const exercise = workout.exercises[exerciseIdx];
+            
+            modalData = { workoutId, exerciseIdx, exercise };
+            
+            document.getElementById('modalExerciseName').textContent = exercise.name;
+            document.getElementById('modalDescription').textContent = exercise.description;
+            document.getElementById('videoBtn').onclick = () => openVideo(exercise.video);
+            
+            let form = '';
+            if (exercise.weight !== undefined && exercise.weight !== 0) {
+                form += `
+                    <div class="weight-box">
+                        <label>⚖️ Peso (kg)</label>
+                        <div class="weight-controls">
+                            <button class="weight-btn" onclick="adjustWeightModal('${exercise.name}', -1)">−</button>
+                            <div class="weight-display" id="modal-w">${weights[exercise.name] || exercise.weight}</div>
+                            <button class="weight-btn" onclick="adjustWeightModal('${exercise.name}', 1)">+</button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            form += `<div class="sets-grid">`;
+            for (let i = 1; i <= 4; i++) {
+                form += `<div class="set-box"><label>S${i}</label><input type="number" placeholder="Reps" class="modal-reps" data-set="${i}"></div>`;
+            }
+            form += `</div>`;
+            
+            document.getElementById('exerciseFormModal').innerHTML = form;
+            document.getElementById('exerciseModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('exerciseModal').classList.remove('active');
+            modalData = null;
+        }
+
+        function adjustWeightModal(name, d) {
             weights[name] = Math.max(0, (weights[name] || 0) + d);
             localStorage.setItem('weights', JSON.stringify(weights));
+            document.getElementById('modal-w').textContent = weights[name];
+        }
+
+        function saveExerciseModal() {
+            if (!modalData) return;
+            const repsInputs = document.querySelectorAll('.modal-reps');
+            const repsData = Array.from(repsInputs).map(inp => parseInt(inp.value) || 0).filter(r => r > 0);
+            if (!repsData.length) {
+                toast('Registre reps!', 'info');
+                return;
+            }
+            toast('✅ Exercício registrado!', 'success');
+            closeModal();
+        }
+
+        function openVideo(videoId) {
+            if (!videoId) {
+                toast('Vídeo não disponível', 'info');
+                return;
+            }
+            window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank');
         }
 
         function clearWorkout() {
@@ -576,22 +855,26 @@
         }
 
         function saveSession() {
-            if (!selected) { toast('Selecione um treino!', 'info'); return; }
+            if (!selected) { toast('Selecione treino!', 'info'); return; }
             const w = workoutList[selected];
             const exs = [];
-            document.querySelectorAll('.reps').forEach(inp => {
-                const idx = parseInt(inp.dataset.ex);
-                const ex = w.exercises[idx];
-                const reps = inp.value;
-                if (reps) {
-                    let r = exs.find(e => e.name === ex.name);
-                    if (!r) {
-                        r = { name: ex.name, weight: weights[ex.name] || ex.weight, sets: [] };
-                        exs.push(r);
-                    }
-                    r.sets[parseInt(inp.dataset.set) - 1] = parseInt(reps);
+            
+            w.exercises.forEach((ex, idx) => {
+                const repsInputs = document.querySelectorAll(`.set-box input[data-ex="${idx}"]`);
+                let reps = [];
+                repsInputs.forEach(inp => {
+                    const r = parseInt(inp.value);
+                    if (r > 0) reps.push(r);
+                });
+                if (reps.length > 0) {
+                    exs.push({
+                        name: ex.name,
+                        weight: weights[ex.name] || ex.weight,
+                        sets: reps
+                    });
                 }
             });
+            
             if (!exs.length) { toast('Registre exercícios!', 'info'); return; }
             
             const sess = {
@@ -606,32 +889,20 @@
             };
 
             toast('💾 Salvando...', 'info');
-            
             fetch(`${API_URL}/api/sessions`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(sess)
             }).then(r => {
                 if (r.ok) {
-                    console.log("✅ Salvo!");
-                    toast('✅ Treino salvo! Enviando para agente IA...', 'success');
-                    
-                    fetch(`${API_URL}/webhook/session`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(sess)
-                    }).then(() => {
-                        toast('🤖 Agente analisando...', 'success');
-                        setTimeout(() => loadAnalysis(), 2000);
-                    }).catch(() => toast('⚠️ Agente offline', 'error'));
+                    toast('✅ Salvo! Solicite análise', 'success');
+                    clearWorkout();
+                    document.getElementById('notes').value = '';
+                    document.getElementById('energy').value = '7';
+                    document.getElementById('sleep').value = '7';
+                    loadHistory();
                 }
-            }).catch(e => toast('❌ Erro: ' + e.message, 'error'));
-
-            clearWorkout();
-            document.getElementById('notes').value = '';
-            document.getElementById('energy').value = '7';
-            document.getElementById('sleep').value = '7';
-            loadHistory();
+            }).catch(() => toast('❌ Erro', 'error'));
         }
 
         function loadHistory() {
@@ -648,14 +919,29 @@
                     list.innerHTML = data.map(s => `
                         <div class="session-item">
                             <div class="session-title">${s.workout}</div>
-                            <div class="session-meta">${s.date} às ${s.time}</div>
+                            <div class="session-meta">${s.date} ${s.time}</div>
                             <div class="session-stats">
-                                <div class="stat-box"><div class="stat-label">⚡ Energia</div><div class="stat-value">${s.energy}/10</div></div>
-                                <div class="stat-box"><div class="stat-label">😴 Sono</div><div class="stat-value">${s.sleep}h</div></div>
+                                <div class="stat-box"><div class="stat-label">⚡</div><div class="stat-value">${s.energy}/10</div></div>
+                                <div class="stat-box"><div class="stat-label">😴</div><div class="stat-value">${s.sleep}h</div></div>
                             </div>
+                            <button class="session-action-btn" onclick="requestAnalysis('${s.session_id}', '${s.workout}')">🤖 Analisar</button>
                         </div>
                     `).join('');
                 }).catch(e => console.error("Erro:", e));
+        }
+
+        function requestAnalysis(sessionId, workout) {
+            toast('🤖 Analisando...', 'info');
+            fetch(`${API_URL}/webhook/session`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ session_id: sessionId, workout: workout })
+            }).then(r => {
+                if (r.ok) {
+                    toast('✅ Análise feita!', 'success');
+                    setTimeout(() => loadAnalysis(), 1500);
+                }
+            }).catch(() => toast('❌ Erro', 'error'));
         }
 
         function loadAnalysis() {
@@ -671,10 +957,8 @@
                     document.getElementById('emptyAnalysis').style.display = 'none';
                     list.innerHTML = data.map(a => `
                         <div class="analysis-item">
-                            <div class="analysis-header">
-                                <div class="analysis-title">🤖 ${a.workout}</div>
-                                <div class="analysis-status">✅ Analisado</div>
-                            </div>
+                            <div style="font-weight: 800; color: var(--primary);">🤖 ${a.workout}</div>
+                            <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">${a.date}</div>
                             <div class="analysis-content">${a.analysis}</div>
                         </div>
                     `).join('');
