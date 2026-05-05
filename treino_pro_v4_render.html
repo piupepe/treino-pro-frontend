@@ -15,24 +15,12 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --primary: #FF6B35;
-            --secondary: #004E89;
-            --success: #2ECE80;
-            --warning: #FFB703;
-            --danger: #E63946;
-            --dark: #1A1A1A;
-            --light: #F5F5F5;
-            --border: #E0E0E0;
-        }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--light);
-            color: var(--dark);
-            overflow: hidden;
+            background: #f5f5f5;
+            color: #1a1a1a;
             height: 100vh;
-            padding-top: env(safe-area-inset-top);
+            overflow: hidden;
         }
 
         .container {
@@ -42,12 +30,11 @@
         }
 
         .header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, #FF6B35, #004E89);
             color: white;
             padding: 20px;
             text-align: center;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-top: env(safe-area-inset-top);
         }
 
         .header h1 {
@@ -63,8 +50,7 @@
         .tabs {
             display: flex;
             background: #f8f8f8;
-            border-bottom: 1px solid var(--border);
-            overflow-x: auto;
+            border-bottom: 1px solid #e0e0e0;
         }
 
         .tab-btn {
@@ -77,14 +63,12 @@
             font-weight: 600;
             color: #999;
             border-bottom: 3px solid transparent;
-            transition: all 0.3s;
             white-space: nowrap;
-            min-width: 80px;
         }
 
         .tab-btn.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
+            color: #FF6B35;
+            border-bottom-color: #FF6B35;
             background: white;
         }
 
@@ -108,101 +92,73 @@
             font-size: 12px;
             font-weight: 600;
             z-index: 100;
-            animation: slideIn 0.3s ease;
-            max-width: 200px;
+            display: none;
         }
 
         .status-bar.success {
-            background: var(--success);
+            background: #2ECE80;
             color: white;
         }
 
         .status-bar.error {
-            background: var(--danger);
+            background: #E63946;
             color: white;
         }
 
         .status-bar.connecting {
-            background: var(--warning);
+            background: #FFB703;
             color: white;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .workout-selector {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
         }
 
         .workout-card {
             padding: 16px;
-            border: 2px solid var(--border);
+            border: 2px solid #e0e0e0;
             border-radius: 12px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s;
             background: white;
+            margin-bottom: 12px;
         }
 
         .workout-card.selected {
-            border-color: var(--primary);
+            border-color: #FF6B35;
             background: rgba(255, 107, 53, 0.05);
         }
 
         .workout-card h3 {
             font-size: 14px;
             margin-bottom: 8px;
-            color: var(--dark);
-        }
-
-        .exercise-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 20px;
         }
 
         .exercise-item {
             background: white;
-            border: 1px solid var(--border);
+            border: 1px solid #e0e0e0;
             border-radius: 12px;
             padding: 16px;
+            margin-bottom: 12px;
         }
 
         .exercise-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             margin-bottom: 12px;
         }
 
         .exercise-name {
             font-size: 14px;
             font-weight: 600;
-            color: var(--dark);
         }
 
         .exercise-planned {
             font-size: 11px;
             color: #999;
-            background: var(--light);
+            background: #f5f5f5;
             padding: 4px 8px;
             border-radius: 6px;
         }
 
         .weight-section {
-            background: var(--light);
+            background: #f5f5f5;
             padding: 12px;
             border-radius: 8px;
             margin-bottom: 12px;
@@ -220,7 +176,7 @@
             font-size: 12px;
             border: none;
             border-radius: 6px;
-            background: var(--primary);
+            background: #FF6B35;
             color: white;
             cursor: pointer;
             font-weight: 600;
@@ -229,7 +185,7 @@
         .weight-display {
             text-align: center;
             font-weight: 600;
-            color: var(--primary);
+            color: #FF6B35;
             font-size: 16px;
         }
 
@@ -242,7 +198,7 @@
         .set-input input {
             width: 100%;
             padding: 8px;
-            border: 1px solid var(--border);
+            border: 1px solid #e0e0e0;
             border-radius: 6px;
             font-size: 12px;
             text-align: center;
@@ -263,7 +219,7 @@
         .form-group textarea {
             width: 100%;
             padding: 12px;
-            border: 1px solid var(--border);
+            border: 1px solid #e0e0e0;
             border-radius: 8px;
             font-size: 14px;
             font-family: inherit;
@@ -283,52 +239,29 @@
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
         }
 
         .btn-primary {
-            background: var(--primary);
+            background: #FF6B35;
             color: white;
         }
 
-        .btn-primary:active {
-            background: #e85a2a;
-            transform: scale(0.98);
-        }
-
         .btn-secondary {
-            background: var(--secondary);
+            background: #004E89;
             color: white;
         }
 
         .session-card {
             background: white;
-            border: 1px solid var(--border);
+            border: 1px solid #e0e0e0;
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 12px;
         }
 
-        .session-header {
-            margin-bottom: 12px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 12px;
-        }
-
-        .session-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        .session-date {
-            font-size: 11px;
-            color: #999;
-        }
-
         .analysis-card {
             background: linear-gradient(135deg, rgba(255,107,53,0.1), rgba(0,78,137,0.1));
-            border: 1px solid var(--border);
+            border: 1px solid #e0e0e0;
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 12px;
@@ -355,7 +288,7 @@
 
         .config-section {
             background: #f9f9f9;
-            border: 1px solid var(--border);
+            border: 1px solid #e0e0e0;
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 20px;
@@ -368,16 +301,6 @@
             padding: 12px;
             background: white;
             border-radius: 8px;
-        }
-
-        .status-info.connected {
-            background: rgba(46, 206, 128, 0.1);
-            color: var(--success);
-        }
-
-        .status-info.disconnected {
-            background: rgba(230, 57, 70, 0.1);
-            color: var(--danger);
         }
     </style>
 </head>
@@ -395,32 +318,15 @@
             <button class="tab-btn" onclick="switchTab('config')">⚙️ Config</button>
         </div>
 
-        <!-- TAB: LOG -->
+        <!-- LOG -->
         <div class="content active" id="log">
             <h2 style="margin-bottom: 16px; font-size: 16px;">Qual treino você fez?</h2>
             
-            <div class="workout-selector" id="workoutSelector">
-                <div class="workout-card" onclick="selectWorkout(1)">
-                    <h3>UPPER A</h3>
-                    <p>Peito/Costas</p>
-                </div>
-                <div class="workout-card" onclick="selectWorkout(2)">
-                    <h3>LOWER A</h3>
-                    <p>Perna</p>
-                </div>
-                <div class="workout-card" onclick="selectWorkout(3)">
-                    <h3>UPPER B</h3>
-                    <p>Ombro</p>
-                </div>
-                <div class="workout-card" onclick="selectWorkout(4)">
-                    <h3>LOWER B</h3>
-                    <p>Perna Var.</p>
-                </div>
-            </div>
+            <div id="workoutSelector" style="margin-bottom: 20px;"></div>
 
             <div id="exerciseSection" style="display: none;">
                 <h2 style="margin-bottom: 16px; font-size: 16px;">Registre seus exercícios</h2>
-                <div class="exercise-list" id="exerciseList"></div>
+                <div id="exerciseList"></div>
 
                 <div class="form-group">
                     <label>📝 Notas</label>
@@ -444,7 +350,7 @@
             </div>
         </div>
 
-        <!-- TAB: HISTÓRICO -->
+        <!-- HISTÓRIA -->
         <div class="content" id="history">
             <h2 style="margin-bottom: 16px; font-size: 16px;">📊 Histórico</h2>
             <div id="historyList"></div>
@@ -454,7 +360,7 @@
             </div>
         </div>
 
-        <!-- TAB: ANÁLISES -->
+        <!-- ANÁLISES -->
         <div class="content" id="analysis">
             <h2 style="margin-bottom: 16px; font-size: 16px;">🤖 Análises</h2>
             <div id="analysisList"></div>
@@ -464,7 +370,7 @@
             </div>
         </div>
 
-        <!-- TAB: CONFIG -->
+        <!-- CONFIG -->
         <div class="content" id="config">
             <h2 style="margin-bottom: 16px; font-size: 16px;">⚙️ Configuração</h2>
             
@@ -488,14 +394,8 @@
 
             <div class="config-section">
                 <h3 style="font-size: 14px; margin-bottom: 12px;">💾 Supabase</h3>
-                
                 <div class="status-info" id="supabaseStatus">
-                    Status: Conectado
-                </div>
-
-                <div style="margin-top: 12px; font-size: 12px; color: #999; line-height: 1.6;">
-                    ✅ Dados salvos no Supabase<br>
-                    ✅ Histórico persistente<br>
+                    ✅ Dados persistentes<br>
                     ✅ Sincronização automática<br>
                     ✅ Acesso em qualquer dispositivo
                 </div>
@@ -503,11 +403,11 @@
         </div>
     </div>
 
-    <div class="status-bar" id="statusBar" style="display: none;"></div>
+    <div class="status-bar" id="statusBar"></div>
 
     <script>
         // ============================================================
-        // SUPABASE CONFIG
+        // SUPABASE
         // ============================================================
 
         const SUPABASE_URL = "https://ulsiumdpepyhjbgzghmg.supabase.co";
@@ -520,83 +420,55 @@
         // ============================================================
 
         const workouts = {
-            1: {
-                name: "UPPER A",
-                exercises: [
-                    { name: "Supino Reto", planned: "4x6-8", baseWeight: 45 },
-                    { name: "Remada Curvada", planned: "4x6-8", baseWeight: 40 },
-                    { name: "Remada Cavalo", planned: "3x8-10", baseWeight: 40 },
-                    { name: "Puxada Pronada", planned: "3x8-10", baseWeight: 50 },
-                    { name: "Crucifixo", planned: "3x8-10", baseWeight: 60 },
-                    { name: "Bíceps Rosca", planned: "3x8-10", baseWeight: 17 },
-                    { name: "Face Pull", planned: "2x12-15", baseWeight: 40 },
-                    { name: "Tríceps Corda", planned: "3x10-12", baseWeight: 45 }
-                ]
-            },
-            2: {
-                name: "LOWER A",
-                exercises: [
-                    { name: "Leg Press 45°", planned: "3x6-8", baseWeight: 160 },
-                    { name: "Rosca Sentado", planned: "4x6-8", baseWeight: 32 },
-                    { name: "Hack Squat", planned: "3x8-10", baseWeight: 60 },
-                    { name: "Leg Curl Sentado", planned: "3x10", baseWeight: 45 },
-                    { name: "Extensora", planned: "3x10-12", baseWeight: 80 },
-                    { name: "Panturrilha", planned: "3x8", baseWeight: 120 }
-                ]
-            },
-            3: {
-                name: "UPPER B",
-                exercises: [
-                    { name: "Desenvolvimento Halter", planned: "4x6-8", baseWeight: 23 },
-                    { name: "Supino Inclinado", planned: "4x8-10", baseWeight: 28 },
-                    { name: "Supino Inc Máquina", planned: "3x8-10", baseWeight: 60 },
-                    { name: "Puxada Alta", planned: "3x10-12", baseWeight: 50 },
-                    { name: "Face Pull", planned: "2x10-12", baseWeight: 40 },
-                    { name: "Rosca", planned: "3x8-10", baseWeight: 17 },
-                    { name: "Elevação Lateral", planned: "2x12-15", baseWeight: 7 },
-                    { name: "Tríceps", planned: "3x6-12", baseWeight: 0 }
-                ]
-            },
-            4: {
-                name: "LOWER B",
-                exercises: [
-                    { name: "Agachamento Búlgaro", planned: "4x6-8", baseWeight: 18 },
-                    { name: "Leg Press", planned: "3x6-8", baseWeight: 160 },
-                    { name: "Rosca Máquina", planned: "3x8-10", baseWeight: 60 },
-                    { name: "Extensora", planned: "3x8-10", baseWeight: 80 },
-                    { name: "Stiff Leg Deadlift", planned: "3x6-8", baseWeight: 40 },
-                    { name: "Leg Curl Máquina", planned: "3x8-10", baseWeight: 55 },
-                    { name: "Gêmeos Sentado", planned: "2x12-15", baseWeight: 120 }
-                ]
-            }
+            1: { name: "UPPER A", exercises: [
+                { name: "Supino Reto", planned: "4x6-8", baseWeight: 45 },
+                { name: "Remada Curvada", planned: "4x6-8", baseWeight: 40 },
+                { name: "Remada Cavalo", planned: "3x8-10", baseWeight: 40 },
+                { name: "Puxada Pronada", planned: "3x8-10", baseWeight: 50 },
+            ]},
+            2: { name: "LOWER A", exercises: [
+                { name: "Leg Press 45°", planned: "3x6-8", baseWeight: 160 },
+                { name: "Hack Squat", planned: "3x8-10", baseWeight: 60 },
+                { name: "Leg Curl Sentado", planned: "3x10", baseWeight: 45 },
+                { name: "Extensora", planned: "3x10-12", baseWeight: 80 },
+            ]},
+            3: { name: "UPPER B", exercises: [
+                { name: "Desenvolvimento Halter", planned: "4x6-8", baseWeight: 23 },
+                { name: "Supino Inclinado", planned: "4x8-10", baseWeight: 28 },
+                { name: "Puxada Alta", planned: "3x10-12", baseWeight: 50 },
+                { name: "Rosca", planned: "3x8-10", baseWeight: 17 },
+            ]},
+            4: { name: "LOWER B", exercises: [
+                { name: "Agachamento Búlgaro", planned: "4x6-8", baseWeight: 18 },
+                { name: "Leg Press", planned: "3x6-8", baseWeight: 160 },
+                { name: "Stiff Leg Deadlift", planned: "3x6-8", baseWeight: 40 },
+                { name: "Leg Curl Máquina", planned: "3x8-10", baseWeight: 55 },
+            ]}
         };
 
         let selectedWorkout = null;
+        let config = JSON.parse(localStorage.getItem('config')) || { apiUrl: 'https://treino-pro-api.onrender.com' };
         let exerciseWeights = JSON.parse(localStorage.getItem('exerciseWeights')) || {};
-        let config = JSON.parse(localStorage.getItem('config')) || {
-            apiUrl: 'https://treino-pro-api.onrender.com'
-        };
 
         // ============================================================
         // INIT
         // ============================================================
 
         window.addEventListener('load', () => {
-            initializeWeights();
+            renderWorkoutCards();
             loadConfig();
             loadHistory();
             loadAnalysis();
         });
 
-        function initializeWeights() {
-            Object.values(workouts).forEach(workout => {
-                workout.exercises.forEach(ex => {
-                    if (!exerciseWeights[ex.name]) {
-                        exerciseWeights[ex.name] = ex.baseWeight;
-                    }
-                });
-            });
-            localStorage.setItem('exerciseWeights', JSON.stringify(exerciseWeights));
+        function renderWorkoutCards() {
+            const selector = document.getElementById('workoutSelector');
+            selector.innerHTML = Object.entries(workouts).map(([id, w]) => `
+                <div class="workout-card" onclick="selectWorkout(${id})">
+                    <h3>${w.name}</h3>
+                    <p>${w.exercises.length} exercícios</p>
+                </div>
+            `).join('');
         }
 
         // ============================================================
@@ -607,7 +479,7 @@
             document.querySelectorAll('.content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
             document.getElementById(tab).classList.add('active');
-            document.querySelector(`[onclick="switchTab('${tab}')"]`).classList.add('active');
+            event.target.classList.add('active');
 
             if (tab === 'history') loadHistory();
             if (tab === 'analysis') loadAnalysis();
@@ -622,11 +494,11 @@
             document.querySelectorAll('.workout-card').forEach(c => c.classList.remove('selected'));
             event.target.closest('.workout-card').classList.add('selected');
 
-            const exerciseSection = document.getElementById('exerciseSection');
-            exerciseSection.style.display = 'block';
+            const section = document.getElementById('exerciseSection');
+            section.style.display = 'block';
 
-            const exerciseList = document.getElementById('exerciseList');
-            exerciseList.innerHTML = '';
+            const list = document.getElementById('exerciseList');
+            list.innerHTML = '';
 
             workouts[id].exercises.forEach((ex, idx) => {
                 const weight = exerciseWeights[ex.name] || ex.baseWeight;
@@ -660,7 +532,7 @@
                         </div>
                     </div>
                 `;
-                exerciseList.appendChild(item);
+                list.appendChild(item);
             });
         }
 
@@ -691,7 +563,7 @@
 
         async function submitSession() {
             if (!selectedWorkout) {
-                showStatus('⚠️ Selecione um treino!', 'warning');
+                showStatus('⚠️ Selecione um treino!', 'connecting');
                 return;
             }
 
@@ -706,22 +578,22 @@
                 const reps = input.value;
 
                 if (reps) {
-                    let exerciseRecord = exercises.find(e => e.name === ex.name);
-                    if (!exerciseRecord) {
-                        exerciseRecord = {
+                    let exRec = exercises.find(e => e.name === ex.name);
+                    if (!exRec) {
+                        exRec = {
                             name: ex.name,
                             planned: ex.planned,
                             weight: exerciseWeights[ex.name] || ex.baseWeight,
                             sets: []
                         };
-                        exercises.push(exerciseRecord);
+                        exercises.push(exRec);
                     }
-                    exerciseRecord.sets[set - 1] = parseInt(reps);
+                    exRec.sets[set - 1] = parseInt(reps);
                 }
             });
 
             if (exercises.length === 0) {
-                showStatus('⚠️ Registre exercícios!', 'warning');
+                showStatus('⚠️ Registre exercícios!', 'connecting');
                 return;
             }
 
@@ -736,8 +608,8 @@
                 sleep: parseFloat(document.getElementById('sleepHours').value)
             };
 
-            // Salvar no Supabase
             try {
+                showStatus('💾 Salvando no Supabase...', 'connecting');
                 await supabase.from('sessions').insert([{
                     session_id: session.session_id,
                     date: session.date,
@@ -748,27 +620,24 @@
                     sleep: session.sleep,
                     notes: session.notes
                 }]);
-                showStatus('✅ Treino salvo no Supabase!', 'success');
+                showStatus('✅ Salvo no Supabase!', 'success');
+                
+                if (config.apiUrl) {
+                    sendToAPI(session);
+                }
+                
+                clearSelection();
+                document.getElementById('sessionNotes').value = '';
+                document.getElementById('energyLevel').value = '7';
+                document.getElementById('sleepHours').value = '7';
             } catch (error) {
-                showStatus('❌ Erro ao salvar: ' + error.message, 'error');
-                console.error(error);
+                showStatus('❌ Erro: ' + error.message, 'error');
             }
-
-            // Enviar para API
-            if (config.apiUrl) {
-                sendToAPI(session);
-            }
-
-            clearSelection();
-            document.getElementById('sessionNotes').value = '';
-            document.getElementById('energyLevel').value = '7';
-            document.getElementById('sleepHours').value = '7';
         }
 
         async function sendToAPI(session) {
-            showStatus('📤 Enviando para análise...', 'connecting');
-
             try {
+                showStatus('📤 Enviando para análise...', 'connecting');
                 const response = await fetch(`${config.apiUrl}/webhook/session`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -777,12 +646,10 @@
 
                 if (response.ok) {
                     showStatus('✅ Análise recebida!', 'success');
-                    loadAnalysis();
-                } else {
-                    showStatus('⚠️ Erro ao enviar', 'error');
+                    setTimeout(() => loadAnalysis(), 1000);
                 }
             } catch (error) {
-                showStatus('❌ Falha de conexão', 'error');
+                showStatus('❌ API Indisponível', 'error');
             }
         }
 
@@ -792,65 +659,57 @@
 
         async function loadHistory() {
             try {
-                const { data } = await supabase
-                    .from('sessions')
-                    .select('*')
-                    .order('created_at', { ascending: false })
-                    .limit(10);
-
-                const historyList = document.getElementById('historyList');
-                const emptyHistory = document.getElementById('emptyHistory');
+                const { data } = await supabase.from('sessions').select('*').order('created_at', { ascending: false }).limit(10);
+                const list = document.getElementById('historyList');
+                const empty = document.getElementById('emptyHistory');
 
                 if (!data || data.length === 0) {
-                    historyList.innerHTML = '';
-                    emptyHistory.style.display = 'block';
+                    list.innerHTML = '';
+                    empty.style.display = 'block';
                     return;
                 }
 
-                emptyHistory.style.display = 'none';
-                historyList.innerHTML = data.map(session => `
+                empty.style.display = 'none';
+                list.innerHTML = data.map(s => `
                     <div class="session-card">
-                        <div class="session-header">
-                            <div class="session-title">${session.workout}</div>
-                            <div class="session-date">${session.date} ${session.time}</div>
+                        <div style="margin-bottom: 12px;">
+                            <div style="font-weight: 600;">${s.workout}</div>
+                            <div style="font-size: 11px; color: #999;">${s.date} ${s.time}</div>
                         </div>
-                        <div>Energia: ${session.energy}/10 | Sono: ${session.sleep}h</div>
+                        <div style="font-size: 12px;">
+                            ⚡ ${s.energy}/10 | 😴 ${s.sleep}h
+                        </div>
                     </div>
                 `).join('');
             } catch (error) {
-                console.error('Erro ao carregar histórico:', error);
+                console.error(error);
             }
         }
 
         async function loadAnalysis() {
             try {
-                const { data } = await supabase
-                    .from('analyses')
-                    .select('*')
-                    .order('created_at', { ascending: false })
-                    .limit(10);
-
-                const analysisList = document.getElementById('analysisList');
-                const emptyAnalysis = document.getElementById('emptyAnalysis');
+                const { data } = await supabase.from('analyses').select('*').order('created_at', { ascending: false }).limit(10);
+                const list = document.getElementById('analysisList');
+                const empty = document.getElementById('emptyAnalysis');
 
                 if (!data || data.length === 0) {
-                    analysisList.innerHTML = '';
-                    emptyAnalysis.style.display = 'block';
+                    list.innerHTML = '';
+                    empty.style.display = 'block';
                     return;
                 }
 
-                emptyAnalysis.style.display = 'none';
-                analysisList.innerHTML = data.map(analysis => `
+                empty.style.display = 'none';
+                list.innerHTML = data.map(a => `
                     <div class="analysis-card">
-                        <div class="session-header">
-                            <div class="session-title">🤖 ${analysis.workout}</div>
-                            <div class="session-date">${analysis.date}</div>
+                        <div style="margin-bottom: 12px;">
+                            <div style="font-weight: 600;">🤖 ${a.workout}</div>
+                            <div style="font-size: 11px; color: #999;">${a.date}</div>
                         </div>
-                        <div class="analysis-content">${analysis.analysis}</div>
+                        <div class="analysis-content">${a.analysis}</div>
                     </div>
                 `).join('');
             } catch (error) {
-                console.error('Erro ao carregar análises:', error);
+                console.error(error);
             }
         }
 
@@ -870,7 +729,6 @@
 
         async function testAPI() {
             showStatus('🧪 Testando...', 'connecting');
-
             try {
                 const response = await fetch(`${config.apiUrl}/health`);
                 if (response.ok) {
