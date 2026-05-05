@@ -513,6 +513,8 @@
             const anamnese = JSON.parse(userDataStr);
             
             try {
+                document.getElementById('step1').innerHTML = '⏳ Gerando treino';
+                
                 const response = await fetch(`${API_URL}/api/treinos/gerar`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -524,34 +526,35 @@
                     })
                 });
                 
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || `Erro ${response.status}`);
+                }
+                
                 const result = await response.json();
                 
-                if (response.ok) {
-                    document.getElementById('step1').innerHTML = '✓ Treino gerado';
-                    document.getElementById('step2').innerHTML = '✓ Validado com sucesso';
-                    document.getElementById('step2').classList.add('active');
+                document.getElementById('step1').innerHTML = '✓ Treino gerado';
+                document.getElementById('step2').innerHTML = '✓ Validado com sucesso';
+                document.getElementById('step2').classList.add('active');
+                
+                setTimeout(() => {
+                    document.getElementById('step3').classList.add('active');
+                    document.getElementById('step3').innerHTML = '✓ Pronto!';
                     
-                    setTimeout(() => {
-                        document.getElementById('step3').classList.add('active');
-                        
-                        exibirTreino(result.treino, result.validacao);
-                        
-                        showLoading(false);
-                        document.getElementById('treinoSection').style.display = 'block';
-                        document.getElementById('generatorSection').style.display = 'none';
-                        
-                        toast('✅ Treino gerado e aprovado!', 'success');
-                    }, 500);
-                } else {
-                    showError(result.error || result.message || 'Erro ao gerar treino');
+                    exibirTreino(result.treino, result.validacao);
+                    
                     showLoading(false);
-                    toast('❌ Erro ao gerar', 'error');
-                }
+                    document.getElementById('treinoSection').style.display = 'block';
+                    document.getElementById('generatorSection').style.display = 'none';
+                    
+                    toast('✅ Treino gerado e aprovado!', 'success');
+                }, 500);
+                
             } catch (error) {
                 console.error('Erro:', error);
-                showError('Erro de conexão: ' + error.message);
+                showError('Erro: ' + error.message);
                 showLoading(false);
-                toast('❌ Erro de conexão', 'error');
+                toast('❌ Erro ao gerar', 'error');
             }
         }
         
