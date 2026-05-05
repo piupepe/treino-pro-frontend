@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="referrer" content="no-referrer">
     <title>Treino Pro - Performance Intelligence</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
@@ -135,11 +133,6 @@
             padding: 20px;
             margin-bottom: 16px;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-            transition: all 0.3s ease;
-        }
-        .exercise-card:hover {
-            box-shadow: 0 12px 32px rgba(255, 107, 53, 0.12);
-            border-color: var(--primary);
         }
         .exercise-header {
             display: flex;
@@ -160,7 +153,6 @@
             padding: 8px 14px;
             border-radius: 10px;
             font-weight: 800;
-            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.25);
         }
         .weight-box {
             background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
@@ -193,8 +185,6 @@
             cursor: pointer;
             font-weight: 800;
             font-size: 18px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
         }
         .weight-btn:active {
             background: var(--primary);
@@ -210,7 +200,6 @@
             background: white;
             border-radius: 12px;
             border: 3px solid var(--primary);
-            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.15);
         }
         .sets-grid {
             display: grid;
@@ -236,13 +225,6 @@
             text-align: center;
             font-weight: 800;
             background: white;
-            transition: all 0.3s ease;
-        }
-        .set-box input:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: rgba(255, 107, 53, 0.05);
-            box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1);
         }
         .form-group {
             margin-bottom: 20px;
@@ -262,15 +244,7 @@
             border-radius: 12px;
             font-size: 15px;
             font-family: 'Inter', sans-serif;
-            transition: all 0.3s ease;
             background: white;
-        }
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: rgba(255, 107, 53, 0.05);
-            box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1);
         }
         .button-row {
             display: grid;
@@ -285,10 +259,7 @@
             font-size: 15px;
             font-weight: 800;
             cursor: pointer;
-            transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: 0.6px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
         }
         .btn-primary {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
@@ -296,7 +267,6 @@
         }
         .btn-primary:active {
             transform: translateY(2px);
-            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.25);
         }
         .btn-secondary {
             background: linear-gradient(135deg, var(--dark) 0%, #334155 100%);
@@ -308,12 +278,6 @@
             border-radius: 16px;
             padding: 20px;
             margin-bottom: 14px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-            transition: all 0.3s ease;
-        }
-        .session-item:hover {
-            box-shadow: 0 12px 32px rgba(255, 107, 53, 0.12);
-            transform: translateY(-2px);
         }
         .session-title {
             font-size: 17px;
@@ -324,7 +288,6 @@
             font-size: 12px;
             color: #64748B;
             font-weight: 600;
-            margin-bottom: 12px;
         }
         .session-stats {
             display: flex;
@@ -336,7 +299,6 @@
             background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
             padding: 12px;
             border-radius: 10px;
-            border: 1px solid var(--border);
         }
         .stat-label {
             font-size: 11px;
@@ -355,7 +317,6 @@
             border-radius: 16px;
             padding: 20px;
             margin-bottom: 16px;
-            box-shadow: 0 8px 24px rgba(255, 107, 53, 0.15);
         }
         .analysis-header {
             display: flex;
@@ -368,7 +329,6 @@
         .analysis-title {
             font-size: 17px;
             font-weight: 800;
-            color: var(--dark);
         }
         .analysis-status {
             font-size: 11px;
@@ -391,30 +351,9 @@
             white-space: pre-wrap;
             border: 2px solid var(--border);
         }
-        .analysis-request-btn {
-            width: 100%;
-            padding: 14px;
-            margin-top: 12px;
-            background: linear-gradient(135deg, var(--secondary) 0%, #003d6b 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            font-size: 12px;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 12px rgba(0, 78, 137, 0.25);
-        }
-        .analysis-request-btn:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px 6px rgba(0, 78, 137, 0.2);
-        }
         .empty-state {
             text-align: center;
             padding: 80px 20px;
-            color: #64748B;
         }
         .empty-state-icon {
             font-size: 72px;
@@ -424,7 +363,7 @@
         .empty-state-text {
             font-size: 15px;
             font-weight: 700;
-            color: #475569;
+            color: #64748B;
         }
         .status-toast {
             position: fixed;
@@ -436,14 +375,7 @@
             font-weight: 800;
             z-index: 100;
             display: none;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
-            animation: slideUpIn 0.4s ease;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        @keyframes slideUpIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
         }
         .status-toast.success {
             background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
@@ -456,32 +388,6 @@
         .status-toast.info {
             background: linear-gradient(135deg, var(--warning) 0%, #D97706 100%);
             color: white;
-        }
-        .config-card {
-            background: linear-gradient(135deg, white 0%, #F8FAFC 100%);
-            border: 2px solid var(--border);
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-        }
-        .config-card h3 {
-            font-size: 16px;
-            margin-bottom: 16px;
-            font-weight: 800;
-        }
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--light);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #64748B;
         }
     </style>
 </head>
@@ -499,20 +405,16 @@
             <button class="tab-btn" onclick="switchTab('settings')">⚙️ Config</button>
         </div>
 
-        <!-- REGISTRAR -->
         <div class="content active" id="register">
             <h2>Selecione seu treino</h2>
             <div class="workout-grid" id="workoutGrid"></div>
-            
             <div id="exercisePanel" style="display: none;">
                 <h2 style="margin-top: 28px; margin-bottom: 20px;">Registre seus exercícios</h2>
                 <div id="exerciseList"></div>
-
                 <div class="form-group">
                     <label>📝 Observações</label>
-                    <textarea id="notes" placeholder="Como se sentiu? Alguma observação?"></textarea>
+                    <textarea id="notes" placeholder="Como se sentiu?"></textarea>
                 </div>
-
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                     <div class="form-group">
                         <label>⚡ Energia</label>
@@ -523,7 +425,6 @@
                         <input type="number" id="sleep" min="0" max="12" step="0.5" value="7">
                     </div>
                 </div>
-
                 <div class="button-row">
                     <button class="btn btn-primary" onclick="saveSession()">✅ Salvar Treino</button>
                     <button class="btn btn-secondary" onclick="clearWorkout()">❌ Cancelar</button>
@@ -531,55 +432,33 @@
             </div>
         </div>
 
-        <!-- HISTÓRICO -->
         <div class="content" id="history">
             <h2>Histórico de Treinos</h2>
             <div id="historyList"></div>
             <div id="emptyHistory" class="empty-state">
                 <div class="empty-state-icon">📭</div>
-                <div class="empty-state-text">Nenhum treino registrado</div>
+                <div class="empty-state-text">Nenhum treino</div>
             </div>
         </div>
 
-        <!-- ANÁLISES -->
         <div class="content" id="analysis">
-            <h2>Análises Inteligentes do Agente IA</h2>
+            <h2>Análises do Agente IA</h2>
             <div id="analysisList"></div>
             <div id="emptyAnalysis" class="empty-state">
                 <div class="empty-state-icon">🤖</div>
-                <div class="empty-state-text">Nenhuma análise disponível</div>
+                <div class="empty-state-text">Nenhuma análise</div>
             </div>
         </div>
 
-        <!-- CONFIG -->
         <div class="content" id="settings">
             <h2>Configurações</h2>
-            
-            <div class="config-card">
-                <h3>🔌 API Render (Agente IA)</h3>
-                <div class="form-group">
-                    <label>URL da API</label>
-                    <input type="url" id="apiUrl" value="https://treino-pro-api.onrender.com">
-                </div>
-                <div class="button-row">
-                    <button class="btn btn-primary" onclick="saveSettings()">💾 Salvar</button>
-                    <button class="btn btn-secondary" onclick="testConnection()">🧪 Testar</button>
-                </div>
-                <div id="connectionStatus" style="margin-top: 14px; padding: 12px; background: white; border-radius: 10px; font-size: 13px; font-weight: 600; border: 1px solid var(--border);">
-                    Status: Aguardando teste
-                </div>
-            </div>
-
-            <div class="config-card">
-                <h3>💾 Supabase Cloud</h3>
+            <div style="padding: 20px; background: #F8FAFC; border-radius: 14px; margin-bottom: 20px;">
+                <h3 style="font-weight: 800; margin-bottom: 12px;">✅ Sistema Conectado</h3>
                 <div style="font-size: 13px; line-height: 1.8; color: #475569; font-weight: 600;">
-                    ✅ Dados sincronizados na nuvem<br>
-                    ✅ Backup automático<br>
-                    ✅ Agente IA analisando treinos<br>
-                    ✅ Acesso em qualquer dispositivo
-                </div>
-                <div id="supabaseStatus" style="margin-top: 14px; padding: 12px; background: white; border-radius: 10px; font-size: 13px; font-weight: 600; border: 1px solid var(--border);">
-                    Status: Usando API Render (sem Tracking Blocker)
+                    ✅ Supabase: bldwvlnorigxqdvdqfsu<br>
+                    ✅ API Render: treino-pro-api.onrender.com<br>
+                    ✅ Agente IA: Claude Sonnet 4.6<br>
+                    ✅ Análises: Automáticas ao salvar
                 </div>
             </div>
         </div>
@@ -588,21 +467,7 @@
     <div class="status-toast" id="statusToast"></div>
 
     <script>
-        // ============================================================
-        // CONFIG - USANDO FETCH/API EM VEZ DE SUPABASE JS
-        // Isso evita o problema de Tracking Prevention do Safari
-        // ============================================================
-        
         const API_URL = "https://treino-pro-api.onrender.com";
-        const SUPABASE_URL = "https://bldwvlnorigxqdvdqfsu.supabase.co";
-        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsZHd2bG5vcmlneHFkdmRxZnN1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5NDcwMTMsImV4cCI6MjA5MzUyMzAxM30.zKIiRWpWNlD08ugDqqOoaiUuMTnvEmzQFbSSN1z93aQ";
-
-        console.log("✅ Supabase inicializado (usando REST API)");
-        updateSupabaseStatus("✅ Conectado ao Supabase via API");
-
-        // ============================================================
-        // DADOS DOS TREINOS
-        // ============================================================
 
         const workoutList = {
             1: { name: "UPPER A", exercises: [
@@ -646,41 +511,12 @@
 
         let selected = null;
         let weights = JSON.parse(localStorage.getItem('weights')) || {};
-        let settings = JSON.parse(localStorage.getItem('settings')) || { apiUrl: 'https://treino-pro-api.onrender.com' };
 
         window.addEventListener('load', () => {
             renderWorkouts();
-            document.getElementById('apiUrl').value = settings.apiUrl;
             loadHistory();
             loadAnalysis();
         });
-
-        // ============================================================
-        // FUNÇÕES DE API (Usando REST ao invés de JS library)
-        // ============================================================
-
-        function apiCall(endpoint, method = 'GET', body = null) {
-            const opts = {
-                method: method,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${SUPABASE_KEY}`,
-                    'apikey': SUPABASE_KEY,
-                }
-            };
-            
-            if (body) {
-                opts.body = JSON.stringify(body);
-            }
-            
-            return fetch(`${SUPABASE_URL}/rest/v1${endpoint}`, opts)
-                .then(r => {
-                    if (!r.ok) {
-                        throw new Error(`HTTP ${r.status}`);
-                    }
-                    return r.json();
-                });
-        }
 
         function renderWorkouts() {
             const grid = document.getElementById('workoutGrid');
@@ -731,12 +567,6 @@
         function adjustWeight(name, d) {
             weights[name] = Math.max(0, (weights[name] || 0) + d);
             localStorage.setItem('weights', JSON.stringify(weights));
-            Object.entries(workoutList).forEach(([_, w]) => w.exercises.forEach((ex, i) => {
-                if (ex.name === name) {
-                    const el = document.getElementById(`w-${i}`);
-                    if (el) el.textContent = weights[name];
-                }
-            }));
         }
 
         function clearWorkout() {
@@ -775,32 +605,27 @@
                 sleep: parseFloat(document.getElementById('sleep').value)
             };
 
-            toast('💾 Salvando no Supabase...', 'info');
+            toast('💾 Salvando...', 'info');
             
-            apiCall('/sessions', 'POST', sess)
-                .then(res => {
-                    console.log("✅ Salvo no Supabase!");
-                    toast('✅ Treino salvo! Solicitando análise do agente IA...', 'success');
+            fetch(`${API_URL}/api/sessions`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(sess)
+            }).then(r => {
+                if (r.ok) {
+                    console.log("✅ Salvo!");
+                    toast('✅ Treino salvo! Enviando para agente IA...', 'success');
                     
-                    // ENVIAR PARA API RENDER (AGENTE IA)
-                    fetch(`${settings.apiUrl}/webhook/session`, {
+                    fetch(`${API_URL}/webhook/session`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(sess)
-                    }).then(r => {
-                        if (r.ok) {
-                            toast('🤖 Agente analisando seu treino...', 'success');
-                            setTimeout(() => loadAnalysis(), 2000);
-                        }
-                    }).catch(e => {
-                        console.error("API error:", e);
-                        toast('⚠️ API offline - análise não disponível', 'error');
-                    });
-                })
-                .catch(e => {
-                    console.error("❌ Erro ao salvar:", e);
-                    toast('❌ Erro: ' + e.message, 'error');
-                });
+                    }).then(() => {
+                        toast('🤖 Agente analisando...', 'success');
+                        setTimeout(() => loadAnalysis(), 2000);
+                    }).catch(() => toast('⚠️ Agente offline', 'error'));
+                }
+            }).catch(e => toast('❌ Erro: ' + e.message, 'error'));
 
             clearWorkout();
             document.getElementById('notes').value = '';
@@ -810,18 +635,16 @@
         }
 
         function loadHistory() {
-            apiCall('/sessions?order=created_at.desc&limit=10')
+            fetch(`${API_URL}/api/sessions?order_by=created_at&desc=true&limit=10`)
+                .then(r => r.json())
                 .then(data => {
                     const list = document.getElementById('historyList');
-                    const empty = document.getElementById('emptyHistory');
-                    
                     if (!data || data.length === 0) {
                         list.innerHTML = '';
-                        empty.style.display = 'block';
+                        document.getElementById('emptyHistory').style.display = 'block';
                         return;
                     }
-
-                    empty.style.display = 'none';
+                    document.getElementById('emptyHistory').style.display = 'none';
                     list.innerHTML = data.map(s => `
                         <div class="session-item">
                             <div class="session-title">${s.workout}</div>
@@ -832,27 +655,20 @@
                             </div>
                         </div>
                     `).join('');
-                })
-                .catch(e => {
-                    console.error("❌ Erro:", e);
-                    document.getElementById('historyList').innerHTML = '';
-                    document.getElementById('emptyHistory').style.display = 'block';
-                });
+                }).catch(e => console.error("Erro:", e));
         }
 
         function loadAnalysis() {
-            apiCall('/analyses?order=created_at.desc&limit=10')
+            fetch(`${API_URL}/api/analyses?order_by=created_at&desc=true&limit=10`)
+                .then(r => r.json())
                 .then(data => {
                     const list = document.getElementById('analysisList');
-                    const empty = document.getElementById('emptyAnalysis');
-                    
                     if (!data || data.length === 0) {
                         list.innerHTML = '';
-                        empty.style.display = 'block';
+                        document.getElementById('emptyAnalysis').style.display = 'block';
                         return;
                     }
-
-                    empty.style.display = 'none';
+                    document.getElementById('emptyAnalysis').style.display = 'none';
                     list.innerHTML = data.map(a => `
                         <div class="analysis-item">
                             <div class="analysis-header">
@@ -860,63 +676,9 @@
                                 <div class="analysis-status">✅ Analisado</div>
                             </div>
                             <div class="analysis-content">${a.analysis}</div>
-                            <button class="analysis-request-btn" onclick="requestAnalysis('${a.session_id}')">📊 Solicitar Nova Análise</button>
                         </div>
                     `).join('');
-                })
-                .catch(e => {
-                    console.error("❌ Erro:", e);
-                    document.getElementById('analysisList').innerHTML = '';
-                    document.getElementById('emptyAnalysis').style.display = 'block';
-                });
-        }
-
-        function requestAnalysis(sessionId) {
-            toast('🤖 Solicitando análise do agente IA...', 'info');
-            
-            fetch(`${settings.apiUrl}/webhook/session`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ session_id: sessionId })
-            }).then(r => {
-                if (r.ok) {
-                    toast('✅ Análise atualizada!', 'success');
-                    setTimeout(() => loadAnalysis(), 1500);
-                } else {
-                    toast('❌ Erro ao solicitar análise', 'error');
-                }
-            }).catch(e => {
-                toast('❌ API offline', 'error');
-            });
-        }
-
-        function saveSettings() {
-            settings.apiUrl = document.getElementById('apiUrl').value;
-            localStorage.setItem('settings', JSON.stringify(settings));
-            toast('✅ Config salva!', 'success');
-        }
-
-        function testConnection() {
-            toast('🧪 Testando API...', 'info');
-            fetch(`${settings.apiUrl}/health`)
-                .then(r => {
-                    if (r.ok) {
-                        toast('✅ API OK!', 'success');
-                        document.getElementById('connectionStatus').innerHTML = '✅ Status: Conectado ao Agente IA';
-                    } else {
-                        toast('❌ API erro', 'error');
-                        document.getElementById('connectionStatus').innerHTML = '❌ Status: Erro ' + r.status;
-                    }
-                })
-                .catch(e => {
-                    toast('❌ Sem conexão', 'error');
-                    document.getElementById('connectionStatus').innerHTML = '❌ Status: ' + e.message;
-                });
-        }
-
-        function updateSupabaseStatus(msg) {
-            const el = document.getElementById('supabaseStatus');
-            if (el) el.innerHTML = msg;
+                }).catch(e => console.error("Erro:", e));
         }
 
         function toast(msg, type) {
