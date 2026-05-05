@@ -414,9 +414,9 @@
             <div class="spinner"></div>
             <div class="loading-text">Gerando seu treino personalizado...</div>
             <div class="loading-steps">
-                <div class="active" id="step1">✓ Gerando treino</div>
-                <div id="step2">⏳ Validando balanceamento</div>
-                <div id="step3">📊 Salvando resultado</div>
+                <div class="active" id="step1">⏳ Gerando treino</div>
+                <div id="step2">⏳ Revisando treino (validação rigorosa)</div>
+                <div id="step3">📊 Finalizando</div>
             </div>
         </div>
         
@@ -534,12 +534,12 @@
                 const result = await response.json();
                 
                 document.getElementById('step1').innerHTML = '✓ Treino gerado';
-                document.getElementById('step2').innerHTML = '✓ Validado com sucesso';
+                document.getElementById('step2').innerHTML = '✓ Aprovado na validação rigorosa!';
                 document.getElementById('step2').classList.add('active');
                 
                 setTimeout(() => {
                     document.getElementById('step3').classList.add('active');
-                    document.getElementById('step3').innerHTML = '✓ Pronto!';
+                    document.getElementById('step3').innerHTML = '✓ Pronto para treinar!';
                     
                     exibirTreino(result.treino, result.validacao);
                     
@@ -548,7 +548,7 @@
                     document.getElementById('generatorSection').style.display = 'none';
                     
                     toast('✅ Treino gerado e aprovado!', 'success');
-                }, 500);
+                }, 800);
                 
             } catch (error) {
                 console.error('Erro:', error);
