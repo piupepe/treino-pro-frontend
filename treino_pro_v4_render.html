@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Treino Pro">
-    <title>Treino Pro v3 - Rastreador Inteligente</title>
+    <title>Treino Pro v5 - Supabase</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * {
             margin: 0;
@@ -32,14 +33,12 @@
             overflow: hidden;
             height: 100vh;
             padding-top: env(safe-area-inset-top);
-            padding-bottom: env(safe-area-inset-bottom);
         }
 
         .container {
             display: flex;
             flex-direction: column;
             height: 100vh;
-            background: #fff;
         }
 
         .header {
@@ -66,7 +65,6 @@
             background: #f8f8f8;
             border-bottom: 1px solid var(--border);
             overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
         }
 
         .tab-btn {
@@ -93,7 +91,6 @@
         .content {
             flex: 1;
             overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
             padding: 16px;
             display: none;
         }
@@ -102,313 +99,9 @@
             display: block;
         }
 
-        .workout-selector {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .workout-card {
-            padding: 16px;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: white;
-        }
-
-        .workout-card:active,
-        .workout-card.selected {
-            border-color: var(--primary);
-            background: rgba(255, 107, 53, 0.05);
-            transform: translateY(-2px);
-        }
-
-        .workout-card h3 {
-            font-size: 14px;
-            margin-bottom: 8px;
-            color: var(--dark);
-        }
-
-        .workout-card p {
-            font-size: 11px;
-            color: #999;
-        }
-
-        .exercise-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .exercise-item {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 16px;
-            transition: all 0.3s;
-        }
-
-        .exercise-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .exercise-name {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        .exercise-planned {
-            font-size: 11px;
-            color: #999;
-            background: var(--light);
-            padding: 4px 8px;
-            border-radius: 6px;
-        }
-
-        .weight-section {
-            background: var(--light);
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-        }
-
-        .weight-adjustment {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            gap: 8px;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .btn-adjust {
-            padding: 8px 12px;
-            font-size: 12px;
-            border: none;
-            border-radius: 6px;
-            background: var(--primary);
-            color: white;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        .weight-display {
-            text-align: center;
-            font-weight: 600;
-            color: var(--primary);
-            font-size: 16px;
-        }
-
-        .weight-input {
-            width: 60px;
-            padding: 8px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 12px;
-            text-align: center;
-            display: none;
-        }
-
-        .weight-input.show {
-            display: block;
-        }
-
-        .last-weight-info {
-            font-size: 10px;
-            color: #999;
-            margin-top: 4px;
-            text-align: center;
-        }
-
-        .sets-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-        }
-
-        .set-input {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .set-input label {
-            font-size: 10px;
-            color: #999;
-            font-weight: 600;
-        }
-
-        .set-input input {
-            padding: 8px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 12px;
-            text-align: center;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--dark);
-            margin-bottom: 8px;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 14px;
-            font-family: inherit;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        .button-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .btn {
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:active {
-            background: #e85a2a;
-            transform: scale(0.98);
-        }
-
-        .btn-secondary {
-            background: var(--secondary);
-            color: white;
-        }
-
-        .btn-secondary:active {
-            background: #003d6b;
-        }
-
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-
-        .session-card {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 12px;
-        }
-
-        .session-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 12px;
-        }
-
-        .session-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        .session-date {
-            font-size: 11px;
-            color: #999;
-        }
-
-        .exercise-summary-item {
-            background: var(--light);
-            padding: 8px;
-            border-radius: 6px;
-            margin-bottom: 6px;
-            font-size: 12px;
-        }
-
-        .exercise-name-summary {
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        .exercise-details {
-            font-size: 11px;
-            color: #666;
-            margin-top: 4px;
-        }
-
-        .stat {
-            background: var(--light);
-            padding: 8px;
-            border-radius: 6px;
-            margin-bottom: 8px;
-        }
-
-        .stat-label {
-            color: #999;
-            font-size: 10px;
-        }
-
-        .stat-value {
-            color: var(--primary);
-            font-weight: 600;
-            font-size: 13px;
-        }
-
-        .feedback-card {
-            background: linear-gradient(135deg, rgba(255,107,53,0.1), rgba(0,78,137,0.1));
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 12px;
-        }
-
-        .feedback-content {
-            font-size: 12px;
-            line-height: 1.6;
-            color: #555;
-            background: white;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 12px;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
         .status-bar {
             position: fixed;
-            top: 60px;
+            top: 80px;
             right: 10px;
             padding: 10px 16px;
             border-radius: 8px;
@@ -445,26 +138,213 @@
             }
         }
 
-        .webhook-config {
-            background: #f9f9f9;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 16px;
+        .workout-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
             margin-bottom: 20px;
         }
 
-        .webhook-status {
-            font-size: 13px;
-            color: #666;
+        .workout-card {
+            padding: 16px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .workout-card.selected {
+            border-color: var(--primary);
+            background: rgba(255, 107, 53, 0.05);
+        }
+
+        .workout-card h3 {
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+
+        .exercise-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .exercise-item {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .exercise-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .exercise-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .exercise-planned {
+            font-size: 11px;
+            color: #999;
+            background: var(--light);
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .weight-section {
+            background: var(--light);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .weight-adjustment {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .btn-adjust {
+            padding: 8px 12px;
+            font-size: 12px;
+            border: none;
+            border-radius: 6px;
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .weight-display {
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 16px;
+        }
+
+        .sets-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .set-input input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:active {
+            background: #e85a2a;
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .session-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .session-header {
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+        }
+
+        .session-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .session-date {
+            font-size: 11px;
+            color: #999;
+        }
+
+        .analysis-card {
+            background: linear-gradient(135deg, rgba(255,107,53,0.1), rgba(0,78,137,0.1));
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .analysis-content {
+            font-size: 12px;
+            line-height: 1.6;
+            color: #555;
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
             margin-top: 12px;
-        }
-
-        .webhook-status.connected {
-            color: var(--success);
-        }
-
-        .webhook-status.disconnected {
-            color: var(--danger);
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
         }
 
         .empty-state {
@@ -473,45 +353,39 @@
             color: #999;
         }
 
-        .empty-state-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-        }
-
-        .empty-state-text {
-            font-size: 14px;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 4px 8px;
+        .config-section {
+            background: #f9f9f9;
+            border: 1px solid var(--border);
             border-radius: 12px;
-            font-size: 10px;
-            font-weight: 600;
-            margin-left: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
         }
 
-        .badge-up {
-            background: var(--success);
-            color: white;
+        .status-info {
+            font-size: 13px;
+            color: #666;
+            margin-top: 12px;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
         }
 
-        .badge-down {
-            background: var(--danger);
-            color: white;
+        .status-info.connected {
+            background: rgba(46, 206, 128, 0.1);
+            color: var(--success);
         }
 
-        .badge-same {
-            background: var(--warning);
-            color: white;
+        .status-info.disconnected {
+            background: rgba(230, 57, 70, 0.1);
+            color: var(--danger);
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>💪 Treino Pro v3</h1>
-            <p>Rastreador Inteligente + Análise Automática</p>
+            <h1>💪 Treino Pro v5</h1>
+            <p>Com Supabase (Dados Persistentes)</p>
         </div>
 
         <div class="tabs">
@@ -521,7 +395,7 @@
             <button class="tab-btn" onclick="switchTab('config')">⚙️ Config</button>
         </div>
 
-        <!-- TAB: LOG TREINO -->
+        <!-- TAB: LOG -->
         <div class="content active" id="log">
             <h2 style="margin-bottom: 16px; font-size: 16px;">Qual treino você fez?</h2>
             
@@ -536,7 +410,7 @@
                 </div>
                 <div class="workout-card" onclick="selectWorkout(3)">
                     <h3>UPPER B</h3>
-                    <p>Ombro/Volume</p>
+                    <p>Ombro</p>
                 </div>
                 <div class="workout-card" onclick="selectWorkout(4)">
                     <h3>LOWER B</h3>
@@ -549,8 +423,8 @@
                 <div class="exercise-list" id="exerciseList"></div>
 
                 <div class="form-group">
-                    <label>📝 Notas da Sessão</label>
-                    <textarea id="sessionNotes" placeholder="Como se sentiu? Dificuldades?..."></textarea>
+                    <label>📝 Notas</label>
+                    <textarea id="sessionNotes" placeholder="Como se sentiu?"></textarea>
                 </div>
 
                 <div class="form-group">
@@ -572,72 +446,78 @@
 
         <!-- TAB: HISTÓRICO -->
         <div class="content" id="history">
-            <h2 style="margin-bottom: 16px; font-size: 16px;">📊 Histórico de Treinos</h2>
+            <h2 style="margin-bottom: 16px; font-size: 16px;">📊 Histórico</h2>
             <div id="historyList"></div>
             <div id="emptyHistory" class="empty-state">
-                <div class="empty-state-icon">📭</div>
-                <div class="empty-state-text">Nenhum treino registrado ainda</div>
+                <div style="font-size: 48px; margin-bottom: 16px;">📭</div>
+                <div>Nenhum treino registrado</div>
             </div>
         </div>
 
         <!-- TAB: ANÁLISES -->
         <div class="content" id="analysis">
-            <h2 style="margin-bottom: 16px; font-size: 16px;">🤖 Análises Automáticas</h2>
+            <h2 style="margin-bottom: 16px; font-size: 16px;">🤖 Análises</h2>
             <div id="analysisList"></div>
             <div id="emptyAnalysis" class="empty-state">
-                <div class="empty-state-icon">📭</div>
-                <div class="empty-state-text">Nenhuma análise ainda. Registre um treino para gerar análise!</div>
+                <div style="font-size: 48px; margin-bottom: 16px;">📭</div>
+                <div>Nenhuma análise ainda</div>
             </div>
         </div>
 
-        <!-- TAB: CONFIGURAÇÃO -->
+        <!-- TAB: CONFIG -->
         <div class="content" id="config">
             <h2 style="margin-bottom: 16px; font-size: 16px;">⚙️ Configuração</h2>
             
-            <div class="webhook-config">
-                <h3 style="font-size: 14px; margin-bottom: 12px;">🔌 Configurar API Webhook</h3>
+            <div class="config-section">
+                <h3 style="font-size: 14px; margin-bottom: 12px;">🔌 API Render</h3>
                 
                 <div class="form-group">
-                    <label>URL do Servidor API</label>
-                    <input type="url" id="webhookUrl" placeholder="http://192.168.0.186:5000" value="http://localhost:5000">
-                </div>
-
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" id="webhookEnabled" checked>
-                        ✅ Ativar Webhook (Auto-análise)
-                    </label>
+                    <label>URL da API</label>
+                    <input type="url" id="apiUrl" value="https://treino-pro-api.onrender.com" placeholder="https://treino-pro-api.onrender.com">
                 </div>
 
                 <div class="button-group">
-                    <button class="btn btn-primary" onclick="saveWebhookConfig()">💾 Salvar Config</button>
-                    <button class="btn btn-secondary" onclick="testWebhook()">🧪 Testar Conexão</button>
+                    <button class="btn btn-primary" onclick="saveConfig()">💾 Salvar</button>
+                    <button class="btn btn-secondary" onclick="testAPI()">🧪 Testar</button>
                 </div>
 
-                <div class="webhook-status" id="webhookStatus">
-                    Desconectado
+                <div class="status-info" id="apiStatus">
+                    Status: Desconectado
+                </div>
+            </div>
+
+            <div class="config-section">
+                <h3 style="font-size: 14px; margin-bottom: 12px;">💾 Supabase</h3>
+                
+                <div class="status-info" id="supabaseStatus">
+                    Status: Conectado
                 </div>
 
-                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border);">
-                    <h3 style="font-size: 13px; margin-bottom: 12px; color: #666;">💡 Como usar:</h3>
-                    <p style="font-size: 12px; line-height: 1.6; color: #999;">
-                        1. Certifique-se que o API Server está rodando<br>
-                        2. Digite a URL do seu servidor (ex: http://192.168.0.186:5000)<br>
-                        3. Ative o Webhook<br>
-                        4. Ao salvar um treino, análise automática será gerada!
-                    </p>
+                <div style="margin-top: 12px; font-size: 12px; color: #999; line-height: 1.6;">
+                    ✅ Dados salvos no Supabase<br>
+                    ✅ Histórico persistente<br>
+                    ✅ Sincronização automática<br>
+                    ✅ Acesso em qualquer dispositivo
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Status Bar -->
     <div class="status-bar" id="statusBar" style="display: none;"></div>
 
     <script>
-        // ============================================================================
-        // DADOS DOS TREINOS
-        // ============================================================================
+        // ============================================================
+        // SUPABASE CONFIG
+        // ============================================================
+
+        const SUPABASE_URL = "https://ulsiumdpepyhjbgzghmg.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVsc2l1bWRwZXB5aGpiZ3pnaG1nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5NTE3OTQsImV4cCI6MjA5MjUyNzc5NH0.R6fIQRp_SE0e0Jp_PrD1PytXIH8gvACYfxbaN9t2OT4";
+
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // ============================================================
+        // DADOS
+        // ============================================================
 
         const workouts = {
             1: {
@@ -691,51 +571,37 @@
             }
         };
 
-        // ============================================================================
-        // ESTADO GLOBAL
-        // ============================================================================
-
         let selectedWorkout = null;
-        let sessions = JSON.parse(localStorage.getItem('sessions')) || [];
-        let analyses = JSON.parse(localStorage.getItem('analyses')) || [];
         let exerciseWeights = JSON.parse(localStorage.getItem('exerciseWeights')) || {};
-        let webhookConfig = JSON.parse(localStorage.getItem('webhookConfig')) || {
-            enabled: true,
-            url: 'http://localhost:5000'
+        let config = JSON.parse(localStorage.getItem('config')) || {
+            apiUrl: 'https://treino-pro-api.onrender.com'
         };
 
-        // ============================================================================
-        // INICIALIZAÇÃO
-        // ============================================================================
+        // ============================================================
+        // INIT
+        // ============================================================
 
         window.addEventListener('load', () => {
             initializeWeights();
-            updateWebhookStatus();
-            loadWebhookConfig();
+            loadConfig();
+            loadHistory();
+            loadAnalysis();
         });
 
         function initializeWeights() {
-            Object.entries(workouts).forEach(([id, workout]) => {
-                workout.exercises.forEach(exercise => {
-                    const key = exercise.name;
-                    if (!exerciseWeights[key]) {
-                        exerciseWeights[key] = {
-                            current: exercise.baseWeight,
-                            history: []
-                        };
+            Object.values(workouts).forEach(workout => {
+                workout.exercises.forEach(ex => {
+                    if (!exerciseWeights[ex.name]) {
+                        exerciseWeights[ex.name] = ex.baseWeight;
                     }
                 });
             });
-            saveWeights();
-        }
-
-        function saveWeights() {
             localStorage.setItem('exerciseWeights', JSON.stringify(exerciseWeights));
         }
 
-        // ============================================================================
-        // TAB SWITCHING
-        // ============================================================================
+        // ============================================================
+        // TABS
+        // ============================================================
 
         function switchTab(tab) {
             document.querySelectorAll('.content').forEach(el => el.classList.remove('active'));
@@ -747,14 +613,13 @@
             if (tab === 'analysis') loadAnalysis();
         }
 
-        // ============================================================================
-        // SELEÇÃO DE TREINO
-        // ============================================================================
+        // ============================================================
+        // WORKOUT
+        // ============================================================
 
         function selectWorkout(id) {
             selectedWorkout = id;
-            const cards = document.querySelectorAll('.workout-card');
-            cards.forEach(card => card.classList.remove('selected'));
+            document.querySelectorAll('.workout-card').forEach(c => c.classList.remove('selected'));
             event.target.closest('.workout-card').classList.add('selected');
 
             const exerciseSection = document.getElementById('exerciseSection');
@@ -763,95 +628,70 @@
             const exerciseList = document.getElementById('exerciseList');
             exerciseList.innerHTML = '';
 
-            workouts[id].exercises.forEach((exercise, index) => {
-                const lastWeight = exerciseWeights[exercise.name]?.current || exercise.baseWeight;
-                
-                const exerciseItem = document.createElement('div');
-                exerciseItem.className = 'exercise-item';
-                exerciseItem.innerHTML = `
+            workouts[id].exercises.forEach((ex, idx) => {
+                const weight = exerciseWeights[ex.name] || ex.baseWeight;
+                const item = document.createElement('div');
+                item.className = 'exercise-item';
+                item.innerHTML = `
                     <div class="exercise-header">
-                        <span class="exercise-name">${exercise.name}</span>
-                        <span class="exercise-planned">${exercise.planned}</span>
+                        <span class="exercise-name">${ex.name}</span>
+                        <span class="exercise-planned">${ex.planned}</span>
                     </div>
-                    
                     <div class="weight-section">
-                        <label style="display: block; font-size: 10px; color: #999; margin-bottom: 8px; font-weight: 600;">⚖️ Peso (kg)</label>
+                        <label style="display: block; font-size: 10px; color: #999; margin-bottom: 8px;">⚖️ Peso (kg)</label>
                         <div class="weight-adjustment">
-                            <button class="btn-adjust" onclick="adjustWeight('${exercise.name}', -1)">-1kg</button>
-                            <div>
-                                <div class="weight-display" id="weight-${index}">${lastWeight}</div>
-                                <input type="number" class="weight-input" id="weight-input-${index}" value="${lastWeight}" onchange="updateWeightDisplay(${index}, '${exercise.name}')">
-                            </div>
-                            <button class="btn-adjust" onclick="adjustWeight('${exercise.name}', 1)">+1kg</button>
-                        </div>
-                        <div class="last-weight-info">
-                            Último: ${lastWeight}kg
+                            <button class="btn-adjust" onclick="adjustWeight('${ex.name}', -1)">-1kg</button>
+                            <div class="weight-display" id="weight-${idx}">${weight}</div>
+                            <button class="btn-adjust" onclick="adjustWeight('${ex.name}', 1)">+1kg</button>
                         </div>
                     </div>
-
                     <div class="sets-container">
                         <div class="set-input">
-                            <label>Série 1</label>
-                            <input type="number" placeholder="Reps" data-exercise="${index}" data-set="1" class="reps-input">
+                            <label style="font-size: 10px;">S1</label>
+                            <input type="number" placeholder="Reps" data-ex="${idx}" data-set="1" class="reps-input">
                         </div>
                         <div class="set-input">
-                            <label>Série 2</label>
-                            <input type="number" placeholder="Reps" data-exercise="${index}" data-set="2" class="reps-input">
+                            <label style="font-size: 10px;">S2</label>
+                            <input type="number" placeholder="Reps" data-ex="${idx}" data-set="2" class="reps-input">
                         </div>
                         <div class="set-input">
-                            <label>Série 3</label>
-                            <input type="number" placeholder="Reps" data-exercise="${index}" data-set="3" class="reps-input">
+                            <label style="font-size: 10px;">S3</label>
+                            <input type="number" placeholder="Reps" data-ex="${idx}" data-set="3" class="reps-input">
                         </div>
                     </div>
                 `;
-                exerciseList.appendChild(exerciseItem);
+                exerciseList.appendChild(item);
             });
-
-            window.scrollTo(0, 0);
         }
 
-        function adjustWeight(exerciseName, delta) {
-            const currentWeight = exerciseWeights[exerciseName]?.current || 0;
-            const newWeight = Math.max(0, currentWeight + delta);
-            exerciseWeights[exerciseName].current = newWeight;
-            saveWeights();
+        function adjustWeight(name, delta) {
+            const current = exerciseWeights[name] || 0;
+            exerciseWeights[name] = Math.max(0, current + delta);
+            localStorage.setItem('exerciseWeights', JSON.stringify(exerciseWeights));
 
-            let index = 0;
-            Object.values(workouts).forEach(workout => {
-                workout.exercises.forEach((ex, idx) => {
-                    if (ex.name === exerciseName) {
+            Object.values(workouts).forEach(w => {
+                w.exercises.forEach((ex, idx) => {
+                    if (ex.name === name) {
                         const display = document.getElementById(`weight-${idx}`);
-                        const input = document.getElementById(`weight-input-${idx}`);
-                        if (display) display.textContent = newWeight;
-                        if (input) input.value = newWeight;
+                        if (display) display.textContent = exerciseWeights[name];
                     }
                 });
             });
         }
 
-        function updateWeightDisplay(index, exerciseName) {
-            const input = document.getElementById(`weight-input-${index}`);
-            const newWeight = parseFloat(input.value) || 0;
-            exerciseWeights[exerciseName].current = newWeight;
-            saveWeights();
-
-            const display = document.getElementById(`weight-${index}`);
-            if (display) display.textContent = newWeight;
-        }
-
         function clearSelection() {
             selectedWorkout = null;
-            document.querySelectorAll('.workout-card').forEach(card => card.classList.remove('selected'));
+            document.querySelectorAll('.workout-card').forEach(c => c.classList.remove('selected'));
             document.getElementById('exerciseSection').style.display = 'none';
         }
 
-        // ============================================================================
-        // SUBMISSÃO DE SESSÃO
-        // ============================================================================
+        // ============================================================
+        // SUBMIT
+        // ============================================================
 
-        function submitSession() {
+        async function submitSession() {
             if (!selectedWorkout) {
-                alert('Selecione um treino!');
+                showStatus('⚠️ Selecione um treino!', 'warning');
                 return;
             }
 
@@ -859,249 +699,196 @@
             const exercises = [];
             const repsInputs = document.querySelectorAll('.reps-input');
 
-            repsInputs.forEach((input) => {
-                const exerciseIdx = parseInt(input.dataset.exercise);
-                const exercise = workout.exercises[exerciseIdx];
+            repsInputs.forEach(input => {
+                const idx = parseInt(input.dataset.ex);
+                const ex = workout.exercises[idx];
                 const set = parseInt(input.dataset.set);
                 const reps = input.value;
 
                 if (reps) {
-                    const existingExercise = exercises.find(e => e.name === exercise.name);
-                    const weight = exerciseWeights[exercise.name]?.current || exercise.baseWeight;
-
-                    if (!existingExercise) {
-                        exercises.push({
-                            name: exercise.name,
-                            planned: exercise.planned,
-                            weight: weight,
+                    let exerciseRecord = exercises.find(e => e.name === ex.name);
+                    if (!exerciseRecord) {
+                        exerciseRecord = {
+                            name: ex.name,
+                            planned: ex.planned,
+                            weight: exerciseWeights[ex.name] || ex.baseWeight,
                             sets: []
-                        });
+                        };
+                        exercises.push(exerciseRecord);
                     }
-
-                    const exIndex = exercises.findIndex(e => e.name === exercise.name);
-                    exercises[exIndex].sets[set - 1] = parseInt(reps);
+                    exerciseRecord.sets[set - 1] = parseInt(reps);
                 }
             });
 
             if (exercises.length === 0) {
-                alert('Registre pelo menos um exercício!');
+                showStatus('⚠️ Registre exercícios!', 'warning');
                 return;
             }
 
             const session = {
-                id: Date.now(),
+                session_id: Date.now().toString(),
                 date: new Date().toLocaleDateString('pt-BR'),
                 time: new Date().toLocaleTimeString('pt-BR'),
-                workoutId: selectedWorkout,
-                workoutName: workout.name,
+                workout: workout.name,
                 exercises: exercises,
                 notes: document.getElementById('sessionNotes').value,
-                energyLevel: parseInt(document.getElementById('energyLevel').value),
-                sleepHours: parseFloat(document.getElementById('sleepHours').value)
+                energy: parseInt(document.getElementById('energyLevel').value),
+                sleep: parseFloat(document.getElementById('sleepHours').value)
             };
 
-            sessions.push(session);
-            localStorage.setItem('sessions', JSON.stringify(sessions));
-
-            // Enviar para webhook
-            if (webhookConfig.enabled) {
-                sendToWebhook(session);
+            // Salvar no Supabase
+            try {
+                await supabase.from('sessions').insert([{
+                    session_id: session.session_id,
+                    date: session.date,
+                    time: session.time,
+                    workout: session.workout,
+                    exercises: JSON.stringify(session.exercises),
+                    energy: session.energy,
+                    sleep: session.sleep,
+                    notes: session.notes
+                }]);
+                showStatus('✅ Treino salvo no Supabase!', 'success');
+            } catch (error) {
+                showStatus('❌ Erro ao salvar: ' + error.message, 'error');
+                console.error(error);
             }
 
-            showStatus('✅ Treino salvo com sucesso!', 'success');
+            // Enviar para API
+            if (config.apiUrl) {
+                sendToAPI(session);
+            }
+
             clearSelection();
             document.getElementById('sessionNotes').value = '';
             document.getElementById('energyLevel').value = '7';
             document.getElementById('sleepHours').value = '7';
         }
 
-        // ============================================================================
-        // WEBHOOK
-        // ============================================================================
-
-        async function sendToWebhook(session) {
+        async function sendToAPI(session) {
             showStatus('📤 Enviando para análise...', 'connecting');
 
             try {
-                const payload = {
-                    session_id: session.id.toString(),
-                    date: session.date,
-                    time: session.time,
-                    workout: session.workoutName,
-                    exercises: session.exercises,
-                    energy: session.energyLevel,
-                    sleep: session.sleepHours,
-                    notes: session.notes
-                };
-
-                const response = await fetch(`${webhookConfig.url}/webhook/session`, {
+                const response = await fetch(`${config.apiUrl}/webhook/session`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(payload),
-                    timeout: 10000
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(session)
                 });
 
-                if (response.ok || response.status === 202) {
-                    const result = await response.json();
-                    
-                    if (result.analysis) {
-                        const analysis = {
-                            id: session.id,
-                            date: session.date,
-                            workout: session.workoutName,
-                            content: result.analysis,
-                            timestamp: new Date().toISOString()
-                        };
-                        analyses.push(analysis);
-                        localStorage.setItem('analyses', JSON.stringify(analyses));
-                    }
-
+                if (response.ok) {
                     showStatus('✅ Análise recebida!', 'success');
+                    loadAnalysis();
                 } else {
                     showStatus('⚠️ Erro ao enviar', 'error');
                 }
             } catch (error) {
                 showStatus('❌ Falha de conexão', 'error');
-                console.error('Webhook error:', error);
             }
         }
 
-        function showStatus(message, status) {
-            const statusBar = document.getElementById('statusBar');
-            statusBar.textContent = message;
-            statusBar.className = `status-bar ${status}`;
-            statusBar.style.display = 'block';
+        // ============================================================
+        // HISTÓRICO & ANÁLISES
+        // ============================================================
 
-            setTimeout(() => {
-                statusBar.style.display = 'none';
-            }, 3000);
-        }
-
-        // ============================================================================
-        // CONFIGURAÇÃO WEBHOOK
-        // ============================================================================
-
-        function loadWebhookConfig() {
-            const stored = JSON.parse(localStorage.getItem('webhookConfig')) || {
-                enabled: true,
-                url: 'http://localhost:5000'
-            };
-
-            document.getElementById('webhookUrl').value = stored.url;
-            document.getElementById('webhookEnabled').checked = stored.enabled;
-        }
-
-        function saveWebhookConfig() {
-            webhookConfig = {
-                enabled: document.getElementById('webhookEnabled').checked,
-                url: document.getElementById('webhookUrl').value
-            };
-
-            localStorage.setItem('webhookConfig', JSON.stringify(webhookConfig));
-            showStatus('✅ Config salva!', 'success');
-            updateWebhookStatus();
-        }
-
-        async function testWebhook() {
-            showStatus('🧪 Testando...', 'connecting');
-
+        async function loadHistory() {
             try {
-                const response = await fetch(`${webhookConfig.url}/health`);
-                if (response.ok) {
-                    showStatus('✅ Conectado!', 'success');
-                    updateWebhookStatus();
-                } else {
-                    showStatus('❌ Erro na conexão', 'error');
+                const { data } = await supabase
+                    .from('sessions')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(10);
+
+                const historyList = document.getElementById('historyList');
+                const emptyHistory = document.getElementById('emptyHistory');
+
+                if (!data || data.length === 0) {
+                    historyList.innerHTML = '';
+                    emptyHistory.style.display = 'block';
+                    return;
                 }
+
+                emptyHistory.style.display = 'none';
+                historyList.innerHTML = data.map(session => `
+                    <div class="session-card">
+                        <div class="session-header">
+                            <div class="session-title">${session.workout}</div>
+                            <div class="session-date">${session.date} ${session.time}</div>
+                        </div>
+                        <div>Energia: ${session.energy}/10 | Sono: ${session.sleep}h</div>
+                    </div>
+                `).join('');
             } catch (error) {
-                showStatus('❌ Servidor não responde', 'error');
+                console.error('Erro ao carregar histórico:', error);
             }
         }
 
-        function updateWebhookStatus() {
-            const statusEl = document.getElementById('webhookStatus');
-            if (webhookConfig.enabled) {
-                statusEl.className = 'webhook-status connected';
-                statusEl.textContent = '✅ Webhook ativo - ' + webhookConfig.url;
-            } else {
-                statusEl.className = 'webhook-status disconnected';
-                statusEl.textContent = '❌ Webhook desativado';
-            }
-        }
+        async function loadAnalysis() {
+            try {
+                const { data } = await supabase
+                    .from('analyses')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(10);
 
-        // ============================================================================
-        // HISTÓRICO
-        // ============================================================================
+                const analysisList = document.getElementById('analysisList');
+                const emptyAnalysis = document.getElementById('emptyAnalysis');
 
-        function loadHistory() {
-            const historyList = document.getElementById('historyList');
-            const emptyHistory = document.getElementById('emptyHistory');
+                if (!data || data.length === 0) {
+                    analysisList.innerHTML = '';
+                    emptyAnalysis.style.display = 'block';
+                    return;
+                }
 
-            if (sessions.length === 0) {
-                historyList.innerHTML = '';
-                emptyHistory.style.display = 'block';
-                return;
-            }
-
-            emptyHistory.style.display = 'none';
-            historyList.innerHTML = sessions.slice().reverse().map(session => `
-                <div class="session-card">
-                    <div class="session-header">
-                        <div>
-                            <div class="session-title">${session.workoutName}</div>
-                            <div class="session-date">${session.date} às ${session.time}</div>
-                        </div>
-                    </div>
-                    <div>
-                        ${session.exercises.map(ex => `
-                            <div class="exercise-summary-item">
-                                <div class="exercise-name-summary">${ex.name} - ${ex.weight}kg</div>
-                                <div class="exercise-details">Séries: ${ex.sets.join(' - ')} reps</div>
-                            </div>
-                        `).join('')}
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px;">
-                        <div class="stat">
-                            <div class="stat-label">⚡ Energia</div>
-                            <div class="stat-value">${session.energyLevel}/10</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-label">😴 Sono</div>
-                            <div class="stat-value">${session.sleepHours}h</div>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // ============================================================================
-        // ANÁLISES
-        // ============================================================================
-
-        function loadAnalysis() {
-            const analysisList = document.getElementById('analysisList');
-            const emptyAnalysis = document.getElementById('emptyAnalysis');
-
-            if (analyses.length === 0) {
-                analysisList.innerHTML = '';
-                emptyAnalysis.style.display = 'block';
-                return;
-            }
-
-            emptyAnalysis.style.display = 'none';
-            analysisList.innerHTML = analyses.slice().reverse().map((analysis, idx) => `
-                <div class="feedback-card">
-                    <div class="session-header">
-                        <div>
+                emptyAnalysis.style.display = 'none';
+                analysisList.innerHTML = data.map(analysis => `
+                    <div class="analysis-card">
+                        <div class="session-header">
                             <div class="session-title">🤖 ${analysis.workout}</div>
                             <div class="session-date">${analysis.date}</div>
                         </div>
+                        <div class="analysis-content">${analysis.analysis}</div>
                     </div>
-                    <div class="feedback-content">${analysis.content.replace(/\n/g, '<br>')}</div>
-                </div>
-            `).join('');
+                `).join('');
+            } catch (error) {
+                console.error('Erro ao carregar análises:', error);
+            }
+        }
+
+        // ============================================================
+        // CONFIG
+        // ============================================================
+
+        function loadConfig() {
+            document.getElementById('apiUrl').value = config.apiUrl;
+        }
+
+        function saveConfig() {
+            config.apiUrl = document.getElementById('apiUrl').value;
+            localStorage.setItem('config', JSON.stringify(config));
+            showStatus('✅ Config salva!', 'success');
+        }
+
+        async function testAPI() {
+            showStatus('🧪 Testando...', 'connecting');
+
+            try {
+                const response = await fetch(`${config.apiUrl}/health`);
+                if (response.ok) {
+                    showStatus('✅ API conectada!', 'success');
+                } else {
+                    showStatus('❌ API não responde', 'error');
+                }
+            } catch {
+                showStatus('❌ Falha de conexão', 'error');
+            }
+        }
+
+        function showStatus(msg, type) {
+            const bar = document.getElementById('statusBar');
+            bar.textContent = msg;
+            bar.className = `status-bar ${type}`;
+            bar.style.display = 'block';
+            setTimeout(() => bar.style.display = 'none', 3000);
         }
     </script>
 </body>
