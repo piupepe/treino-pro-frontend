@@ -302,6 +302,10 @@
             background: linear-gradient(135deg, var(--dark) 0%, #334155 100%);
             color: white;
         }
+        .btn-secondary:active {
+            transform: translateY(2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
         .session-item {
             background: linear-gradient(135deg, white 0%, #F8FAFC 100%);
             border: 2px solid var(--border);
@@ -357,6 +361,27 @@
             margin-bottom: 16px;
             box-shadow: 0 8px 24px rgba(255, 107, 53, 0.15);
         }
+        .analysis-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--primary);
+        }
+        .analysis-title {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--dark);
+        }
+        .analysis-status {
+            font-size: 11px;
+            background: var(--success);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: 800;
+        }
         .analysis-content {
             font-size: 13px;
             line-height: 1.8;
@@ -365,10 +390,30 @@
             padding: 16px;
             border-radius: 12px;
             margin-top: 12px;
-            max-height: 350px;
+            max-height: 400px;
             overflow-y: auto;
             white-space: pre-wrap;
             border: 2px solid var(--border);
+        }
+        .analysis-request-btn {
+            width: 100%;
+            padding: 14px;
+            margin-top: 12px;
+            background: linear-gradient(135deg, var(--secondary) 0%, #003d6b 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(0, 78, 137, 0.25);
+        }
+        .analysis-request-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 6px rgba(0, 78, 137, 0.2);
         }
         .empty-state {
             text-align: center;
@@ -448,13 +493,13 @@
     <div class="container">
         <div class="header">
             <h1>💪 TREINO PRO</h1>
-            <p>PERFORMANCE INTELLIGENCE SYSTEM</p>
+            <p>PERFORMANCE INTELLIGENCE SYSTEM WITH AI AGENT</p>
         </div>
 
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('register')">📋 Registrar</button>
             <button class="tab-btn" onclick="switchTab('history')">📊 Histórico</button>
-            <button class="tab-btn" onclick="switchTab('analysis')">🤖 Análises</button>
+            <button class="tab-btn" onclick="switchTab('analysis')">🤖 Análises IA</button>
             <button class="tab-btn" onclick="switchTab('settings')">⚙️ Config</button>
         </div>
 
@@ -502,7 +547,7 @@
 
         <!-- ANÁLISES -->
         <div class="content" id="analysis">
-            <h2>Análises Inteligentes</h2>
+            <h2>Análises Inteligentes do Agente IA</h2>
             <div id="analysisList"></div>
             <div id="emptyAnalysis" class="empty-state">
                 <div class="empty-state-icon">🤖</div>
@@ -515,7 +560,7 @@
             <h2>Configurações</h2>
             
             <div class="config-card">
-                <h3>🔌 API Render</h3>
+                <h3>🔌 API Render (Agente IA)</h3>
                 <div class="form-group">
                     <label>URL da API</label>
                     <input type="url" id="apiUrl" value="https://treino-pro-api.onrender.com">
@@ -534,8 +579,8 @@
                 <div style="font-size: 13px; line-height: 1.8; color: #475569; font-weight: 600;">
                     ✅ Dados sincronizados na nuvem<br>
                     ✅ Backup automático<br>
-                    ✅ Acesso em qualquer dispositivo<br>
-                    ✅ Criptografia de ponta a ponta
+                    ✅ Agente IA analisando treinos<br>
+                    ✅ Acesso em qualquer dispositivo
                 </div>
                 <div id="supabaseStatus" style="margin-top: 14px; padding: 12px; background: white; border-radius: 10px; font-size: 13px; font-weight: 600; border: 1px solid var(--border);">
                     Status: Verificando...
@@ -548,11 +593,11 @@
 
     <script>
         // ============================================================
-        // SUPABASE CONFIG - COM TRATAMENTO DE ERROS
+        // SUPABASE CONFIG
         // ============================================================
         
-        const SUPABASE_URL = "https://bldwvlnorigxqdvdqfsu.supabase.co";
-        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsZHd2bG5vcmlneHFkdmRxZnN1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5NDcwMTMsImV4cCI6MjA5MzUyMzAxM30.zKIiRWpWNlD08ugDqqOoaiUuMTnvEmzQFbSSN1z93aQ";
+        const SUPABASE_URL = "https://ulsiumdpepyhjbgzghmg.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVsc2l1bWRwZXl5aGpiZ3pnaG1nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5NTE3OTQsImV4cCI6MjA5MjUyNzc5NH0.R6fIQRp_SE0e0Jp_PrD1PytXIH8gvACYfxbaN9t2OT4";
         
         let supa = null;
         try {
@@ -714,7 +759,6 @@
 
             toast('💾 Salvando no Supabase...', 'info');
             
-            // Tentar salvar no Supabase com tratamento de erro
             if (supa) {
                 supa.from('sessions').insert([sess]).then(({ data, error }) => {
                     if (error) {
@@ -722,8 +766,9 @@
                         toast('⚠️ Erro: ' + error.message, 'error');
                     } else {
                         console.log("✅ Salvo no Supabase!");
-                        toast('✅ Salvo no Supabase!', 'success');
-                        // Enviar para API também
+                        toast('✅ Treino salvo! Solicitando análise do agente IA...', 'success');
+                        
+                        // ENVIAR PARA API RENDER (AGENTE IA)
                         if (settings.apiUrl) {
                             fetch(`${settings.apiUrl}/webhook/session`, {
                                 method: 'POST',
@@ -731,10 +776,13 @@
                                 body: JSON.stringify(sess)
                             }).then(r => {
                                 if (r.ok) {
-                                    toast('✅ Análise enviada!', 'success');
-                                    setTimeout(() => loadAnalysis(), 1500);
+                                    toast('🤖 Agente analisando seu treino...', 'success');
+                                    setTimeout(() => loadAnalysis(), 2000);
                                 }
-                            }).catch(e => console.error("API error:", e));
+                            }).catch(e => {
+                                console.error("API error:", e);
+                                toast('⚠️ API offline - análise não disponível', 'error');
+                            });
                         }
                     }
                 }).catch(e => {
@@ -830,9 +878,12 @@
                     empty.style.display = 'none';
                     list.innerHTML = data.map(a => `
                         <div class="analysis-item">
-                            <div class="session-title">🤖 ${a.workout}</div>
-                            <div class="session-meta">${a.date}</div>
+                            <div class="analysis-header">
+                                <div class="analysis-title">🤖 ${a.workout}</div>
+                                <div class="analysis-status">✅ Analisado</div>
+                            </div>
                             <div class="analysis-content">${a.analysis}</div>
+                            <button class="analysis-request-btn" onclick="requestAnalysis('${a.session_id}')">📊 Solicitar Nova Análise</button>
                         </div>
                     `).join('');
                 })
@@ -841,6 +892,29 @@
                     document.getElementById('analysisList').innerHTML = '';
                     document.getElementById('emptyAnalysis').style.display = 'block';
                 });
+        }
+
+        function requestAnalysis(sessionId) {
+            toast('🤖 Solicitando análise do agente IA...', 'info');
+            
+            if (settings.apiUrl) {
+                fetch(`${settings.apiUrl}/webhook/session`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ session_id: sessionId })
+                }).then(r => {
+                    if (r.ok) {
+                        toast('✅ Análise atualizada!', 'success');
+                        setTimeout(() => loadAnalysis(), 1500);
+                    } else {
+                        toast('❌ Erro ao solicitar análise', 'error');
+                    }
+                }).catch(e => {
+                    toast('❌ API offline', 'error');
+                });
+            } else {
+                toast('❌ Configure a API primeiro', 'error');
+            }
         }
 
         function saveSettings() {
@@ -855,7 +929,7 @@
                 .then(r => {
                     if (r.ok) {
                         toast('✅ API OK!', 'success');
-                        document.getElementById('connectionStatus').innerHTML = '✅ Status: Conectado';
+                        document.getElementById('connectionStatus').innerHTML = '✅ Status: Conectado ao Agente IA';
                     } else {
                         toast('❌ API erro', 'error');
                         document.getElementById('connectionStatus').innerHTML = '❌ Status: Erro ' + r.status;
