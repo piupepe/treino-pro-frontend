@@ -508,13 +508,9 @@
         // VERIFICAR SE JÁ ESTÁ LOGADO
         // ============================================================
         
-        window.addEventListener('load', () => {
-            const userId = localStorage.getItem('user_id');
-            if (userId) {
-                // Já está logado, redirecionar
-                window.location.href = 'anamnese.html';
-            }
-        });
+        // Removido: não redirecionar automaticamente no index
+        // Deixar usuário fazer login/signup primeiro
+        // Redirecionamento acontece APÓS login/signup com sucesso
     </script>
 </body>
 </html>
