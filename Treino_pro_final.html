@@ -7,18 +7,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Treino Pro">
-    <title>Treino Pro Premium</title>
+    <title>Treino Pro - Login</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        html, body {
-            width: 100%;
-            height: 100%;
-            -webkit-user-select: none;
-            user-select: none;
-            -webkit-touch-callout: none;
-        }
         
         :root {
             --bg-dark: #0a0e27;
@@ -28,8 +20,6 @@
             --primary-light: #FF8A5B;
             --secondary: #00d4ff;
             --accent-purple: #7c3aed;
-            --accent-green: #10b981;
-            --accent-red: #ef4444;
             --text-primary: #ffffff;
             --text-secondary: #a0aec0;
             --border: #2d3748;
@@ -39,310 +29,88 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg-dark);
             color: var(--text-primary);
-            overflow: hidden;
-            position: fixed;
-            width: 100vw;
-            height: 100vh;
-            max-width: 100%;
-        }
-        
-        .container {
+            min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            height: 100vh;
-            width: 100vw;
-            max-width: 100%;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
         
-        .header {
+        .auth-container {
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .auth-card {
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(26, 31, 58, 0.5) 100%);
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            padding: 40px 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        
+        .auth-header h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
             background: linear-gradient(135deg, var(--primary) 0%, var(--accent-purple) 100%);
-            color: white;
-            padding: 16px;
-            flex-shrink: 0;
-            box-shadow: 0 8px 32px rgba(255, 107, 53, 0.3);
-            safe-area-inset-top: env(safe-area-inset-top);
-        }
-        
-        .header h1 {
-            font-size: 24px;
-            font-weight: 800;
-            margin-bottom: 2px;
-        }
-        
-        .header p {
-            font-size: 11px;
-            opacity: 0.9;
-            font-weight: 600;
-        }
-        
-        .tabs {
-            display: flex;
-            background: rgba(26, 31, 58, 0.5);
-            border-bottom: 1px solid var(--border);
-            overflow-x: auto;
-            flex-shrink: 0;
-            -webkit-overflow-scrolling: touch;
-        }
-        
-        .tab-btn {
-            flex: 1;
-            padding: 12px 8px;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-secondary);
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            min-width: 70px;
-        }
-        
-        .tab-btn.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
-            background: rgba(255, 107, 53, 0.1);
-        }
-        
-        .content {
-            flex: 1;
-            overflow-y: auto;
-            padding: 16px;
-            display: none;
-            -webkit-overflow-scrolling: touch;
-            background: var(--bg-dark);
-        }
-        
-        .content.active {
-            display: block;
-        }
-        
-        .content h2 {
-            font-size: 20px;
-            font-weight: 800;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         
-        .workout-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-        
-        .workout-card {
-            padding: 16px;
-            border: 2px solid var(--border);
-            border-radius: 16px;
-            text-align: center;
-            cursor: pointer;
-            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(255, 107, 53, 0.05) 100%);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            transition: all 0.2s ease;
-        }
-        
-        .workout-card:active {
-            transform: scale(0.96);
-            border-color: var(--primary);
-            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(255, 107, 53, 0.15) 100%);
-        }
-        
-        .workout-card.selected {
-            border-color: var(--primary);
-            background: linear-gradient(135deg, rgba(255, 107, 53, 0.2) 0%, rgba(124, 58, 237, 0.2) 100%);
-            box-shadow: 0 8px 24px rgba(255, 107, 53, 0.2);
-        }
-        
-        .workout-card h3 {
-            font-size: 16px;
-            margin-bottom: 4px;
-            font-weight: 800;
-            color: var(--primary);
-        }
-        
-        .workout-card p {
-            font-size: 11px;
+        .auth-header p {
+            font-size: 13px;
             color: var(--text-secondary);
             font-weight: 600;
         }
         
-        .exercise-card {
-            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(26, 31, 58, 0.5) 100%);
-            border: 2px solid var(--border);
-            border-radius: 16px;
-            padding: 14px;
-            margin-bottom: 12px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-        }
-        
-        .exercise-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .exercise-name {
-            font-size: 14px;
-            font-weight: 800;
-            color: var(--text-primary);
-        }
-        
-        .exercise-planned {
-            font-size: 10px;
-            color: white;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-purple) 100%);
-            padding: 4px 10px;
-            border-radius: 8px;
-            font-weight: 800;
-        }
-        
-        .weight-box {
-            background: rgba(36, 42, 69, 0.5);
-            padding: 10px;
-            border-radius: 12px;
-            margin-bottom: 10px;
-            border: 1px solid var(--border);
-        }
-        
-        .weight-box label {
-            display: block;
-            font-size: 10px;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-            font-weight: 800;
-            text-transform: uppercase;
-        }
-        
-        .weight-controls {
-            display: grid;
-            grid-template-columns: auto 1fr auto;
-            gap: 8px;
-            align-items: center;
-        }
-        
-        .weight-btn {
-            width: 36px;
-            height: 36px;
-            border: 2px solid var(--primary);
-            border-radius: 10px;
-            background: rgba(255, 107, 53, 0.1);
-            color: var(--primary);
-            cursor: pointer;
-            font-weight: 800;
-            font-size: 16px;
-            flex-shrink: 0;
-        }
-        
-        .weight-btn:active {
-            background: var(--primary);
-            color: white;
-            transform: scale(0.9);
-        }
-        
-        .weight-display {
-            text-align: center;
-            font-weight: 800;
-            color: var(--secondary);
-            font-size: 24px;
-            padding: 8px;
-            background: rgba(0, 212, 255, 0.1);
-            border-radius: 10px;
-            border: 2px solid var(--secondary);
-        }
-        
-        .sets-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-        }
-        
-        .set-box {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        
-        .set-box label {
-            font-size: 9px;
-            font-weight: 800;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-        }
-        
-        .set-box input {
-            padding: 8px;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            font-size: 13px;
-            text-align: center;
-            font-weight: 800;
-            background: var(--bg-input);
-            color: var(--text-primary);
-        }
-        
-        .set-box input:focus {
-            outline: none;
-            border-color: var(--secondary);
-            background: rgba(0, 212, 255, 0.1);
-        }
-        
         .form-group {
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
         
         .form-group label {
             display: block;
             font-size: 12px;
             font-weight: 800;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             text-transform: uppercase;
             color: var(--text-secondary);
         }
         
-        .form-group input,
-        .form-group textarea {
+        .form-group input {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border: 2px solid var(--border);
             border-radius: 12px;
             font-size: 14px;
             font-family: 'Inter', sans-serif;
             background: var(--bg-input);
             color: var(--text-primary);
+            transition: all 0.3s ease;
         }
         
-        .form-group textarea {
-            resize: vertical;
-            max-height: 80px;
-        }
-        
-        .button-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin: 16px 0;
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            background: rgba(0, 212, 255, 0.1);
         }
         
         .btn {
-            padding: 12px;
+            width: 100%;
+            padding: 14px;
             border: none;
             border-radius: 12px;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 800;
             cursor: pointer;
             text-transform: uppercase;
-            transition: all 0.2s ease;
-            touch-action: manipulation;
+            transition: all 0.3s ease;
+            margin-top: 8px;
         }
         
         .btn-primary {
@@ -351,8 +119,7 @@
         }
         
         .btn-primary:active {
-            transform: translateY(1px);
-            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+            transform: translateY(2px);
         }
         
         .btn-secondary {
@@ -361,106 +128,64 @@
             border: 1px solid var(--border);
         }
         
-        .session-item {
-            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(26, 31, 58, 0.5) 100%);
-            border: 2px solid var(--border);
-            border-radius: 16px;
-            padding: 14px;
-            margin-bottom: 10px;
-        }
-        
-        .session-title {
-            font-size: 15px;
-            font-weight: 800;
-            margin-bottom: 4px;
-            color: var(--primary);
-        }
-        
-        .session-meta {
-            font-size: 11px;
+        .toggle-text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
             color: var(--text-secondary);
-            font-weight: 600;
-            margin-bottom: 8px;
         }
         
-        .session-stats {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .stat-box {
-            flex: 1;
-            background: rgba(36, 42, 69, 0.5);
-            padding: 8px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-        }
-        
-        .stat-label {
-            font-size: 10px;
-            color: var(--text-secondary);
-            font-weight: 700;
-        }
-        
-        .stat-value {
-            font-size: 16px;
-            font-weight: 800;
+        .toggle-text a {
             color: var(--secondary);
-            margin-top: 2px;
-        }
-        
-        .session-action-btn {
-            width: 100%;
-            padding: 10px;
-            margin-top: 8px;
-            background: linear-gradient(135deg, var(--accent-green) 0%, var(--secondary) 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
+            text-decoration: none;
             font-weight: 800;
             cursor: pointer;
-            font-size: 11px;
-            text-transform: uppercase;
         }
         
-        .analysis-item {
-            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%);
-            border: 2px solid var(--primary);
-            border-radius: 16px;
-            padding: 14px;
-            margin-bottom: 12px;
-        }
-        
-        .analysis-content {
-            font-size: 12px;
-            line-height: 1.6;
-            color: var(--text-secondary);
-            background: var(--bg-input);
+        .error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            color: #fca5a5;
             padding: 12px;
-            border-radius: 12px;
-            margin-top: 8px;
-            max-height: 300px;
-            overflow-y: auto;
-            white-space: pre-wrap;
-            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 12px;
+            margin-bottom: 16px;
+            display: none;
         }
         
-        .empty-state {
+        .success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid #10b981;
+            color: #86efac;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 12px;
+            margin-bottom: 16px;
+            display: none;
+        }
+        
+        .loading {
+            display: none;
             text-align: center;
-            padding: 40px 20px;
+            padding: 20px;
         }
         
-        .empty-state-icon {
-            font-size: 48px;
-            margin-bottom: 12px;
-            opacity: 0.5;
+        .spinner {
+            border: 3px solid rgba(255, 107, 53, 0.2);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
         }
         
-        .empty-state-text {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--text-secondary);
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
+        
+        .hidden { display: none !important; }
         
         .status-toast {
             position: fixed;
@@ -474,503 +199,246 @@
             display: none;
             text-transform: uppercase;
             box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-            animation: slideUpIn 0.3s ease;
-        }
-        
-        @keyframes slideUpIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
         }
         
         .status-toast.success {
-            background: linear-gradient(135deg, var(--accent-green) 0%, #059669 100%);
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
         }
         
         .status-toast.error {
-            background: linear-gradient(135deg, var(--accent-red) 0%, #dc2626 100%);
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             color: white;
-        }
-        
-        .status-toast.info {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-purple) 100%);
-            color: white;
-        }
-        
-        /* MODAL */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(10, 14, 39, 0.8);
-            backdrop-filter: blur(4px);
-            z-index: 1000;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        .modal.active {
-            display: flex;
-            align-items: flex-end;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .modal-content {
-            background: var(--bg-dark);
-            width: 100%;
-            border-radius: 24px 24px 0 0;
-            padding: 20px;
-            max-height: 90vh;
-            overflow-y: auto;
-            animation: slideUp 0.3s ease;
-            safe-area-inset-bottom: env(safe-area-inset-bottom);
-        }
-        
-        @keyframes slideUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .modal-header h2 {
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--primary);
-            background: none;
-            -webkit-background-clip: unset;
-            -webkit-text-fill-color: unset;
-            background-clip: unset;
-        }
-        
-        .modal-close {
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--text-secondary);
-        }
-        
-        .description-box {
-            background: rgba(36, 42, 69, 0.5);
-            padding: 12px;
-            border-radius: 12px;
-            margin-bottom: 16px;
-            border: 1px solid var(--border);
-        }
-        
-        .description-box h3 {
-            font-size: 12px;
-            color: var(--text-secondary);
-            font-weight: 800;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-        
-        .description-box p {
-            font-size: 13px;
-            color: var(--text-primary);
-            line-height: 1.6;
-            margin-bottom: 8px;
-        }
-        
-        .video-btn {
-            width: 100%;
-            padding: 10px;
-            background: linear-gradient(135deg, #FF0000 0%, #cc0000 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-weight: 800;
-            cursor: pointer;
-            font-size: 12px;
-            margin-bottom: 16px;
-        }
-        
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        
-        input[type=number] {
-            -moz-appearance: textfield;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>💪 TREINO PRO</h1>
-            <p>Performance Intelligence</p>
-        </div>
-
-        <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('register')">📋 Registrar</button>
-            <button class="tab-btn" onclick="switchTab('history')">📊 Histórico</button>
-            <button class="tab-btn" onclick="switchTab('analysis')">🤖 Análises</button>
-        </div>
-
-        <div class="content active" id="register">
-            <h2>Selecione seu treino</h2>
-            <div class="workout-grid" id="workoutGrid"></div>
-            <div id="exercisePanel" style="display: none;">
-                <h2 style="margin-top: 16px; margin-bottom: 12px; font-size: 18px;">Exercícios</h2>
-                <div id="exerciseList"></div>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>💪 TREINO PRO</h1>
+                <p>Performance Intelligence</p>
+            </div>
+            
+            <div class="error" id="errorMsg"></div>
+            <div class="success" id="successMsg"></div>
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p style="margin-top: 12px; font-size: 12px; color: var(--text-secondary);">Processando...</p>
+            </div>
+            
+            <!-- FORM LOGIN -->
+            <form id="loginForm" onsubmit="handleLogin(event)">
                 <div class="form-group">
-                    <label>📝 Notas</label>
-                    <textarea id="notes" placeholder="Como se sentiu?"></textarea>
+                    <label>📧 Email</label>
+                    <input type="email" id="loginEmail" placeholder="seu@email.com" required>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                    <div class="form-group">
-                        <label>⚡ Energia</label>
-                        <input type="number" id="energy" min="1" max="10" value="7">
-                    </div>
-                    <div class="form-group">
-                        <label>😴 Sono</label>
-                        <input type="number" id="sleep" min="0" max="12" step="0.5" value="7">
-                    </div>
+                
+                <div class="form-group">
+                    <label>🔐 Senha</label>
+                    <input type="password" id="loginPassword" placeholder="Sua senha" required>
                 </div>
-                <div class="button-row">
-                    <button class="btn btn-primary" onclick="saveSession()">✅ Salvar</button>
-                    <button class="btn btn-secondary" onclick="clearWorkout()">❌ Limpar</button>
+                
+                <button type="submit" class="btn btn-primary">Entrar</button>
+            </form>
+            
+            <!-- FORM SIGNUP (oculto inicialmente) -->
+            <form id="signupForm" onsubmit="handleSignup(event)" class="hidden">
+                <div class="form-group">
+                    <label>👤 Nome Completo</label>
+                    <input type="text" id="signupName" placeholder="João Silva" required>
                 </div>
-            </div>
-        </div>
-
-        <div class="content" id="history">
-            <h2>Histórico</h2>
-            <div id="historyList"></div>
-            <div id="emptyHistory" class="empty-state">
-                <div class="empty-state-icon">📭</div>
-                <div class="empty-state-text">Nenhum treino</div>
-            </div>
-        </div>
-
-        <div class="content" id="analysis">
-            <h2>Análises IA</h2>
-            <div id="analysisList"></div>
-            <div id="emptyAnalysis" class="empty-state">
-                <div class="empty-state-icon">🤖</div>
-                <div class="empty-state-text">Nenhuma análise</div>
+                
+                <div class="form-group">
+                    <label>📧 Email</label>
+                    <input type="email" id="signupEmail" placeholder="seu@email.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>🔐 Senha</label>
+                    <input type="password" id="signupPassword" placeholder="Mínimo 6 caracteres" required minlength="6">
+                </div>
+                
+                <div class="form-group">
+                    <label>🔐 Confirmar Senha</label>
+                    <input type="password" id="signupPasswordConfirm" placeholder="Confirme sua senha" required minlength="6">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Criar Conta</button>
+            </form>
+            
+            <div class="toggle-text">
+                <span id="toggleText">Não tem conta? <a onclick="toggleForm()">Criar</a></span>
             </div>
         </div>
     </div>
-
-    <!-- MODAL -->
-    <div class="modal" id="exerciseModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modalExerciseName">Exercício</h2>
-                <span class="modal-close" onclick="closeModal()">✕</span>
-            </div>
-            
-            <div class="description-box">
-                <h3>📝 Como Executar</h3>
-                <p id="modalDescription"></p>
-            </div>
-            
-            <button class="video-btn" id="videoBtn" onclick="openVideo()">
-                ▶ Ver Vídeo no YouTube
-            </button>
-            
-            <div id="exerciseFormModal"></div>
-            
-            <div class="button-row">
-                <button class="btn btn-primary" onclick="saveExerciseModal()">✅ Pronto</button>
-                <button class="btn btn-secondary" onclick="closeModal()">❌ Voltar</button>
-            </div>
-        </div>
-    </div>
-
+    
     <div class="status-toast" id="statusToast"></div>
-
+    
     <script>
         const API_URL = "https://treino-pro-api.onrender.com";
-
-        const workoutList = {
-            1: { name: "UPPER A", type: "EMPURRAR", color: "#004E89", exercises: [
-                { name: "Supino Reto", planned: "4x6-8", weight: 45, video: "EZMYCLKuGow", description: "Deite-se no banco, pegue na barra com mãos afastadas na largura dos ombros. Desça controlado até o peito e empurre explosivamente." },
-                { name: "Remada Curvada", planned: "4x6-8", weight: 40, video: "TfxJMertfsw", description: "De pé, incline-se para frente 90 graus. Puxe o haltere em direção ao peito, cotovelo colado ao corpo." },
-                { name: "Remada Cavalo", planned: "4x8-10", weight: 40, video: "WfRwWiiapsg", description: "Sente na máquina, peito apoiado. Puxe o cabo em direção ao seu corpo, focando na escápula." },
-                { name: "Puxada Pronada", planned: "4x8-10", weight: 50, video: "9FFLBDWXSZA", description: "Pegue na barra com mãos afastadas (mais largas que largura de ombros), puxe até o peito, controlado na volta." },
-                { name: "Crucifixo", planned: "4x8-10", weight: 60, video: "FzCnfD0gOXo", description: "Sente na máquina, cotovelos levemente flexionados. Abra os braços até a máxima amplitude, contração no final." },
-                { name: "Bíceps Rosca", planned: "4x8-10", weight: 17, video: "jQmiHnMnUvk", description: "De pé, halteres nas mãos (palmas para frente). Flexione apenas o cotovelo até o nível dos ombros." },
-                { name: "Face Pull", planned: "4x12-15", weight: 40, video: "eIuIGXTQXsQ", description: "Pegue a corda da polia alta, puxe em direção ao seu rosto, separando a corda ao final do movimento." },
-                { name: "Tríceps Corda", planned: "4x10-12", weight: 45, video: "AzlHsuXDZiU", description: "De pé, cotovelo colado ao corpo. Estenda completamente, focando na contração do tríceps." },
-            ]},
-            2: { name: "LOWER A", type: "PERNAS", color: "#10b981", exercises: [
-                { name: "Leg Press 45°", planned: "4x6-8", weight: 160, video: "IZxyjW7MPOU", description: "Sente, pés na plataforma na largura dos ombros. Desça até 90 graus e empurre de volta." },
-                { name: "Hack Squat", planned: "4x8-10", weight: 60, video: "N1bNh47FOsQ", description: "Costas apoiadas na máquina. Desça dobrando os joelhos, mantendo a coluna reta." },
-                { name: "Leg Curl Sentado", planned: "4x10", weight: 45, video: "1Tq3wGckaAE", description: "Sente, pés na alavanca. Flexione os joelhos puxando os pés em sua direção, controlado na volta." },
-                { name: "Extensora", planned: "4x10-12", weight: 80, video: "Xv_9SrnUQ6Q", description: "Sente, joelhos flexionados na máquina. Estenda os joelhos até endireitar a perna completamente." },
-                { name: "Panturrilha", planned: "4x8", weight: 120, video: "HhIGzwvMusQ", description: "De pé ou sente conforme a máquina. Suba na ponta dos pés, maxima extensão, volta controlada." },
-                { name: "Rosca Sentado", planned: "4x6-8", weight: 32, video: "1Tq3wGckaAE", description: "Sente na máquina, pés na plataforma. Flexione os joelhos puxando a alavanca." },
-            ]},
-            3: { name: "UPPER B", type: "EMPURRAR", color: "#7c3aed", exercises: [
-                { name: "Desenvolvimento Halter", planned: "4x6-8", weight: 23, video: "_byLOQfLKwQ", description: "Sente, halteres na altura dos ombros. Empurre acima da cabeça até a extensão completa." },
-                { name: "Supino Inclinado", planned: "4x8-10", weight: 28, video: "jSJQEl5qQVU", description: "No banco inclinado, pegue na barra, desça até o peito e empurre de volta." },
-                { name: "Supino Inc Máquina", planned: "4x8-10", weight: 60, video: "OxyDisvMZKE", description: "Sente na máquina inclinada, empurre o cabo em sua frente até a extensão." },
-                { name: "Puxada Alta", planned: "4x10-12", weight: 50, video: "2-v-KfKB5uU", description: "De pé na frente da máquina, puxe a barra até a altura do queixo, cotovelos para os lados." },
-                { name: "Face Pull", planned: "4x10-12", weight: 40, video: "eIuIGXTQXsQ", description: "Pegue a corda, puxe em direção ao rosto, separando no final do movimento." },
-                { name: "Rosca", planned: "4x8-10", weight: 17, video: "jQmiHnMnUvk", description: "De pé, halteres nas mãos, palmas para frente. Flexione apenas o cotovelo." },
-                { name: "Elevação Lateral", planned: "4x12-15", weight: 7, video: "3VcszF2mkS0", description: "De pé, halteres ao lado. Levante os braços até a altura dos ombros, cotovelos levemente flexionados." },
-                { name: "Tríceps", planned: "4x6-12", weight: 0, video: "AzlHsuXDZiU", description: "Extensão máxima em qualquer exercício. Controle o movimento em ambas as fases." },
-            ]},
-            4: { name: "LOWER B", type: "POSTERIOR", color: "#F59E0B", exercises: [
-                { name: "Agachamento Búlgaro", planned: "4x6-8", weight: 18, video: "_JEwfYkAb1k", description: "Um pé atrás em um banco, outro pé na frente. Desça até 90 graus e suba." },
-                { name: "Leg Press", planned: "4x6-8", weight: 160, video: "IZxyjW7MPOU", description: "Sente, pés na plataforma. Desça até 90 graus e empurre de volta." },
-                { name: "Rosca Máquina", planned: "4x8-10", weight: 60, video: "1Tq3wGckaAE", description: "Sente, flexione os joelhos puxando a alavanca em sua direção." },
-                { name: "Extensora", planned: "4x8-10", weight: 80, video: "Xv_9SrnUQ6Q", description: "Sente, estenda os joelhos completamente na máquina." },
-                { name: "Stiff Leg Deadlift", planned: "4x6-8", weight: 40, video: "KSZ0L_Ykz0M", description: "De pé, halteres nas mãos. Incline para frente mantendo as pernas retas, focando no estirão posterior." },
-                { name: "Leg Curl Máquina", planned: "4x8-10", weight: 55, video: "1Tq3wGckaAE", description: "Sente, flexione os joelhos puxando a alavanca com controle." },
-                { name: "Gêmeos Sentado", planned: "4x12-15", weight: 120, video: "HhIGzwvMusQ", description: "Sente, suba na ponta dos pés e desça controlado. Máxima amplitude." },
-            ]}
-        };
-
-        let selected = null;
-        let weights = JSON.parse(localStorage.getItem('weights')) || {};
-        let modalData = null;
-
-        window.addEventListener('load', () => {
-            renderWorkouts();
-            loadHistory();
-            loadAnalysis();
-        });
-
-        function renderWorkouts() {
-            const grid = document.getElementById('workoutGrid');
-            grid.innerHTML = Object.entries(workoutList).map(([id, w]) => 
-                `<div class="workout-card" onclick="selectWorkout(${id})" style="border-left: 4px solid ${w.color}"><h3>${w.name}</h3><p>${w.type}</p></div>`
-            ).join('');
-        }
-
-        function switchTab(tab) {
-            document.querySelectorAll('.content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-            document.getElementById(tab).classList.add('active');
-            event.target.classList.add('active');
-            if (tab === 'history') loadHistory();
-            if (tab === 'analysis') loadAnalysis();
-        }
-
-        function selectWorkout(id) {
-            selected = id;
-            document.querySelectorAll('.workout-card').forEach(c => c.classList.remove('selected'));
-            event.target.closest('.workout-card').classList.add('selected');
-            document.getElementById('exercisePanel').style.display = 'block';
+        
+        function toggleForm() {
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            const toggleText = document.getElementById('toggleText');
             
-            const list = document.getElementById('exerciseList');
-            list.innerHTML = workoutList[id].exercises.map((ex, i) => `
-                <div class="exercise-card" onclick="openExerciseModal(${id}, ${i})">
-                    <div class="exercise-header">
-                        <span class="exercise-name">${ex.name}</span>
-                        <span class="exercise-planned">${ex.planned}</span>
-                    </div>
-                    <div style="font-size: 11px; color: var(--text-secondary); font-weight: 600;">Toque para editar →</div>
-                </div>
-            `).join('');
-        }
-
-        function openExerciseModal(workoutId, exerciseIdx) {
-            const workout = workoutList[workoutId];
-            const exercise = workout.exercises[exerciseIdx];
+            loginForm.classList.toggle('hidden');
+            signupForm.classList.toggle('hidden');
             
-            modalData = { workoutId, exerciseIdx, exercise };
-            
-            document.getElementById('modalExerciseName').textContent = exercise.name;
-            document.getElementById('modalDescription').textContent = exercise.description;
-            document.getElementById('videoBtn').onclick = () => openVideo(exercise.video);
-            
-            let form = '';
-            if (exercise.weight !== undefined && exercise.weight !== 0) {
-                form += `
-                    <div class="weight-box">
-                        <label>⚖️ Peso (kg)</label>
-                        <div class="weight-controls">
-                            <button class="weight-btn" onclick="adjustWeightModal('${exercise.name}', -1)">−</button>
-                            <div class="weight-display" id="modal-w">${weights[exercise.name] || exercise.weight}</div>
-                            <button class="weight-btn" onclick="adjustWeightModal('${exercise.name}', 1)">+</button>
-                        </div>
-                    </div>
-                `;
+            if (loginForm.classList.contains('hidden')) {
+                toggleText.innerHTML = 'Já tem conta? <a onclick="toggleForm()">Entrar</a>';
+            } else {
+                toggleText.innerHTML = 'Não tem conta? <a onclick="toggleForm()">Criar</a>';
             }
             
-            form += `<div class="sets-grid">`;
-            for (let i = 1; i <= 4; i++) {
-                form += `<div class="set-box"><label>S${i}</label><input type="number" placeholder="Reps" class="modal-reps" data-set="${i}"></div>`;
-            }
-            form += `</div>`;
-            
-            document.getElementById('exerciseFormModal').innerHTML = form;
-            document.getElementById('exerciseModal').classList.add('active');
+            clearMessages();
         }
-
-        function closeModal() {
-            document.getElementById('exerciseModal').classList.remove('active');
-            modalData = null;
+        
+        function showLoading(show = true) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
         }
-
-        function adjustWeightModal(name, d) {
-            weights[name] = Math.max(0, (weights[name] || 0) + d);
-            localStorage.setItem('weights', JSON.stringify(weights));
-            document.getElementById('modal-w').textContent = weights[name];
+        
+        function showError(msg) {
+            const el = document.getElementById('errorMsg');
+            el.textContent = msg;
+            el.style.display = 'block';
+            document.getElementById('successMsg').style.display = 'none';
         }
-
-        function saveExerciseModal() {
-            if (!modalData) return;
-            const repsInputs = document.querySelectorAll('.modal-reps');
-            const repsData = Array.from(repsInputs).map(inp => parseInt(inp.value) || 0).filter(r => r > 0);
-            if (!repsData.length) {
-                toast('Registre reps!', 'info');
-                return;
-            }
-            toast('✅ Exercício registrado!', 'success');
-            closeModal();
+        
+        function showSuccess(msg) {
+            const el = document.getElementById('successMsg');
+            el.textContent = msg;
+            el.style.display = 'block';
+            document.getElementById('errorMsg').style.display = 'none';
         }
-
-        function openVideo(videoId) {
-            if (!videoId) {
-                toast('Vídeo não disponível', 'info');
-                return;
-            }
-            window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank');
+        
+        function clearMessages() {
+            document.getElementById('errorMsg').style.display = 'none';
+            document.getElementById('successMsg').style.display = 'none';
         }
-
-        function clearWorkout() {
-            selected = null;
-            document.querySelectorAll('.workout-card').forEach(c => c.classList.remove('selected'));
-            document.getElementById('exercisePanel').style.display = 'none';
-        }
-
-        function saveSession() {
-            if (!selected) { toast('Selecione treino!', 'info'); return; }
-            const w = workoutList[selected];
-            const exs = [];
-            
-            w.exercises.forEach((ex, idx) => {
-                const repsInputs = document.querySelectorAll(`.set-box input[data-ex="${idx}"]`);
-                let reps = [];
-                repsInputs.forEach(inp => {
-                    const r = parseInt(inp.value);
-                    if (r > 0) reps.push(r);
-                });
-                if (reps.length > 0) {
-                    exs.push({
-                        name: ex.name,
-                        weight: weights[ex.name] || ex.weight,
-                        sets: reps
-                    });
-                }
-            });
-            
-            if (!exs.length) { toast('Registre exercícios!', 'info'); return; }
-            
-            const sess = {
-                session_id: Date.now().toString(),
-                date: new Date().toLocaleDateString('pt-BR'),
-                time: new Date().toLocaleTimeString('pt-BR'),
-                workout: w.name,
-                exercises: JSON.stringify(exs),
-                notes: document.getElementById('notes').value,
-                energy: parseInt(document.getElementById('energy').value),
-                sleep: parseFloat(document.getElementById('sleep').value)
-            };
-
-            toast('💾 Salvando...', 'info');
-            fetch(`${API_URL}/api/sessions`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(sess)
-            }).then(r => {
-                if (r.ok) {
-                    toast('✅ Salvo! Solicite análise', 'success');
-                    clearWorkout();
-                    document.getElementById('notes').value = '';
-                    document.getElementById('energy').value = '7';
-                    document.getElementById('sleep').value = '7';
-                    loadHistory();
-                }
-            }).catch(() => toast('❌ Erro', 'error'));
-        }
-
-        function loadHistory() {
-            fetch(`${API_URL}/api/sessions?order_by=created_at&desc=true&limit=10`)
-                .then(r => r.json())
-                .then(data => {
-                    const list = document.getElementById('historyList');
-                    if (!data || data.length === 0) {
-                        list.innerHTML = '';
-                        document.getElementById('emptyHistory').style.display = 'block';
-                        return;
-                    }
-                    document.getElementById('emptyHistory').style.display = 'none';
-                    list.innerHTML = data.map(s => `
-                        <div class="session-item">
-                            <div class="session-title">${s.workout}</div>
-                            <div class="session-meta">${s.date} ${s.time}</div>
-                            <div class="session-stats">
-                                <div class="stat-box"><div class="stat-label">⚡</div><div class="stat-value">${s.energy}/10</div></div>
-                                <div class="stat-box"><div class="stat-label">😴</div><div class="stat-value">${s.sleep}h</div></div>
-                            </div>
-                            <button class="session-action-btn" onclick="requestAnalysis('${s.session_id}', '${s.workout}')">🤖 Analisar</button>
-                        </div>
-                    `).join('');
-                }).catch(e => console.error("Erro:", e));
-        }
-
-        function requestAnalysis(sessionId, workout) {
-            toast('🤖 Analisando...', 'info');
-            fetch(`${API_URL}/webhook/session`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ session_id: sessionId, workout: workout })
-            }).then(r => {
-                if (r.ok) {
-                    toast('✅ Análise feita!', 'success');
-                    setTimeout(() => loadAnalysis(), 1500);
-                }
-            }).catch(() => toast('❌ Erro', 'error'));
-        }
-
-        function loadAnalysis() {
-            fetch(`${API_URL}/api/analyses?order_by=created_at&desc=true&limit=10`)
-                .then(r => r.json())
-                .then(data => {
-                    const list = document.getElementById('analysisList');
-                    if (!data || data.length === 0) {
-                        list.innerHTML = '';
-                        document.getElementById('emptyAnalysis').style.display = 'block';
-                        return;
-                    }
-                    document.getElementById('emptyAnalysis').style.display = 'none';
-                    list.innerHTML = data.map(a => `
-                        <div class="analysis-item">
-                            <div style="font-weight: 800; color: var(--primary);">🤖 ${a.workout}</div>
-                            <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">${a.date}</div>
-                            <div class="analysis-content">${a.analysis}</div>
-                        </div>
-                    `).join('');
-                }).catch(e => console.error("Erro:", e));
-        }
-
+        
         function toast(msg, type) {
             const t = document.getElementById('statusToast');
             t.textContent = msg;
             t.className = `status-toast ${type}`;
             t.style.display = 'block';
             setTimeout(() => t.style.display = 'none', 3500);
+        }
+        
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                showError('Email e senha obrigatórios');
+                return;
+            }
+            
+            showLoading(true);
+            clearMessages();
+            
+            try {
+                const response = await fetch(`${API_URL}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showSuccess('Login realizado! Redirecionando...');
+                    toast('✅ Bem-vindo!', 'success');
+                    
+                    // Salvar dados localmente
+                    localStorage.setItem('user_id', data.user_id);
+                    localStorage.setItem('access_token', data.access_token);
+                    localStorage.setItem('user_email', email);
+                    localStorage.setItem('has_anamnese', data.has_anamnese);
+                    
+                    // Redirecionar
+                    setTimeout(() => {
+                        if (data.has_anamnese) {
+                            window.location.href = 'dashboard.html';
+                        } else {
+                            window.location.href = 'anamnese.html';
+                        }
+                    }, 1500);
+                } else {
+                    showError(data.error || 'Erro ao fazer login');
+                    toast('❌ ' + (data.error || 'Erro'), 'error');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                showError('Erro de conexão: ' + error.message);
+                toast('❌ Erro de conexão', 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+        
+        async function handleSignup(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const passwordConfirm = document.getElementById('signupPasswordConfirm').value;
+            
+            if (!name || !email || !password || !passwordConfirm) {
+                showError('Preencha todos os campos');
+                return;
+            }
+            
+            if (password !== passwordConfirm) {
+                showError('Senhas não coincidem');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showError('Senha deve ter mínimo 6 caracteres');
+                return;
+            }
+            
+            showLoading(true);
+            clearMessages();
+            
+            try {
+                const response = await fetch(`${API_URL}/api/auth/signup`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password, name })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showSuccess('Conta criada! Prosseguindo para anamnese...');
+                    toast('✅ Conta criada!', 'success');
+                    
+                    // Salvar dados localmente
+                    localStorage.setItem('user_id', data.user_id);
+                    localStorage.setItem('user_email', email);
+                    localStorage.setItem('user_name', name);
+                    
+                    // Redirecionar para anamnese
+                    setTimeout(() => {
+                        window.location.href = 'anamnese.html';
+                    }, 1500);
+                } else {
+                    showError(data.error || 'Erro ao criar conta');
+                    toast('❌ ' + (data.error || 'Erro'), 'error');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                showError('Erro de conexão: ' + error.message);
+                toast('❌ Erro de conexão', 'error');
+            } finally {
+                showLoading(false);
+            }
         }
     </script>
 </body>
