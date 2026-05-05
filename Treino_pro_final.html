@@ -236,7 +236,7 @@
                 
                 <div class="form-group">
                     <label>🔐 Senha</label>
-                    <input type="password" id="loginPassword" placeholder="Sua senha" required>
+                    <input type="password" id="loginPassword" placeholder="Sua senha" autocomplete="current-password" required>
                 </div>
                 
                 <button type="submit" class="btn btn-primary">Entrar</button>
@@ -256,12 +256,12 @@
                 
                 <div class="form-group">
                     <label>🔐 Senha</label>
-                    <input type="password" id="signupPassword" placeholder="Mínimo 6 caracteres" required minlength="6">
+                    <input type="password" id="signupPassword" placeholder="Mínimo 6 caracteres" autocomplete="new-password" required minlength="6">
                 </div>
                 
                 <div class="form-group">
                     <label>🔐 Confirmar Senha</label>
-                    <input type="password" id="signupPasswordConfirm" placeholder="Confirme sua senha" required minlength="6">
+                    <input type="password" id="signupPasswordConfirm" placeholder="Confirme sua senha" autocomplete="new-password" required minlength="6">
                 </div>
                 
                 <button type="submit" class="btn btn-primary">Criar Conta</button>
@@ -331,11 +331,17 @@
             
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
+            const submitBtn = event.target.querySelector('button[type="submit"]');
             
             if (!email || !password) {
                 showError('Email e senha obrigatórios');
                 return;
             }
+            
+            // Desabilitar botão
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = '0.5';
+            submitBtn.style.cursor = 'not-allowed';
             
             showLoading(true);
             clearMessages();
@@ -370,11 +376,21 @@
                 } else {
                     showError(data.error || 'Erro ao fazer login');
                     toast('❌ ' + (data.error || 'Erro'), 'error');
+                    
+                    // Reabilitar botão
+                    submitBtn.disabled = false;
+                    submitBtn.style.opacity = '1';
+                    submitBtn.style.cursor = 'pointer';
                 }
             } catch (error) {
                 console.error('Erro:', error);
                 showError('Erro de conexão: ' + error.message);
                 toast('❌ Erro de conexão', 'error');
+                
+                // Reabilitar botão
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
+                submitBtn.style.cursor = 'pointer';
             } finally {
                 showLoading(false);
             }
@@ -387,6 +403,7 @@
             const email = document.getElementById('signupEmail').value;
             const password = document.getElementById('signupPassword').value;
             const passwordConfirm = document.getElementById('signupPasswordConfirm').value;
+            const submitBtn = event.target.querySelector('button[type="submit"]');
             
             if (!name || !email || !password || !passwordConfirm) {
                 showError('Preencha todos os campos');
@@ -402,6 +419,11 @@
                 showError('Senha deve ter mínimo 6 caracteres');
                 return;
             }
+            
+            // Desabilitar botão
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = '0.5';
+            submitBtn.style.cursor = 'not-allowed';
             
             showLoading(true);
             clearMessages();
@@ -429,13 +451,36 @@
                         window.location.href = 'anamnese.html';
                     }, 1500);
                 } else {
-                    showError(data.error || 'Erro ao criar conta');
-                    toast('❌ ' + (data.error || 'Erro'), 'error');
+                    let errorMsg = data.error || 'Erro ao criar conta';
+                    
+                    // Melhor tratamento de rate limit
+                    if (errorMsg.includes('15 seconds') || errorMsg.includes('security purposes')) {
+                        errorMsg = '⏳ Aguarde 15 segundos antes de tentar novamente';
+                        // Reabilitar botão após 15 segundos
+                        setTimeout(() => {
+                            submitBtn.disabled = false;
+                            submitBtn.style.opacity = '1';
+                            submitBtn.style.cursor = 'pointer';
+                        }, 15000);
+                    } else {
+                        // Reabilitar botão imediatamente para outros erros
+                        submitBtn.disabled = false;
+                        submitBtn.style.opacity = '1';
+                        submitBtn.style.cursor = 'pointer';
+                    }
+                    
+                    showError(errorMsg);
+                    toast('❌ ' + errorMsg, 'error');
                 }
             } catch (error) {
                 console.error('Erro:', error);
                 showError('Erro de conexão: ' + error.message);
                 toast('❌ Erro de conexão', 'error');
+                
+                // Reabilitar botão
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
+                submitBtn.style.cursor = 'pointer';
             } finally {
                 showLoading(false);
             }
