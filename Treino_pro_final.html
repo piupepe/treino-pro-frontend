@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
     <meta name="theme-color" content="#1a1a2e">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Treino Pro">
-    <title>Treino Pro - Login</title>
+    <title>Treinos - Treino Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -23,6 +24,8 @@
             --text-primary: #ffffff;
             --text-secondary: #a0aec0;
             --border: #2d3748;
+            --success: #10b981;
+            --warning: #f59e0b;
         }
         
         body {
@@ -30,63 +33,71 @@
             background: var(--bg-dark);
             color: var(--text-primary);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             padding: 20px;
         }
         
-        .auth-container {
-            width: 100%;
-            max-width: 400px;
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
         }
         
-        .auth-card {
-            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(26, 31, 58, 0.5) 100%);
-            border: 2px solid var(--border);
-            border-radius: 20px;
-            padding: 40px 24px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-        
-        .auth-header {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-        
-        .auth-header h1 {
-            font-size: 32px;
-            margin-bottom: 8px;
+        .header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--accent-purple) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            padding: 30px 20px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            color: white;
         }
         
-        .auth-header p {
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            font-weight: 800;
+        }
+        
+        .header p {
             font-size: 13px;
-            color: var(--text-secondary);
+            opacity: 0.95;
             font-weight: 600;
         }
         
+        .card {
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(26, 31, 58, 0.5) 100%);
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-transform: uppercase;
+        }
+        
         .form-group {
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
         
         .form-group label {
             display: block;
-            font-size: 12px;
-            font-weight: 800;
+            font-size: 13px;
+            font-weight: 700;
             margin-bottom: 8px;
-            text-transform: uppercase;
             color: var(--text-secondary);
+            text-transform: uppercase;
         }
         
-        .form-group input {
+        .form-group select {
             width: 100%;
             padding: 12px;
             border: 2px solid var(--border);
-            border-radius: 12px;
+            border-radius: 10px;
             font-size: 14px;
             font-family: 'Inter', sans-serif;
             background: var(--bg-input);
@@ -94,14 +105,20 @@
             transition: all 0.3s ease;
         }
         
-        .form-group input:focus {
+        .form-group select:focus {
             outline: none;
             border-color: var(--secondary);
-            background: rgba(0, 212, 255, 0.1);
+            background: rgba(0, 212, 255, 0.05);
+        }
+        
+        .button-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 20px;
         }
         
         .btn {
-            width: 100%;
             padding: 14px;
             border: none;
             border-radius: 12px;
@@ -110,16 +127,26 @@
             cursor: pointer;
             text-transform: uppercase;
             transition: all 0.3s ease;
-            margin-top: 8px;
         }
         
         .btn-primary {
             background: linear-gradient(135deg, var(--primary) 0%, var(--accent-purple) 100%);
             color: white;
+            grid-column: 1 / -1;
         }
         
-        .btn-primary:active {
-            transform: translateY(2px);
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 107, 53, 0.4);
+        }
+        
+        .btn-primary:active:not(:disabled) {
+            transform: translateY(0);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
         
         .btn-secondary {
@@ -128,56 +155,20 @@
             border: 1px solid var(--border);
         }
         
-        .toggle-text {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-        
-        .toggle-text a {
-            color: var(--secondary);
-            text-decoration: none;
-            font-weight: 800;
-            cursor: pointer;
-        }
-        
-        .error {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid #ef4444;
-            color: #fca5a5;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 12px;
-            margin-bottom: 16px;
-            display: none;
-        }
-        
-        .success {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid #10b981;
-            color: #86efac;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 12px;
-            margin-bottom: 16px;
-            display: none;
-        }
-        
         .loading {
             display: none;
             text-align: center;
-            padding: 20px;
+            padding: 40px 20px;
         }
         
         .spinner {
-            border: 3px solid rgba(255, 107, 53, 0.2);
-            border-top: 3px solid var(--primary);
+            border: 4px solid rgba(255, 107, 53, 0.2);
+            border-top: 4px solid var(--primary);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             animation: spin 1s linear infinite;
-            margin: 0 auto;
+            margin: 0 auto 16px;
         }
         
         @keyframes spin {
@@ -185,7 +176,167 @@
             100% { transform: rotate(360deg); }
         }
         
-        .hidden { display: none !important; }
+        .loading-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        
+        .loading-steps {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-align: left;
+            display: inline-block;
+        }
+        
+        .loading-steps div {
+            margin: 4px 0;
+        }
+        
+        .loading-steps .active {
+            color: var(--secondary);
+            font-weight: 700;
+        }
+        
+        .error {
+            background: rgba(239, 68, 68, 0.15);
+            border: 2px solid #ef4444;
+            color: #fca5a5;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            margin-bottom: 16px;
+            display: none;
+            font-weight: 600;
+        }
+        
+        .success {
+            background: rgba(16, 185, 129, 0.15);
+            border: 2px solid var(--success);
+            color: #86efac;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            margin-bottom: 16px;
+            display: none;
+            font-weight: 600;
+        }
+        
+        .treino-container {
+            display: none;
+        }
+        
+        .tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .tab-btn {
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--text-secondary);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+        
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .exercise-item {
+            background: rgba(255, 107, 53, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        
+        .exercise-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .exercise-name {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+        
+        .exercise-reps {
+            font-size: 12px;
+            background: rgba(0, 212, 255, 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: var(--secondary);
+        }
+        
+        .exercise-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 8px;
+            font-size: 12px;
+        }
+        
+        .detail-item {
+            background: rgba(160, 174, 192, 0.1);
+            padding: 8px;
+            border-radius: 6px;
+        }
+        
+        .detail-label {
+            color: var(--text-secondary);
+            font-size: 10px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+        
+        .detail-value {
+            color: var(--text-primary);
+            margin-top: 4px;
+            font-weight: 700;
+        }
+        
+        .validation-banner {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(0, 212, 255, 0.1) 100%);
+            border: 2px solid var(--success);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .validation-score {
+            font-size: 14px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        
+        .validation-score.approved {
+            color: var(--success);
+        }
+        
+        .validation-motivo {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
         
         .status-toast {
             position: fixed;
@@ -202,7 +353,7 @@
         }
         
         .status-toast.success {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
             color: white;
         }
         
@@ -213,62 +364,84 @@
     </style>
 </head>
 <body>
-    <div class="auth-container">
-        <div class="auth-card">
-            <div class="auth-header">
-                <h1>💪 TREINO PRO</h1>
-                <p>Performance Intelligence</p>
-            </div>
+    <div class="container">
+        <div class="header">
+            <h1>🏋️ Treinos Personalizados</h1>
+            <p>Gerados com IA baseada em Ciência</p>
+        </div>
+        
+        <!-- SEÇÃO 1: Gerador -->
+        <div class="card" id="generatorSection">
+            <h2 class="section-title">⚙️ Gerar Novo Treino</h2>
             
             <div class="error" id="errorMsg"></div>
             <div class="success" id="successMsg"></div>
-            <div class="loading" id="loading">
-                <div class="spinner"></div>
-                <p style="margin-top: 12px; font-size: 12px; color: var(--text-secondary);">Processando...</p>
+            
+            <div class="form-group">
+                <label>Split Preferido</label>
+                <select id="splitSelect" required>
+                    <option value="">Selecione...</option>
+                    <option value="upper_lower" selected>Upper/Lower</option>
+                    <option value="push_pull_legs">Push/Pull/Legs</option>
+                    <option value="full_body">Full Body</option>
+                    <option value="body_part">Body Part</option>
+                </select>
             </div>
             
-            <!-- FORM LOGIN -->
-            <form id="loginForm" onsubmit="handleLogin(event)">
-                <div class="form-group">
-                    <label>📧 Email</label>
-                    <input type="email" id="loginEmail" placeholder="seu@email.com" required>
-                </div>
-                
-                <div class="form-group">
-                    <label>🔐 Senha</label>
-                    <input type="password" id="loginPassword" placeholder="Sua senha" autocomplete="current-password" required>
-                </div>
-                
-                <button type="submit" class="btn btn-primary">Entrar</button>
-            </form>
+            <div class="form-group">
+                <label>Foco</label>
+                <select id="focusSelect" required>
+                    <option value="">Selecione...</option>
+                    <option value="hipertrofia" selected>Hipertrofia</option>
+                    <option value="forca">Força</option>
+                    <option value="forca_hipertrofia">Força + Hipertrofia</option>
+                    <option value="resistencia">Resistência</option>
+                </select>
+            </div>
             
-            <!-- FORM SIGNUP (oculto inicialmente) -->
-            <form id="signupForm" onsubmit="handleSignup(event)" class="hidden">
-                <div class="form-group">
-                    <label>👤 Nome Completo</label>
-                    <input type="text" id="signupName" placeholder="João Silva" required>
+            <div class="button-row">
+                <button type="button" class="btn btn-primary" id="generateBtn" onclick="gerarTreino()">🚀 Gerar com IA</button>
+                <button type="button" class="btn btn-secondary" onclick="logout()">🚪 Sair</button>
+            </div>
+        </div>
+        
+        <!-- SEÇÃO 2: Loading -->
+        <div class="loading" id="loadingSection">
+            <div class="spinner"></div>
+            <div class="loading-text">Gerando seu treino personalizado...</div>
+            <div class="loading-steps">
+                <div class="active" id="step1">✓ Gerando treino</div>
+                <div id="step2">⏳ Validando balanceamento</div>
+                <div id="step3">📊 Salvando resultado</div>
+            </div>
+        </div>
+        
+        <!-- SEÇÃO 3: Treino Gerado -->
+        <div class="treino-container" id="treinoSection">
+            <div class="validation-banner" id="validationBanner">
+                <div class="validation-score approved" id="validationScore">
+                    ✅ TREINO APROVADO - Score: 92/100
                 </div>
-                
-                <div class="form-group">
-                    <label>📧 Email</label>
-                    <input type="email" id="signupEmail" placeholder="seu@email.com" required>
+                <div class="validation-motivo" id="validationMotivo">
+                    Treino bem balanceado com volume apropriado para seu nível de experiência.
                 </div>
-                
-                <div class="form-group">
-                    <label>🔐 Senha</label>
-                    <input type="password" id="signupPassword" placeholder="Mínimo 6 caracteres" autocomplete="new-password" required minlength="6">
-                </div>
-                
-                <div class="form-group">
-                    <label>🔐 Confirmar Senha</label>
-                    <input type="password" id="signupPasswordConfirm" placeholder="Confirme sua senha" autocomplete="new-password" required minlength="6">
-                </div>
-                
-                <button type="submit" class="btn btn-primary">Criar Conta</button>
-            </form>
+            </div>
             
-            <div class="toggle-text">
-                <span id="toggleText">Não tem conta? <a onclick="toggleForm()">Criar</a></span>
+            <div class="tabs">
+                <button class="tab-btn active" onclick="showTab('tab0')">UPPER A</button>
+                <button class="tab-btn" onclick="showTab('tab1')">UPPER B</button>
+                <button class="tab-btn" onclick="showTab('tab2')">LOWER A</button>
+                <button class="tab-btn" onclick="showTab('tab3')">LOWER B</button>
+            </div>
+            
+            <div id="tab0" class="tab-content active card"></div>
+            <div id="tab1" class="tab-content card"></div>
+            <div id="tab2" class="tab-content card"></div>
+            <div id="tab3" class="tab-content card"></div>
+            
+            <div class="button-row">
+                <button type="button" class="btn btn-primary" onclick="iniciarTreino()">▶️ Iniciar Treino</button>
+                <button type="button" class="btn btn-secondary" onclick="location.reload()">🔄 Gerar Novo</button>
             </div>
         </div>
     </div>
@@ -277,27 +450,6 @@
     
     <script>
         const API_URL = "https://treino-pro-api.onrender.com";
-        
-        function toggleForm() {
-            const loginForm = document.getElementById('loginForm');
-            const signupForm = document.getElementById('signupForm');
-            const toggleText = document.getElementById('toggleText');
-            
-            loginForm.classList.toggle('hidden');
-            signupForm.classList.toggle('hidden');
-            
-            if (loginForm.classList.contains('hidden')) {
-                toggleText.innerHTML = 'Já tem conta? <a onclick="toggleForm()">Entrar</a>';
-            } else {
-                toggleText.innerHTML = 'Não tem conta? <a onclick="toggleForm()">Criar</a>';
-            }
-            
-            clearMessages();
-        }
-        
-        function showLoading(show = true) {
-            document.getElementById('loading').style.display = show ? 'block' : 'none';
-        }
         
         function showError(msg) {
             const el = document.getElementById('errorMsg');
@@ -318,6 +470,13 @@
             document.getElementById('successMsg').style.display = 'none';
         }
         
+        function showLoading(show = true) {
+            document.getElementById('generatorSection').style.display = show ? 'none' : 'block';
+            document.getElementById('loadingSection').style.display = show ? 'block' : 'none';
+            document.getElementById('treinoSection').style.display = 'none';
+            document.getElementById('generateBtn').disabled = show;
+        }
+        
         function toast(msg, type) {
             const t = document.getElementById('statusToast');
             t.textContent = msg;
@@ -326,165 +485,154 @@
             setTimeout(() => t.style.display = 'none', 3500);
         }
         
-        async function handleLogin(event) {
-            event.preventDefault();
+        async function gerarTreino() {
+            const split = document.getElementById('splitSelect').value;
+            const focus = document.getElementById('focusSelect').value;
             
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            const submitBtn = event.target.querySelector('button[type="submit"]');
-            
-            if (!email || !password) {
-                showError('Email e senha obrigatórios');
+            if (!split || !focus) {
+                showError('Selecione split e foco');
                 return;
             }
             
-            // Desabilitar botão
-            submitBtn.disabled = true;
-            submitBtn.style.opacity = '0.5';
-            submitBtn.style.cursor = 'not-allowed';
+            const userId = localStorage.getItem('user_id');
+            const userDataStr = localStorage.getItem('user_data');
+            
+            if (!userId || !userDataStr) {
+                showError('Usuário não autenticado ou anamnese não completa');
+                setTimeout(() => window.location.href = 'index.html', 2000);
+                return;
+            }
             
             showLoading(true);
             clearMessages();
             
+            const anamnese = JSON.parse(userDataStr);
+            
             try {
-                const response = await fetch(`${API_URL}/api/auth/login`, {
+                const response = await fetch(`${API_URL}/api/treinos/gerar`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
+                    body: JSON.stringify({
+                        user_id: userId,
+                        anamnese: anamnese,
+                        split: split,
+                        focus: focus
+                    })
                 });
                 
-                const data = await response.json();
+                const result = await response.json();
                 
                 if (response.ok) {
-                    showSuccess('Login realizado! Redirecionando...');
-                    toast('✅ Bem-vindo!', 'success');
+                    // Atualizar steps
+                    document.getElementById('step1').innerHTML = '✓ Treino gerado';
+                    document.getElementById('step2').innerHTML = '✓ Validado com sucesso';
+                    document.getElementById('step2').classList.add('active');
                     
-                    // Salvar dados localmente
-                    localStorage.setItem('user_id', data.user_id);
-                    localStorage.setItem('access_token', data.access_token);
-                    localStorage.setItem('user_email', email);
-                    localStorage.setItem('has_anamnese', data.has_anamnese);
-                    
-                    // Redirecionar
                     setTimeout(() => {
-                        if (data.has_anamnese) {
-                            window.location.href = 'dashboard.html';
-                        } else {
-                            window.location.href = 'anamnese.html';
-                        }
-                    }, 1500);
+                        document.getElementById('step3').classList.add('active');
+                        
+                        // Renderizar treino
+                        exibirTreino(result.treino, result.validacao);
+                        
+                        showLoading(false);
+                        document.getElementById('treinoSection').style.display = 'block';
+                        document.getElementById('generatorSection').style.display = 'none';
+                        
+                        toast('✅ Treino gerado e aprovado!', 'success');
+                    }, 500);
                 } else {
-                    showError(data.error || 'Erro ao fazer login');
-                    toast('❌ ' + (data.error || 'Erro'), 'error');
-                    
-                    // Reabilitar botão
-                    submitBtn.disabled = false;
-                    submitBtn.style.opacity = '1';
-                    submitBtn.style.cursor = 'pointer';
+                    showError(result.error || result.message || 'Erro ao gerar treino');
+                    showLoading(false);
+                    toast('❌ Erro ao gerar', 'error');
                 }
             } catch (error) {
                 console.error('Erro:', error);
                 showError('Erro de conexão: ' + error.message);
-                toast('❌ Erro de conexão', 'error');
-                
-                // Reabilitar botão
-                submitBtn.disabled = false;
-                submitBtn.style.opacity = '1';
-                submitBtn.style.cursor = 'pointer';
-            } finally {
                 showLoading(false);
+                toast('❌ Erro de conexão', 'error');
             }
         }
         
-        async function handleSignup(event) {
-            event.preventDefault();
+        function exibirTreino(treino, validacao) {
+            // Validação
+            const score = validacao.score;
+            document.getElementById('validationScore').textContent = `✅ TREINO APROVADO - Score: ${score}/100`;
+            document.getElementById('validationMotivo').textContent = validacao.motivo;
             
-            const name = document.getElementById('signupName').value;
-            const email = document.getElementById('signupEmail').value;
-            const password = document.getElementById('signupPassword').value;
-            const passwordConfirm = document.getElementById('signupPasswordConfirm').value;
-            const submitBtn = event.target.querySelector('button[type="submit"]');
+            // Treinos
+            const workouts = treino.workouts || [];
             
-            if (!name || !email || !password || !passwordConfirm) {
-                showError('Preencha todos os campos');
-                return;
-            }
-            
-            if (password !== passwordConfirm) {
-                showError('Senhas não coincidem');
-                return;
-            }
-            
-            if (password.length < 6) {
-                showError('Senha deve ter mínimo 6 caracteres');
-                return;
-            }
-            
-            // Desabilitar botão
-            submitBtn.disabled = true;
-            submitBtn.style.opacity = '0.5';
-            submitBtn.style.cursor = 'not-allowed';
-            
-            showLoading(true);
-            clearMessages();
-            
-            try {
-                const response = await fetch(`${API_URL}/api/auth/signup`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password, name })
+            for (let i = 0; i < 4; i++) {
+                const workout = workouts[i] || {};
+                const tabId = `tab${i}`;
+                const tabEl = document.getElementById(tabId);
+                
+                let html = `<h3 class="section-title">${workout.name || `Treino ${i+1}`}</h3>`;
+                html += `<div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 16px;">
+                    ${workout.estimated_duration_minutes || 60} min | ${workout.estimated_total_sets || 0} séries
+                </div>`;
+                
+                const exercises = workout.exercises || [];
+                exercises.forEach((ex, idx) => {
+                    html += `
+                        <div class="exercise-item">
+                            <div class="exercise-header">
+                                <span class="exercise-name">${idx + 1}. ${ex.name}</span>
+                                <span class="exercise-reps">${ex.sets}x${ex.reps}</span>
+                            </div>
+                            <div class="exercise-details">
+                                <div class="detail-item">
+                                    <div class="detail-label">Peso</div>
+                                    <div class="detail-value">${ex.weight_suggestion || '?'}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Rest</div>
+                                    <div class="detail-value">${ex.rest_seconds || 60}s</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">RPE</div>
+                                    <div class="detail-value">${ex.rpe || '?'}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Grupo</div>
+                                    <div class="detail-value">${ex.muscle_group || '?'}</div>
+                                </div>
+                            </div>
+                            <div style="font-size: 11px; color: var(--text-secondary); margin-top: 8px;">
+                                ${ex.technique_notes || ''}
+                            </div>
+                        </div>
+                    `;
                 });
                 
-                const data = await response.json();
-                
-                if (response.ok) {
-                    showSuccess('Conta criada! Prosseguindo para anamnese...');
-                    toast('✅ Conta criada!', 'success');
-                    
-                    // Salvar dados localmente
-                    localStorage.setItem('user_id', data.user_id);
-                    localStorage.setItem('user_email', email);
-                    localStorage.setItem('user_name', name);
-                    
-                    // Redirecionar para anamnese
-                    setTimeout(() => {
-                        window.location.href = 'anamnese.html';
-                    }, 1500);
-                } else {
-                    let errorMsg = data.error || 'Erro ao criar conta';
-                    
-                    // Melhor tratamento de rate limit
-                    if (errorMsg.includes('15 seconds') || errorMsg.includes('security purposes')) {
-                        errorMsg = '⏳ Aguarde 15 segundos antes de tentar novamente';
-                        // Reabilitar botão após 15 segundos
-                        setTimeout(() => {
-                            submitBtn.disabled = false;
-                            submitBtn.style.opacity = '1';
-                            submitBtn.style.cursor = 'pointer';
-                        }, 15000);
-                    } else {
-                        // Reabilitar botão imediatamente para outros erros
-                        submitBtn.disabled = false;
-                        submitBtn.style.opacity = '1';
-                        submitBtn.style.cursor = 'pointer';
-                    }
-                    
-                    showError(errorMsg);
-                    toast('❌ ' + errorMsg, 'error');
-                }
-            } catch (error) {
-                console.error('Erro:', error);
-                showError('Erro de conexão: ' + error.message);
-                toast('❌ Erro de conexão', 'error');
-                
-                // Reabilitar botão
-                submitBtn.disabled = false;
-                submitBtn.style.opacity = '1';
-                submitBtn.style.cursor = 'pointer';
-            } finally {
-                showLoading(false);
+                tabEl.innerHTML = html;
             }
         }
+        
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        function iniciarTreino() {
+            toast('Funcionalidade em desenvolvimento', 'success');
+            // TODO: Redirecionar para página de execução
+        }
+        
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
+        
+        window.addEventListener('load', () => {
+            const userId = localStorage.getItem('user_id');
+            if (!userId) {
+                window.location.href = 'index.html';
+            }
+        });
     </script>
 </body>
 </html>
