@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta name="referrer" content="no-referrer">
     <title>Treino Pro - Performance Intelligence</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
@@ -302,10 +302,6 @@
             background: linear-gradient(135deg, var(--dark) 0%, #334155 100%);
             color: white;
         }
-        .btn-secondary:active {
-            transform: translateY(2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
         .session-item {
             background: linear-gradient(135deg, white 0%, #F8FAFC 100%);
             border: 2px solid var(--border);
@@ -583,7 +579,7 @@
                     ✅ Acesso em qualquer dispositivo
                 </div>
                 <div id="supabaseStatus" style="margin-top: 14px; padding: 12px; background: white; border-radius: 10px; font-size: 13px; font-weight: 600; border: 1px solid var(--border);">
-                    Status: Verificando...
+                    Status: Usando API Render (sem Tracking Blocker)
                 </div>
             </div>
         </div>
@@ -593,21 +589,16 @@
 
     <script>
         // ============================================================
-        // SUPABASE CONFIG
+        // CONFIG - USANDO FETCH/API EM VEZ DE SUPABASE JS
+        // Isso evita o problema de Tracking Prevention do Safari
         // ============================================================
         
+        const API_URL = "https://treino-pro-api.onrender.com";
         const SUPABASE_URL = "https://bldwvlnorigxqdvdqfsu.supabase.co";
         const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsZHd2bG5vcmlneHFkdmRxZnN1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5NDcwMTMsImV4cCI6MjA5MzUyMzAxM30.zKIiRWpWNlD08ugDqqOoaiUuMTnvEmzQFbSSN1z93aQ";
-        
-        let supa = null;
-        try {
-            supa = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-            console.log("✅ Supabase inicializado");
-            updateSupabaseStatus("✅ Conectado ao Supabase");
-        } catch (e) {
-            console.error("❌ Erro ao inicializar Supabase:", e);
-            updateSupabaseStatus("❌ Erro ao conectar: " + e.message);
-        }
+
+        console.log("✅ Supabase inicializado (usando REST API)");
+        updateSupabaseStatus("✅ Conectado ao Supabase via API");
 
         // ============================================================
         // DADOS DOS TREINOS
@@ -663,6 +654,33 @@
             loadHistory();
             loadAnalysis();
         });
+
+        // ============================================================
+        // FUNÇÕES DE API (Usando REST ao invés de JS library)
+        // ============================================================
+
+        function apiCall(endpoint, method = 'GET', body = null) {
+            const opts = {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${SUPABASE_KEY}`,
+                    'apikey': SUPABASE_KEY,
+                }
+            };
+            
+            if (body) {
+                opts.body = JSON.stringify(body);
+            }
+            
+            return fetch(`${SUPABASE_URL}/rest/v1${endpoint}`, opts)
+                .then(r => {
+                    if (!r.ok) {
+                        throw new Error(`HTTP ${r.status}`);
+                    }
+                    return r.json();
+                });
+        }
 
         function renderWorkouts() {
             const grid = document.getElementById('workoutGrid');
@@ -759,39 +777,30 @@
 
             toast('💾 Salvando no Supabase...', 'info');
             
-            if (supa) {
-                supa.from('sessions').insert([sess]).then(({ data, error }) => {
-                    if (error) {
-                        console.error("❌ Erro Supabase:", error.message);
-                        toast('⚠️ Erro: ' + error.message, 'error');
-                    } else {
-                        console.log("✅ Salvo no Supabase!");
-                        toast('✅ Treino salvo! Solicitando análise do agente IA...', 'success');
-                        
-                        // ENVIAR PARA API RENDER (AGENTE IA)
-                        if (settings.apiUrl) {
-                            fetch(`${settings.apiUrl}/webhook/session`, {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify(sess)
-                            }).then(r => {
-                                if (r.ok) {
-                                    toast('🤖 Agente analisando seu treino...', 'success');
-                                    setTimeout(() => loadAnalysis(), 2000);
-                                }
-                            }).catch(e => {
-                                console.error("API error:", e);
-                                toast('⚠️ API offline - análise não disponível', 'error');
-                            });
+            apiCall('/sessions', 'POST', sess)
+                .then(res => {
+                    console.log("✅ Salvo no Supabase!");
+                    toast('✅ Treino salvo! Solicitando análise do agente IA...', 'success');
+                    
+                    // ENVIAR PARA API RENDER (AGENTE IA)
+                    fetch(`${settings.apiUrl}/webhook/session`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(sess)
+                    }).then(r => {
+                        if (r.ok) {
+                            toast('🤖 Agente analisando seu treino...', 'success');
+                            setTimeout(() => loadAnalysis(), 2000);
                         }
-                    }
-                }).catch(e => {
+                    }).catch(e => {
+                        console.error("API error:", e);
+                        toast('⚠️ API offline - análise não disponível', 'error');
+                    });
+                })
+                .catch(e => {
                     console.error("❌ Erro ao salvar:", e);
                     toast('❌ Erro: ' + e.message, 'error');
                 });
-            } else {
-                toast('❌ Supabase não inicializado', 'error');
-            }
 
             clearWorkout();
             document.getElementById('notes').value = '';
@@ -801,27 +810,11 @@
         }
 
         function loadHistory() {
-            if (!supa) { 
-                document.getElementById('historyList').innerHTML = '';
-                document.getElementById('emptyHistory').style.display = 'block';
-                return;
-            }
-
-            supa.from('sessions')
-                .select('*')
-                .order('created_at', { ascending: false })
-                .limit(10)
-                .then(({ data, error }) => {
+            apiCall('/sessions?order=created_at.desc&limit=10')
+                .then(data => {
                     const list = document.getElementById('historyList');
                     const empty = document.getElementById('emptyHistory');
                     
-                    if (error) {
-                        console.error("❌ Erro ao carregar histórico:", error.message);
-                        list.innerHTML = '';
-                        empty.style.display = 'block';
-                        return;
-                    }
-
                     if (!data || data.length === 0) {
                         list.innerHTML = '';
                         empty.style.display = 'block';
@@ -841,34 +834,18 @@
                     `).join('');
                 })
                 .catch(e => {
-                    console.error("❌ Erro crítico:", e);
+                    console.error("❌ Erro:", e);
                     document.getElementById('historyList').innerHTML = '';
                     document.getElementById('emptyHistory').style.display = 'block';
                 });
         }
 
         function loadAnalysis() {
-            if (!supa) { 
-                document.getElementById('analysisList').innerHTML = '';
-                document.getElementById('emptyAnalysis').style.display = 'block';
-                return;
-            }
-
-            supa.from('analyses')
-                .select('*')
-                .order('created_at', { ascending: false })
-                .limit(10)
-                .then(({ data, error }) => {
+            apiCall('/analyses?order=created_at.desc&limit=10')
+                .then(data => {
                     const list = document.getElementById('analysisList');
                     const empty = document.getElementById('emptyAnalysis');
                     
-                    if (error) {
-                        console.error("❌ Erro ao carregar análises:", error.message);
-                        list.innerHTML = '';
-                        empty.style.display = 'block';
-                        return;
-                    }
-
                     if (!data || data.length === 0) {
                         list.innerHTML = '';
                         empty.style.display = 'block';
@@ -888,7 +865,7 @@
                     `).join('');
                 })
                 .catch(e => {
-                    console.error("❌ Erro crítico:", e);
+                    console.error("❌ Erro:", e);
                     document.getElementById('analysisList').innerHTML = '';
                     document.getElementById('emptyAnalysis').style.display = 'block';
                 });
@@ -897,24 +874,20 @@
         function requestAnalysis(sessionId) {
             toast('🤖 Solicitando análise do agente IA...', 'info');
             
-            if (settings.apiUrl) {
-                fetch(`${settings.apiUrl}/webhook/session`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ session_id: sessionId })
-                }).then(r => {
-                    if (r.ok) {
-                        toast('✅ Análise atualizada!', 'success');
-                        setTimeout(() => loadAnalysis(), 1500);
-                    } else {
-                        toast('❌ Erro ao solicitar análise', 'error');
-                    }
-                }).catch(e => {
-                    toast('❌ API offline', 'error');
-                });
-            } else {
-                toast('❌ Configure a API primeiro', 'error');
-            }
+            fetch(`${settings.apiUrl}/webhook/session`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ session_id: sessionId })
+            }).then(r => {
+                if (r.ok) {
+                    toast('✅ Análise atualizada!', 'success');
+                    setTimeout(() => loadAnalysis(), 1500);
+                } else {
+                    toast('❌ Erro ao solicitar análise', 'error');
+                }
+            }).catch(e => {
+                toast('❌ API offline', 'error');
+            });
         }
 
         function saveSettings() {
