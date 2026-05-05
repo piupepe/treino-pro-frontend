@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
     <meta name="theme-color" content="#1a1a2e">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Treino Pro">
-    <title>Anamnese - Treino Pro</title>
+    <title>Anamnese Completa - Treino Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -22,7 +23,10 @@
             --accent-purple: #7c3aed;
             --text-primary: #ffffff;
             --text-secondary: #a0aec0;
+            --text-dark: #1a1a2e;
             --border: #2d3748;
+            --success: #10b981;
+            --warning: #f59e0b;
         }
         
         body {
@@ -34,7 +38,7 @@
         }
         
         .container {
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
         }
         
@@ -45,25 +49,28 @@
             margin-bottom: 30px;
             text-align: center;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            color: white;
         }
         
         .header h1 {
             font-size: 28px;
             margin-bottom: 8px;
+            font-weight: 800;
         }
         
         .header p {
             font-size: 13px;
-            opacity: 0.9;
+            opacity: 0.95;
             font-weight: 600;
+            margin-bottom: 16px;
         }
         
         .progress-bar {
-            background: rgba(0, 0, 0, 0.2);
-            height: 4px;
-            border-radius: 2px;
-            margin-top: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            height: 6px;
+            border-radius: 3px;
             overflow: hidden;
+            margin-bottom: 8px;
         }
         
         .progress-fill {
@@ -72,34 +79,50 @@
             transition: width 0.3s ease;
         }
         
-        .form-card {
-            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(26, 31, 58, 0.5) 100%);
-            border: 2px solid var(--border);
-            border-radius: 20px;
-            padding: 24px;
+        .progress-text {
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 800;
             margin-bottom: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--primary);
+            color: var(--primary);
+            margin-top: 30px;
+        }
+        
+        .section-title:first-of-type {
+            margin-top: 0;
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
         
         .form-group label {
             display: block;
-            font-size: 12px;
-            font-weight: 800;
-            margin-bottom: 10px;
-            text-transform: uppercase;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
             color: var(--text-secondary);
         }
         
+        .form-group .required {
+            color: var(--warning);
+            margin-left: 4px;
+        }
+        
         .form-group input,
-        .form-group select {
+        .form-group select,
+        .form-group textarea {
             width: 100%;
             padding: 12px;
             border: 2px solid var(--border);
-            border-radius: 12px;
+            border-radius: 10px;
             font-size: 14px;
             font-family: 'Inter', sans-serif;
             background: var(--bg-input);
@@ -107,21 +130,91 @@
             transition: all 0.3s ease;
         }
         
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+            font-size: 14px;
+        }
+        
+        .form-group input::placeholder,
+        .form-group select,
+        .form-group textarea::placeholder {
+            color: var(--text-secondary);
+        }
+        
         .form-group input:focus,
-        .form-group select:focus {
+        .form-group select:focus,
+        .form-group textarea:focus {
             outline: none;
             border-color: var(--secondary);
-            background: rgba(0, 212, 255, 0.1);
+            background: rgba(0, 212, 255, 0.05);
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
         }
         
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            gap: 16px;
         }
         
         .form-row .form-group {
             margin-bottom: 0;
+        }
+        
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+        }
+        
+        .help-text {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 6px;
+            font-style: italic;
+        }
+        
+        .radio-group,
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .radio-item,
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 107, 53, 0.05);
+        }
+        
+        .radio-item:hover,
+        .checkbox-item:hover {
+            border-color: var(--secondary);
+            background: rgba(0, 212, 255, 0.1);
+        }
+        
+        .radio-item input,
+        .checkbox-item input {
+            margin-right: 10px;
+            cursor: pointer;
+            accent-color: var(--primary);
+            width: 18px;
+            height: 18px;
+        }
+        
+        .radio-item label,
+        .checkbox-item label {
+            cursor: pointer;
+            flex: 1;
+            margin: 0;
+            font-weight: 600;
         }
         
         .button-row {
@@ -164,25 +257,27 @@
         }
         
         .error {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid #ef4444;
+            background: rgba(239, 68, 68, 0.15);
+            border: 2px solid #ef4444;
             color: #fca5a5;
-            padding: 12px;
+            padding: 14px;
             border-radius: 10px;
-            font-size: 12px;
+            font-size: 13px;
             margin-bottom: 16px;
             display: none;
+            font-weight: 600;
         }
         
         .success {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid #10b981;
+            background: rgba(16, 185, 129, 0.15);
+            border: 2px solid var(--success);
             color: #86efac;
-            padding: 12px;
+            padding: 14px;
             border-radius: 10px;
-            font-size: 12px;
+            font-size: 13px;
             margin-bottom: 16px;
             display: none;
+            font-weight: 600;
         }
         
         .loading {
@@ -221,7 +316,7 @@
         }
         
         .status-toast.success {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
             color: white;
         }
         
@@ -234,142 +329,319 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>📋 Anamnese</h1>
-            <p>Conheça seu perfil de treinamento</p>
+            <h1>📋 Anamnese Completa</h1>
+            <p>Vamos conhecer seu perfil em detalhes</p>
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill" style="width: 0%"></div>
             </div>
+            <div class="progress-text" id="progressText">0% completo</div>
         </div>
         
         <div class="error" id="errorMsg"></div>
         <div class="success" id="successMsg"></div>
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <p style="margin-top: 12px; font-size: 12px; color: var(--text-secondary);">Salvando...</p>
+            <p style="margin-top: 12px; font-size: 12px; color: var(--text-secondary);">Salvando seu perfil...</p>
         </div>
         
         <form id="anaForm" onsubmit="handleSubmit(event)">
-            <!-- DADOS PESSOAIS -->
-            <div class="form-card">
-                <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--primary);">👤 Dados Pessoais</h3>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Idade (anos)</label>
-                        <input type="number" id="age" min="18" max="100" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Peso (kg)</label>
-                        <input type="number" id="weight" min="30" max="300" step="0.5" required>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Altura (cm)</label>
-                        <input type="number" id="height" min="140" max="220" required>
-                    </div>
-                </div>
-            </div>
             
-            <!-- EXPERIÊNCIA -->
-            <div class="form-card">
-                <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--primary);">💪 Experiência</h3>
-                
+            <!-- ============================================================ -->
+            <!-- SEÇÃO 1: DADOS BIOMÉTRICOS -->
+            <!-- ============================================================ -->
+            <h2 class="section-title">👤 Dados Pessoais</h2>
+            
+            <div class="form-row">
                 <div class="form-group">
-                    <label>Nível de experiência</label>
-                    <select id="experienceLevel" required>
-                        <option value="">Selecione...</option>
-                        <option value="iniciante">Iniciante (0-1 anos)</option>
-                        <option value="intermediario">Intermediário (1-3 anos)</option>
-                        <option value="avancado">Avançado (3+ anos)</option>
-                    </select>
+                    <label>Idade (anos) <span class="required">*</span></label>
+                    <input type="number" id="age" min="16" max="100" required>
+                    <div class="help-text">16 a 100 anos</div>
                 </div>
-                
                 <div class="form-group">
-                    <label>Objetivo principal</label>
-                    <select id="mainGoal" required>
+                    <label>Gênero <span class="required">*</span></label>
+                    <select id="gender" required>
                         <option value="">Selecione...</option>
-                        <option value="hipertrofia">Hipertrofia (ganhar músculo)</option>
-                        <option value="forca">Força (aumentar força)</option>
-                        <option value="resistencia">Resistência (melhorar condicionamento)</option>
-                        <option value="deficit">Déficit (perder gordura)</option>
+                        <option value="M">Masculino</option>
+                        <option value="F">Feminino</option>
+                        <option value="Outro">Outro</option>
                     </select>
                 </div>
             </div>
             
-            <!-- DISPONIBILIDADE -->
-            <div class="form-card">
-                <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--primary);">⏰ Disponibilidade</h3>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Dias por semana</label>
-                        <select id="availableDays" required>
-                            <option value="">Selecione...</option>
-                            <option value="2">2 dias</option>
-                            <option value="3">3 dias</option>
-                            <option value="4">4 dias</option>
-                            <option value="5">5 dias</option>
-                            <option value="6">6 dias</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Duração (minutos)</label>
-                        <select id="sessionDuration" required>
-                            <option value="">Selecione...</option>
-                            <option value="30">30 minutos</option>
-                            <option value="45">45 minutos</option>
-                            <option value="60">60 minutos</option>
-                            <option value="90">90 minutos</option>
-                        </select>
-                    </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Peso (kg) <span class="required">*</span></label>
+                    <input type="number" id="weight" min="30" max="300" step="0.5" required>
+                    <div class="help-text">Seu peso atual</div>
+                </div>
+                <div class="form-group">
+                    <label>Altura (cm) <span class="required">*</span></label>
+                    <input type="number" id="height" min="140" max="230" required>
+                    <div class="help-text">Altura em centímetros</div>
                 </div>
             </div>
             
-            <!-- EQUIPAMENTOS -->
-            <div class="form-card">
-                <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--primary);">🏋️ Equipamentos</h3>
-                
+            <div class="form-group">
+                <label>Gordura Corporal (%) - OPCIONAL</label>
+                <input type="number" id="bodyFat" min="5" max="50" step="0.5" placeholder="Ex: 18.5">
+                <div class="help-text">Se souber, nos ajuda a ser mais preciso</div>
+            </div>
+            
+            <!-- ============================================================ -->
+            <!-- SEÇÃO 2: EXPERIÊNCIA DE TREINO -->
+            <!-- ============================================================ -->
+            <h2 class="section-title">💪 Experiência de Treino</h2>
+            
+            <div class="form-group">
+                <label>Tempo de experiência em musculação <span class="required">*</span></label>
+                <select id="experienceLevel" required>
+                    <option value="">Selecione...</option>
+                    <option value="iniciante_0-6m">Iniciante (0-6 meses)</option>
+                    <option value="iniciante_6-12m">Iniciante (6-12 meses)</option>
+                    <option value="intermediario_1-3a">Intermediário (1-3 anos)</option>
+                    <option value="intermediario_3-5a">Intermediário (3-5 anos)</option>
+                    <option value="avancado_5-10a">Avançado (5-10 anos)</option>
+                    <option value="elite_10a+">Elite (10+ anos)</option>
+                </select>
+                <div class="help-text">Quanto tempo treina musculação regularmente?</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Melhor período de força <span class="required">*</span></label>
+                <select id="strongestPhase" required>
+                    <option value="">Selecione...</option>
+                    <option value="iniciante">Quando era iniciante (primeiros 6-12 meses)</option>
+                    <option value="atual">Agora (pico de força)</option>
+                    <option value="abaixo">Abaixo do pico (plateau/detreinamento)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Histórico de treinamento <span class="required">*</span></label>
+                <textarea id="trainingHistory" placeholder="Ex: Treino força há 4 anos, já fiz push/pull/legs, upper/lower, full body..." required></textarea>
+                <div class="help-text">Descrição do seu histórico, splits que já fez, progressos...</div>
+            </div>
+            
+            <!-- ============================================================ -->
+            <!-- SEÇÃO 3: OBJETIVOS -->
+            <!-- ============================================================ -->
+            <h2 class="section-title">🎯 Objetivos</h2>
+            
+            <div class="form-group">
+                <label>Objetivo principal <span class="required">*</span></label>
+                <select id="mainGoal" required>
+                    <option value="">Selecione...</option>
+                    <option value="hipertrofia">Hipertrofia (ganho de músculo)</option>
+                    <option value="forca">Força Máxima</option>
+                    <option value="forca_hipertrofia">Força + Hipertrofia (balanceado)</option>
+                    <option value="resistencia">Resistência muscular</option>
+                    <option value="deficit">Déficit calórico (perder gordura)</option>
+                    <option value="recomposicao">Recomposição corporal</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Quanto quer ganhar de músculo em 12 meses? (kg) <span class="required">*</span></label>
+                <input type="number" id="muscleGainGoal" min="0" max="20" step="0.5" placeholder="Ex: 5" required>
+                <div class="help-text">Estimativa realista para seu nível</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Quanto quer perder de gordura em 12 meses? (kg)</label>
+                <input type="number" id="fatLossGoal" min="0" max="50" step="0.5" placeholder="Ex: 10">
+                <div class="help-text">Deixar em branco se não é prioridade</div>
+            </div>
+            
+            <!-- ============================================================ -->
+            <!-- SEÇÃO 4: DISPONIBILIDADE -->
+            <!-- ============================================================ -->
+            <h2 class="section-title">⏰ Disponibilidade</h2>
+            
+            <div class="form-row">
                 <div class="form-group">
-                    <label>Disponibilidade de equipamentos</label>
-                    <select id="equipment" required>
+                    <label>Dias por semana para treinar <span class="required">*</span></label>
+                    <select id="availableDays" required>
                         <option value="">Selecione...</option>
-                        <option value="academia_completa">Academia completa</option>
-                        <option value="casa">Em casa (halteres/barras)</option>
-                        <option value="misto">Misto (academia + casa)</option>
+                        <option value="2">2 dias</option>
+                        <option value="3">3 dias</option>
+                        <option value="4">4 dias</option>
+                        <option value="5">5 dias</option>
+                        <option value="6">6 dias</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Duração média por sessão <span class="required">*</span></label>
+                    <select id="sessionDuration" required>
+                        <option value="">Selecione...</option>
+                        <option value="30">30 minutos</option>
+                        <option value="45">45 minutos</option>
+                        <option value="60">60 minutos</option>
+                        <option value="75">75 minutos</option>
+                        <option value="90">90 minutos</option>
+                        <option value="120">120+ minutos</option>
                     </select>
                 </div>
             </div>
             
-            <!-- LESÕES -->
-            <div class="form-card">
-                <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--primary);">⚠️ Lesões/Limitações</h3>
-                
+            <div class="form-group">
+                <label>Melhor horário para treinar <span class="required">*</span></label>
+                <select id="bestTrainingTime" required>
+                    <option value="">Selecione...</option>
+                    <option value="manha">Manhã (6-11h)</option>
+                    <option value="meio_dia">Meio-dia (11-14h)</option>
+                    <option value="tarde">Tarde (14-18h)</option>
+                    <option value="noite">Noite (18-22h)</option>
+                    <option value="flexivel">Flexível (qualquer hora)</option>
+                </select>
+            </div>
+            
+            <!-- ============================================================ -->
+            <!-- SEÇÃO 5: EQUIPAMENTOS -->
+            <!-- ============================================================ -->
+            <h2 class="section-title">🏋️ Equipamentos Disponíveis</h2>
+            
+            <div class="form-group">
+                <label>Onde treina? <span class="required">*</span></label>
+                <select id="equipment" required>
+                    <option value="">Selecione...</option>
+                    <option value="academia_completa">Academia (equipamento completo)</option>
+                    <option value="academia_basica">Academia (equipamento básico)</option>
+                    <option value="casa_completa">Em casa (completo: barra, halteres, racks)</option>
+                    <option value="casa_basica">Em casa (básico: halteres apenas)</option>
+                    <option value="misto">Misto (academia + casa)</option>
+                </select>
+            </div>
+            
+            <!-- ============================================================ -->
+            <!-- SEÇÃO 6: SAÚDE & LESÕES -->
+            <!-- ============================================================ -->
+            <h2 class="section-title">⚠️ Saúde & Lesões</h2>
+            
+            <div class="form-group">
+                <label>Tem lesões ou limitações atuais?</label>
+                <textarea id="injuries" placeholder="Ex: tendinite no ombro, dor na lombar, etc. Deixar em branco se nenhuma"></textarea>
+                <div class="help-text">Descreva lesões, dores crônicas ou limitações</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Histórico de lesões importantes</label>
+                <textarea id="injuryHistory" placeholder="Lesões passadas que podem afetar treino, cirurgias, etc."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>Usa alguma medicação que afeta treino?</label>
+                <textarea id="medications" placeholder="Ex: corticóide, antidepressivo, etc. Deixar em branco se nenhuma"></textarea>
+            </div>
+            
+            <!-- ============================================================ -->
+            <!-- SEÇÃO 7: RECUPERAÇÃO & SONO -->
+            <!-- ============================================================ -->
+            <h2 class="section-title">😴 Recuperação & Sono</h2>
+            
+            <div class="form-row">
                 <div class="form-group">
-                    <label>Tem alguma lesão ou limitação?</label>
-                    <input type="text" id="injuries" placeholder="Digite aqui ou 'Nenhuma'">
+                    <label>Horas de sono por noite <span class="required">*</span></label>
+                    <select id="sleepHours" required>
+                        <option value="">Selecione...</option>
+                        <option value="<6">Menos de 6h</option>
+                        <option value="6-7">6-7 horas</option>
+                        <option value="7-8">7-8 horas</option>
+                        <option value="8-9">8-9 horas</option>
+                        <option value=">9">Mais de 9h</option>
+                    </select>
                 </div>
-                
                 <div class="form-group">
-                    <label>Histórico de treinamento</label>
-                    <input type="text" id="trainingHistory" placeholder="Ex: treino 4 anos, foco hipertrofia...">
+                    <label>Qualidade do sono <span class="required">*</span></label>
+                    <select id="sleepQuality" required>
+                        <option value="">Selecione...</option>
+                        <option value="ruim">Ruim (acorda muito, insônia)</option>
+                        <option value="razoavel">Razoável (dorme mas não repousa bem)</option>
+                        <option value="bom">Bom (dorme bem)</option>
+                        <option value="excelente">Excelente (acorda descansado)</option>
+                    </select>
                 </div>
             </div>
             
-            <!-- PREFERÊNCIAS -->
-            <div class="form-card">
-                <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--primary);">⭐ Preferências</h3>
-                
-                <div class="form-group">
-                    <label>Outras preferências</label>
-                    <input type="text" id="preferences" placeholder="Ex: prefiro treinar de manhã...">
-                </div>
+            <!-- ============================================================ -->
+            <!-- SEÇÃO 8: NUTRIÇÃO -->
+            <!-- ============================================================ -->
+            <h2 class="section-title">🍽️ Nutrição</h2>
+            
+            <div class="form-group">
+                <label>Segue alguma dieta específica? <span class="required">*</span></label>
+                <select id="diet" required>
+                    <option value="">Selecione...</option>
+                    <option value="flexivel">Flexível (como de tudo)</option>
+                    <option value="deficit">Déficit calórico (controlada)</option>
+                    <option value="macrociclada">Macrociclada</option>
+                    <option value="cetogenica">Cetogênica</option>
+                    <option value="vegan">Vegana/Vegetariana</option>
+                    <option value="outro">Outro</option>
+                </select>
             </div>
             
+            <div class="form-group">
+                <label>Toma suplementos? <span class="required">*</span></label>
+                <textarea id="supplements" placeholder="Ex: Whey, creatina, BCAA, vitaminas, etc. Deixar em branco se nenhum" required></textarea>
+            </div>
+            
+            <!-- ============================================================ -->
+            <!-- SEÇÃO 9: ESTILO DE VIDA -->
+            <!-- ============================================================ -->
+            <h2 class="section-title">🏃 Estilo de Vida</h2>
+            
+            <div class="form-group">
+                <label>Nível de estresse <span class="required">*</span></label>
+                <select id="stressLevel" required>
+                    <option value="">Selecione...</option>
+                    <option value="baixo">Baixo (vida tranquila)</option>
+                    <option value="moderado">Moderado (estresse normal)</option>
+                    <option value="alto">Alto (muito estresado)</option>
+                    <option value="muito_alto">Muito alto (cronicamente estresado)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Faz atividade cardio? Com que frequência?</label>
+                <select id="cardioFreq">
+                    <option value="">Selecione...</option>
+                    <option value="nao">Não faço</option>
+                    <option value="1x">1x por semana</option>
+                    <option value="2x">2x por semana</option>
+                    <option value="3x">3x por semana</option>
+                    <option value="4x+">4x+ por semana</option>
+                </select>
+            </div>
+            
+            <!-- ============================================================ -->
+            <!-- SEÇÃO 10: PREFERÊNCIAS DE TREINO -->
+            <!-- ============================================================ -->
+            <h2 class="section-title">✨ Preferências de Treino</h2>
+            
+            <div class="form-group">
+                <label>Preferência de split <span class="required">*</span></label>
+                <select id="splitPreference" required>
+                    <option value="">Selecione...</option>
+                    <option value="full_body">Full Body (treino tudo 2-3x/semana)</option>
+                    <option value="upper_lower">Upper/Lower (treino superior/inferior)</option>
+                    <option value="push_pull_legs">Push/Pull/Legs</option>
+                    <option value="body_part">Body Part (focar 1-2 grupos por dia)</option>
+                    <option value="nao_tenho_preferencia">Não tenho preferência</option>
+                </select>
+                <div class="help-text">Como prefere distribuir treinos na semana?</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Outros comentários e observações</label>
+                <textarea id="observations" placeholder="Tudo que achar relevante para o agente IA conhecer você melhor..."></textarea>
+            </div>
+            
+            <!-- ============================================================ -->
+            <!-- BOTÕES -->
+            <!-- ============================================================ -->
             <div class="button-row">
-                <button type="submit" class="btn btn-primary" id="submitBtn">Salvar Anamnese</button>
-                <button type="button" class="btn btn-secondary" onclick="logout()">Sair</button>
+                <button type="submit" class="btn btn-primary" id="submitBtn">✅ Salvar Anamnese Completa</button>
+                <button type="button" class="btn btn-secondary" onclick="logout()">🚪 Sair</button>
             </div>
         </form>
     </div>
@@ -413,13 +685,13 @@
         
         function updateProgress() {
             const form = document.getElementById('anaForm');
-            const inputs = form.querySelectorAll('input[required], select[required]');
-            const filled = Array.from(inputs).filter(inp => inp.value).length;
-            const percentage = (filled / inputs.length) * 100;
+            const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+            const filled = Array.from(inputs).filter(inp => inp.value.trim()).length;
+            const percentage = Math.round((filled / inputs.length) * 100);
             document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = percentage + '% completo';
         }
         
-        // Update progress on input change
         document.getElementById('anaForm').addEventListener('change', updateProgress);
         document.getElementById('anaForm').addEventListener('input', updateProgress);
         
@@ -433,12 +705,11 @@
                 return;
             }
             
-            // Validar campos obrigatórios
-            const requiredFields = ['age', 'weight', 'height', 'experienceLevel', 'mainGoal', 'availableDays', 'sessionDuration', 'equipment'];
+            const requiredFields = ['age', 'gender', 'weight', 'height', 'experienceLevel', 'strongestPhase', 'trainingHistory', 'mainGoal', 'muscleGainGoal', 'availableDays', 'sessionDuration', 'bestTrainingTime', 'equipment', 'sleepHours', 'sleepQuality', 'diet', 'supplements', 'stressLevel', 'splitPreference'];
             const incomplete = requiredFields.some(field => !document.getElementById(field).value);
             
             if (incomplete) {
-                showError('Preencha todos os campos obrigatórios');
+                showError('❌ Preencha todos os campos obrigatórios (marcados com *)');
                 return;
             }
             
@@ -448,16 +719,31 @@
             const data = {
                 user_id: userId,
                 age: parseInt(document.getElementById('age').value),
+                gender: document.getElementById('gender').value,
                 weight: parseFloat(document.getElementById('weight').value),
                 height: parseInt(document.getElementById('height').value),
+                body_fat: document.getElementById('bodyFat').value ? parseFloat(document.getElementById('bodyFat').value) : null,
                 experience_level: document.getElementById('experienceLevel').value,
+                strongest_phase: document.getElementById('strongestPhase').value,
+                training_history: document.getElementById('trainingHistory').value,
                 main_goal: document.getElementById('mainGoal').value,
+                muscle_gain_goal: parseFloat(document.getElementById('muscleGainGoal').value),
+                fat_loss_goal: document.getElementById('fatLossGoal').value ? parseFloat(document.getElementById('fatLossGoal').value) : null,
                 available_days: parseInt(document.getElementById('availableDays').value),
                 session_duration: parseInt(document.getElementById('sessionDuration').value),
+                best_training_time: document.getElementById('bestTrainingTime').value,
                 equipment: document.getElementById('equipment').value,
                 injuries: document.getElementById('injuries').value || 'Nenhuma',
-                training_history: document.getElementById('trainingHistory').value || '',
-                preferences: document.getElementById('preferences').value || ''
+                injury_history: document.getElementById('injuryHistory').value || '',
+                medications: document.getElementById('medications').value || 'Nenhuma',
+                sleep_hours: document.getElementById('sleepHours').value,
+                sleep_quality: document.getElementById('sleepQuality').value,
+                diet: document.getElementById('diet').value,
+                supplements: document.getElementById('supplements').value,
+                stress_level: document.getElementById('stressLevel').value,
+                cardio_frequency: document.getElementById('cardioFreq').value || 'nao',
+                split_preference: document.getElementById('splitPreference').value,
+                observations: document.getElementById('observations').value || ''
             };
             
             try {
@@ -470,13 +756,12 @@
                 const result = await response.json();
                 
                 if (response.ok) {
-                    showSuccess('✅ Anamnese salva com sucesso!');
-                    toast('✅ Pronto! Vamos gerar seus treinos!', 'success');
+                    showSuccess('✅ Anamnese salva com sucesso! Gerando seus treinos...');
+                    toast('✅ Anamnese completa! Pronto para gerar treinos!', 'success');
                     
-                    // Marcar que tem anamnese
                     localStorage.setItem('has_anamnese', 'true');
+                    localStorage.setItem('user_data', JSON.stringify(data));
                     
-                    // Redirecionar para gerador de treinos
                     setTimeout(() => {
                         window.location.href = 'treinos.html';
                     }, 1500);
@@ -498,7 +783,6 @@
             window.location.href = 'index.html';
         }
         
-        // Verificar autenticação
         window.addEventListener('load', () => {
             const userId = localStorage.getItem('user_id');
             if (!userId) {
